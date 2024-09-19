@@ -1,3 +1,12 @@
+/**
+ * Functional component representing the Home page.
+ * Handles input of a 2D array, visualization, and color selection.
+ * Utilizes state hooks for array, error, unique values, and colors.
+ * Renders a dynamic grid based on the input array with customizable cell colors.
+ * Supports error handling for invalid input and array modification.
+ * Displays a header, input textarea, color selection options, and a footer with GitHub links.
+ */
+
 import React, { useState } from "react";
 import { cn } from "../../cn";
 import Arrow from "../../components/Arrow";
@@ -56,17 +65,21 @@ const Home = () => {
         return;
       }
       const arr = JSON.parse(value) || [];
+
+      // Check if input is a 2D array
       const is2DArray =
         Array.isArray(arr) && arr.every((row) => Array.isArray(row));
 
       const len = arr.length;
-      const flag = arr.every(
+
+      // Check if input is a square array
+      const isSquareArray = arr.every(
         (row) =>
           row.length === len &&
           row.every((col) => typeof col === "number" || typeof col === "string")
       );
 
-      if (flag) {
+      if (isSquareArray) {
         setAr(arr);
       } else if (is2DArray) {
         try {
@@ -90,11 +103,13 @@ const Home = () => {
       setErr(true);
     }
   };
+
+  // Handle color selection
   const handleSetColor = (e, cellValue) => {
     const value = e.target.value;
     setColors((colors) => ({ ...colors, [cellValue]: value }));
   };
-  console.log(colors);
+
   return (
     <main className="font-rubik min-h-screen flex flex-col justify-between">
       <div>
@@ -191,6 +206,7 @@ const Home = () => {
                 : "opacity-0 hidden transition-opacity ease-in-out delay-150 duration-300"
             )}
           >
+            {/* 2D Array visualization */}
             {ar.length > 0 &&
               ar.map((row, i) =>
                 row.map((col, j) => (
@@ -211,7 +227,6 @@ const Home = () => {
                         "rounded-b-lg",
                       j === 0 && "rounded-l-lg",
                       j === maxLen - 1 && "rounded-r-lg"
-                      // len === 1 && "rounded-lg"
                     )}
                   >
                     {col}
