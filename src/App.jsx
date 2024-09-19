@@ -1,7 +1,7 @@
-import Home from "./pages/home";
+import TwoDArrayVisualizer from "./pages/home";
 
 function App() {
-  return <Home />;
+  return <TwoDArrayVisualizer />;
 }
 
 export default App;

@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { cn } from "../../cn";
 import Arrow from "../../components/Arrow";
 
-const Home = () => {
+const TwoDArrayVisualizer = () => {
   const [ar, setAr] = useState([]);
   const [err, setErr] = useState(false);
   const [colors, setColors] = useState({});
@@ -123,7 +123,7 @@ const Home = () => {
       [1, 1, 0],
       [1, 1, 1]
 ]`}
-              className="w-full md:min-w-[400px] md:max-w-2xl resize-none text-slate-600 bg-white border border-slate-300 appearance-none rounded-lg px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+              className="w-full shadow md:min-w-[400px] md:max-w-2xl resize-none text-slate-600 bg-white border border-slate-300 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
               onChange={handle2DArray}
             ></textarea>
             {err && <div className="text-red-500">Invalid input</div>}
@@ -135,8 +135,8 @@ const Home = () => {
             {isAtleastOneElement && (
               <div className="grid grid-cols-2 gap-3 mt-3 ">
                 <div className="text-gray-500  shadow p-1 rounded flex justify-center items-center gap-1">
-                  <span className="text-indigo-700  p-1 rounded text-xl">
-                    Border
+                  <span className="text-indigo-700 text-base  p-1 rounded">
+                    Border color
                   </span>
                   <Arrow />
                   <input
@@ -148,7 +148,7 @@ const Home = () => {
                   />
                 </div>
                 <div className="text-gray-500  shadow p-1 rounded flex justify-center items-center gap-1">
-                  <span className="text-indigo-700  p-1 rounded text-xl">
+                  <span className="text-indigo-700  p-1 rounded text-base">
                     Text color
                   </span>
                   <Arrow />
@@ -216,12 +216,7 @@ const Home = () => {
                       " h-16 w-16 flex justify-center text-xl [text-shadow:_1px_1px_1px_rgb(256_256_256_/_40%)] items-center border border-yellow-500",
 
                       !colors[col] && "bg-gray-100",
-                      col === "X" && "bg-gray-600 text-gray-50",
-                      i === 0 && "rounded-t-lg",
-                      i === (maxLen === len ? maxLen : len) - 1 &&
-                        "rounded-b-lg",
-                      j === 0 && "rounded-l-lg",
-                      j === maxLen - 1 && "rounded-r-lg"
+                      col === "X" && "bg-gray-600 text-gray-50"
                     )}
                   >
                     {col}
@@ -254,4 +249,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default TwoDArrayVisualizer;
