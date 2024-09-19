@@ -14,27 +14,21 @@ import Arrow from "../../components/Arrow";
 const Home = () => {
   const [ar, setAr] = useState([]);
   const [err, setErr] = useState(false);
-  const [uniqueValues, setUniqueValues] = useState([]);
   const [colors, setColors] = useState({});
   let len = ar?.length;
   let maxLen = Math.max(...ar.map((row) => row.length, len));
 
-  console.log(ar);
-  ar?.forEach((row) => {
-    row?.forEach((col) => {
-      if (uniqueValues.indexOf(col) === -1) {
-        setUniqueValues((uniqueValues) => [...uniqueValues, col]);
-      }
-    });
-  });
+  //
+  const isAtleastOneElement =
+    ar?.length > 0 && ar.some((row) => row.length > 0);
 
-  console.log(uniqueValues);
   const handle2DArray = (e) => {
     const value = e.target.value;
 
     try {
       setErr(false);
 
+      // Basic validation
       if (value === "") {
         setAr([]);
         setErr(false);
@@ -83,8 +77,8 @@ const Home = () => {
         setAr(arr);
       } else if (is2DArray) {
         try {
+          // 2D array modification
           const maxLen = Math.max(...arr.map((row) => row.length, len));
-          console.log(maxLen);
           const modArr = arr?.map((row) => {
             const holesCount = maxLen - row.length;
             for (let i = 0; i < holesCount; i++) {
@@ -134,11 +128,11 @@ const Home = () => {
             ></textarea>
             {err && <div className="text-red-500">Invalid input</div>}
 
-            {ar?.length > 0 && (
+            {isAtleastOneElement && (
               <h3 className="mt-5 text-center">Choose colors</h3>
             )}
 
-            {ar?.length > 0 && (
+            {isAtleastOneElement && (
               <div className="grid grid-cols-2 gap-3 mt-3 ">
                 <div className="text-gray-500  shadow p-1 rounded flex justify-center items-center gap-1">
                   <span className="text-indigo-700  p-1 rounded text-xl">
@@ -169,7 +163,8 @@ const Home = () => {
             )}
 
             <div className="grid grid-cols-3 gap-3 mt-3 ">
-              {ar?.length > 0 &&
+              {/* 2D Array visualization color selection */}
+              {isAtleastOneElement &&
                 ar
                   .flat(Infinity)
                   .filter(
@@ -196,7 +191,7 @@ const Home = () => {
                   })}
             </div>
           </div>
-          {ar?.length > 0 && (
+          {isAtleastOneElement && (
             <Arrow width={44} height={32} className={"md:rotate-0 rotate-90"} />
           )}
           <div
@@ -207,7 +202,7 @@ const Home = () => {
             )}
           >
             {/* 2D Array visualization */}
-            {ar.length > 0 &&
+            {isAtleastOneElement &&
               ar.map((row, i) =>
                 row.map((col, j) => (
                   <div
