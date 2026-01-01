@@ -13,9 +13,12 @@ import Searching from "./pages/algorithms/searching/Searching";
 import GraphAlgorithms from "./pages/algorithms/graph/GraphAlgorithms";
 import DynamicProgramming from "./pages/algorithms/dp/DynamicProgramming";
 
+import ThemeToggle from "./components/ThemeToggle";
+
 function App() {
   return (
     <Router>
+      <ThemeToggle />
       <Routes>
         <Route path="/" element={<HomePage />} />
 
