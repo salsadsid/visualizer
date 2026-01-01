@@ -1,12 +1,11 @@
-
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const PlaceholderPage = ({ title, category, backLink }) => {
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col items-center justify-center p-4">
             <div className="absolute top-4 left-4">
                 <Link
-                    to={backLink}
+                    href={backLink}
                     className="inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors"
                 >
                     <svg
@@ -41,7 +40,7 @@ const PlaceholderPage = ({ title, category, backLink }) => {
                 <div className="relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
                     <Link
-                        to="/"
+                        href="/"
                         className="relative px-8 py-4 bg-white dark:bg-slate-800 rounded-lg leading-none flex items-center divide-x divide-slate-200 dark:divide-slate-700"
                     >
                         <span className="flex items-center space-x-5">

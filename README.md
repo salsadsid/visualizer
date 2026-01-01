@@ -1,25 +1,36 @@
-When working with multi-dimensional data, visualization can be a powerful tool for understanding and exploring complex structures. That’s why I built a **2D Array Visualizer** using React. This project allows users to input a 2D array and view its representation as an interactive grid. Along the way, I added features like customizable colors for cells and error handling for invalid input.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-In this post, I'll walk you through the journey of building this project and share some of the core features and challenges I encountered. Let's dive in!
+## Getting Started
 
-### Project Overview
+First, run the development server:
 
-The 2D Array Visualizer is a simple yet powerful React project that takes user input in the form of a 2D array and displays it visually as a grid. The grid can be customized to give each unique value its own color, and users can modify the text and border colors of the entire grid as well.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-#### Key Features:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- Users can input a 2D array to visualize it.
-- The app ensures the input is a valid 2D array; otherwise, it displays an error message.
-- Each unique value in the array can have a custom cell color.
-- The grid's border color and text color are fully customizable.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-#### Tech Stack:
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- **React** for the frontend.
-- **Tailwind** for the grid styling and customizations.
+## Learn More
 
-This project is perfect for those looking to build a dynamic and interactive UI while learning about data validation, state management, and custom styling in React.
+To learn more about Next.js, take a look at the following resources:
 
-## ![project_image](/public/project_image.png)
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-If you find this repo useful give it a star. Feel free to try it out and customize it as you see fit! Check out [live view](https://visualizer-salsadsid.netlify.app/).
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

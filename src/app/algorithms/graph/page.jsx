@@ -1,0 +1,1 @@
+import PlaceholderPage from '@/components/PlaceholderPage'; export default function Page() { return <PlaceholderPage title='Graph Algorithms Visualizer' category='Algorithms' backLink='/algorithms' />; }

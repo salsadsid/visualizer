@@ -1,22 +1,38 @@
+"use client";
 import { useState, useEffect } from "react";
 
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState(
-        localStorage.getItem("theme") || "light"
-    );
+    const [mounted, setMounted] = useState(false);
+    const [theme, setTheme] = useState("light");
 
     useEffect(() => {
+        setMounted(true);
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+            setTheme(storedTheme);
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            setTheme("dark");
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
         if (theme === "dark") {
             document.documentElement.classList.add("dark");
         } else {
             document.documentElement.classList.remove("dark");
         }
         localStorage.setItem("theme", theme);
-    }, [theme]);
+    }, [theme, mounted]);
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
     };
+
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <button

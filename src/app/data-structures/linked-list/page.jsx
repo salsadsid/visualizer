@@ -1,0 +1,1 @@
+import PlaceholderPage from '@/components/PlaceholderPage'; export default function Page() { return <PlaceholderPage title='Linked List Visualizer' category='Data Structures' backLink='/data-structures' />; }
