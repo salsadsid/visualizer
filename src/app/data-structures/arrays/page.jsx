@@ -8,62 +8,39 @@ const TwoDArrayVisualizer = () => {
     const [ar, setAr] = useState([]);
     const [err, setErr] = useState(false);
     const [colors, setColors] = useState({});
+    const [inputValue, setInputValue] = useState("");
+
     let len = ar?.length;
     let maxLen = Math.max(...ar.map((row) => row.length, len));
 
-    //
-    const isAtleastOneElement =
-        ar?.length > 0 && ar.some((row) => row.length > 0);
+    const isAtleastOneElement = ar?.length > 0 && ar.some((row) => row.length > 0);
 
-    const handle2DArray = (e) => {
-        const value = e.target.value;
-
+    const processArray = (value) => {
         try {
             setErr(false);
 
-            // Basic validation
-            if (value === "") {
-                setAr([]);
-                setErr(false);
-                return;
-            } else if (value === "[" || value === "]") {
-                setAr([]);
-                setErr(false);
-                return;
-            } else if (value === "[]" || value === "[[" || value === "]]") {
-                setAr([]);
-                setErr(false);
-                return;
-            } else if (value === "[[]" || value === "[]]") {
-                setAr([]);
-                setErr(false);
-                return;
-            } else if (value === "[[]]") {
-                setAr([]);
-                setErr(false);
-                return;
-            } else if (value === "[[],[]]") {
-                setAr([]);
-                setErr(false);
-                return;
-            } else if (value === "[[],[],[]]") {
+            if (!value || value.trim() === "") {
                 setAr([]);
                 setErr(false);
                 return;
             }
-            const arr = JSON.parse(value) || [];
+
+            const arr = JSON.parse(value);
+
+            if (!Array.isArray(arr)) {
+                setAr([]);
+                return;
+            }
 
             // Check if input is a 2D array
-            const is2DArray =
-                Array.isArray(arr) && arr.every((row) => Array.isArray(row));
-
+            const is2DArray = arr.every((row) => Array.isArray(row));
             const len = arr.length;
 
             // Check if input is a square array
             const isSquareArray = arr.every(
                 (row) =>
                     row.length === len &&
-                    row.every((col) => typeof col === "number" || typeof col === "string")
+                    row.every((col) => typeof col === "number" || typeof col === "string" || typeof col === "boolean")
             );
 
             if (isSquareArray) {
@@ -72,7 +49,7 @@ const TwoDArrayVisualizer = () => {
                 try {
                     // 2D array modification
                     const maxLen = Math.max(...arr.map((row) => row.length, len));
-                    const modArr = arr?.map((row) => {
+                    const modArr = arr.map((row) => {
                         const holesCount = maxLen - row.length;
                         for (let i = 0; i < holesCount; i++) {
                             row.push("X");
@@ -84,11 +61,64 @@ const TwoDArrayVisualizer = () => {
                     console.log(error);
                     setErr(true);
                 }
+            } else {
+                // Not a 2D array
+                setAr([]);
             }
         } catch (err) {
-            console.log(err);
+            // JSON parse error
+            // console.log(err);
             setErr(true);
         }
+    };
+
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setInputValue(value);
+        processArray(value);
+    };
+
+    const applyPreset = (type) => {
+        let preset = [];
+        let presetString = "";
+
+        switch (type) {
+            case "identity":
+                preset = [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ];
+                break;
+            case "zero":
+                preset = [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0]
+                ];
+                break;
+            case "random":
+                preset = Array(3).fill().map(() => Array(3).fill().map(() => Math.floor(Math.random() * 2)));
+                break;
+            case "string":
+                preset = [
+                    ["A", "B"],
+                    ["C", "D"]
+                ];
+                break;
+            case "boolean":
+                preset = [
+                    [true, false],
+                    [false, true]
+                ];
+                break;
+            default:
+                break;
+        }
+
+        presetString = JSON.stringify(preset, null, 2);
+        setInputValue(presetString);
+        processArray(presetString);
     };
 
     // Handle color selection
@@ -99,7 +129,7 @@ const TwoDArrayVisualizer = () => {
 
     return (
         <main className="min-h-screen w-full bg-slate-50 dark:bg-[#0f172a] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.1),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] text-slate-900 dark:text-slate-200 font-sans selection:bg-indigo-500/30 transition-colors duration-300">
-            <div className="container mx-auto px-4 py-6 md:py-8 max-w-7xl h-screen flex flex-col">
+            <div className="container mx-auto px-4 py-6 md:py-8 max-w-7xl min-h-screen flex flex-col">
                 <nav className="flex items-center justify-between mb-6 md:mb-8 flex-shrink-0">
                     <Link
                         href="/data-structures"
@@ -128,7 +158,7 @@ const TwoDArrayVisualizer = () => {
                     <div className="inline-block p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 mb-4 backdrop-blur-sm">
                         <div className="flex items-center gap-3">
                             <span className="px-3 py-1 rounded-lg bg-indigo-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-indigo-500/20">
-                                2D ELEMENTS
+                                {`[[2D]]`}
                             </span>
                             <span className="w-px h-6 bg-indigo-300 dark:bg-indigo-500/30"></span>
                             <h1 className="text-2xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 dark:from-white dark:via-indigo-200 dark:to-indigo-400 tracking-tight">
@@ -138,8 +168,8 @@ const TwoDArrayVisualizer = () => {
                     </div>
                 </header>
 
-                <div className="flex-1 flex flex-col min-h-0 space-y-6">
-                    <div className="flex flex-col md:flex-row gap-6 items-start flex-1 min-h-0">
+                <div className="flex-1 flex flex-col space-y-6">
+                    <div className="flex flex-col md:flex-row gap-6 md:h-[calc(100vh-280px)] md:min-h-[500px]">
                         {/* Input Section */}
                         <div className="w-full md:w-[320px] lg:w-[400px] h-[400px] md:h-full flex flex-col space-y-6 flex-shrink-0">
                             <div className="bg-white/80 dark:bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-white/10 p-5 shadow-xl dark:shadow-2xl h-full flex flex-col transition-all">
@@ -151,12 +181,33 @@ const TwoDArrayVisualizer = () => {
                                     <span className="text-xs font-mono text-slate-500 dark:text-slate-500 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">JSON</span>
                                 </div>
 
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    <button onClick={() => applyPreset("identity")} className="px-3 py-1 text-xs font-medium rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
+                                        Identity
+                                    </button>
+                                    <button onClick={() => applyPreset("zero")} className="px-3 py-1 text-xs font-medium rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                        Zero
+                                    </button>
+                                    <button onClick={() => applyPreset("random")} className="px-3 py-1 text-xs font-medium rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors">
+                                        Random
+                                    </button>
+                                    <button onClick={() => applyPreset("string")} className="px-3 py-1 text-xs font-medium rounded-lg bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
+                                        String
+                                    </button>
+                                    <button onClick={() => applyPreset("boolean")} className="px-3 py-1 text-xs font-medium rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20 hover:bg-amber-100 dark:hover:bg-amber-500/20 transition-colors">
+                                        Bool
+                                    </button>
+                                </div>
+
                                 <div className="relative group flex-grow min-h-0">
-                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl opacity-0 dark:opacity-20 group-hover:opacity-20 dark:group-hover:opacity-100 transition duration-500 blur"></div>
+
                                     <textarea
+                                        value={inputValue}
                                         placeholder={`[\n  [0, 1, 0],\n  [1, 1, 0],\n  [1, 1, 1]\n]`}
-                                        className="relative w-full h-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-emerald-400 font-mono text-sm leading-relaxed p-4 rounded-xl border border-slate-200 dark:border-slate-800 focus:border-indigo-500 dark:focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 outline-none resize-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-700"
-                                        onChange={handle2DArray}
+                                        className="relative w-full h-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-emerald-400 font-mono text-sm leading-relaxed p-4 rounded-xl border border-slate-200 dark:border-slate-800 outline-none resize-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-700
+                                        focus:border-indigo-500 dark:focus:border-indigo-500/50 custom-scrollbar
+                                        "
+                                        onChange={handleInputChange}
                                         spellCheck="false"
                                     />
                                 </div>
@@ -213,7 +264,7 @@ const TwoDArrayVisualizer = () => {
                                                                 boxShadow: colors[col] ? `0 8px 20px -6px ${colors[col]}` : undefined
                                                             }}
                                                         >
-                                                            {col}
+                                                            {typeof col === "boolean" ? (col ? "T" : "F") : col}
                                                         </div>
                                                     ))
                                                 )}
@@ -244,7 +295,7 @@ const TwoDArrayVisualizer = () => {
                                                     <input
                                                         type="color"
                                                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] p-0 border-0 cursor-pointer"
-                                                        defaultValue="#ffeb3b"
+                                                        defaultValue="#000000"
                                                         onChange={(e) => handleSetColor(e, "border")}
                                                     />
                                                 </div>
@@ -280,7 +331,9 @@ const TwoDArrayVisualizer = () => {
                                             ?.map((value, index) => (
                                                 <div key={index} className="group relative bg-slate-100 dark:bg-slate-800/50 rounded-xl p-3 border border-slate-200 dark:border-white/5 hover:border-indigo-500/30 transition-all">
                                                     <div className="flex flex-col items-center gap-2">
-                                                        <span className="text-lg font-bold text-slate-700 dark:text-white truncate max-w-full">{value}</span>
+                                                        <span className="text-lg font-bold text-slate-700 dark:text-white truncate max-w-full">
+                                                            {typeof value === "boolean" ? (value ? "T" : "F") : value}
+                                                        </span>
                                                         <div className="relative w-full h-8 rounded-lg overflow-hidden ring-2 ring-slate-200 dark:ring-white/10 group-hover:ring-indigo-500/50 transition-all">
                                                             <input
                                                                 type="color"
