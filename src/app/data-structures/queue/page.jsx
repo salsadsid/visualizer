@@ -1,1 +1,0 @@
-import PlaceholderPage from '@/components/PlaceholderPage'; export default function Page() { return <PlaceholderPage title='Queue Visualizer' category='Data Structures' backLink='/data-structures' />; }

@@ -1,44 +1,39 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
-const ThemeToggle = () => {
-    const [mounted, setMounted] = useState(false);
-    const [theme, setTheme] = useState("light");
+const subscribe = (callback) => {
+    const target = document.documentElement;
+    const observer = new MutationObserver(callback);
+    observer.observe(target, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+};
 
-    useEffect(() => {
-        setMounted(true);
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme) {
-            setTheme(storedTheme);
-        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            setTheme("dark");
-        }
-    }, []);
+const getSnapshot = () =>
+    document.documentElement.classList.contains("dark") ? "dark" : "light";
 
-    useEffect(() => {
-        if (!mounted) return;
+const getServerSnapshot = () => "light";
 
-        if (theme === "dark") {
+export default function ThemeToggle() {
+    const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+    const toggleTheme = () => {
+        const next = theme === "light" ? "dark" : "light";
+        if (next === "dark") {
             document.documentElement.classList.add("dark");
         } else {
             document.documentElement.classList.remove("dark");
         }
-        localStorage.setItem("theme", theme);
-    }, [theme, mounted]);
-
-    const toggleTheme = () => {
-        setTheme(theme === "light" ? "dark" : "light");
+        try {
+            localStorage.setItem("theme", next);
+        } catch (_) {}
     };
-
-    if (!mounted) {
-        return null;
-    }
 
     return (
         <button
             onClick={toggleTheme}
-            className="fixed bottom-6 right-6 p-3 rounded-full bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xl hover:scale-110 transition-all duration-300 z-50 flex items-center justify-center"
-            aria-label="Toggle Night Mode"
+            className="fixed bottom-5 right-5 z-50 grid h-11 w-11 place-items-center rounded-full surface shadow-lg transition-all hover:scale-105 hover:border-strong focus-ring"
+            aria-label="Toggle theme"
+            title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
         >
             {theme === "light" ? (
                 <svg
@@ -46,12 +41,12 @@ const ThemeToggle = () => {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="1.8"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-6 h-6"
+                    className="h-5 w-5 text-text"
                 >
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
             ) : (
                 <svg
@@ -59,24 +54,15 @@ const ThemeToggle = () => {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="1.8"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-6 h-6"
+                    className="h-5 w-5 text-text"
                 >
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
                 </svg>
             )}
         </button>
     );
-};
-
-export default ThemeToggle;
+}

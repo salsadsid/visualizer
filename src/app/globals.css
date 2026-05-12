@@ -1,28 +1,103 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Surfaces */
+    --bg: #fafafa;
+    --bg-elevated: #ffffff;
+    --bg-muted: #f4f4f5;
+    --bg-subtle: #f8fafc;
+
+    /* Text */
+    --text: #0f172a;
+    --text-muted: #475569;
+    --text-subtle: #64748b;
+
+    /* Borders */
+    --border: #e4e4e7;
+    --border-strong: #d4d4d8;
+
+    /* Accent (indigo) */
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --accent-soft: #eef2ff;
+    --accent-ring: rgba(99, 102, 241, 0.35);
+  }
+
+  .dark {
+    --bg: #09090b;
+    --bg-elevated: #18181b;
+    --bg-muted: #1c1c1f;
+    --bg-subtle: #0f172a;
+
+    --text: #fafafa;
+    --text-muted: #a1a1aa;
+    --text-subtle: #71717a;
+
+    --border: #27272a;
+    --border-strong: #3f3f46;
+
+    --accent: #818cf8;
+    --accent-hover: #a5b4fc;
+    --accent-soft: rgba(99, 102, 241, 0.12);
+    --accent-ring: rgba(129, 140, 248, 0.4);
+  }
+
+  html,
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+
+  ::selection {
+    background: var(--accent-ring);
+    color: var(--text);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-rubik), sans-serif;
-}
-
 @layer utilities {
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  }
+
+  .surface {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+  }
+
+  .surface-muted {
+    background: var(--bg-muted);
+    border: 1px solid var(--border);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .text-subtle {
+    color: var(--text-subtle);
+  }
+
+  .border-token {
+    border-color: var(--border);
+  }
+
+  .ring-accent {
+    --tw-ring-color: var(--accent-ring);
+  }
+
+  .focus-ring:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-ring);
+    border-color: var(--accent);
+  }
+
   .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
@@ -30,10 +105,38 @@ body {
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-slate-200 dark:bg-slate-800 rounded-full;
+    background: var(--border);
+    border-radius: 9999px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-300 dark:bg-slate-700;
+    background: var(--border-strong);
   }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(
+      ellipse 60% 50% at 50% 0%,
+      black 30%,
+      transparent 80%
+    );
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out;
 }

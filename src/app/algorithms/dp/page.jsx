@@ -1,1 +1,0 @@
-import PlaceholderPage from '@/components/PlaceholderPage'; export default function Page() { return <PlaceholderPage title='Dynamic Programming Visualizer' category='Algorithms' backLink='/algorithms' />; }

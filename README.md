@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DSA Visualizer
 
-## Getting Started
+An interactive playground for visualizing data structures and algorithms.
+Currently focused on **2D arrays**. Paste JSON, color each value, and see how
+matrices map to a grid.
 
-First, run the development server:
+> Built with Next.js 16 and Tailwind CSS 4 to make data structures easier to
+> see, touch, and learn.
+
+---
+
+## Features
+
+- **JSON-driven input**: paste any 2D array; ragged rows are padded automatically
+- **Multi-type cells**: numbers, strings, booleans, and `null` all render
+- **Per-value coloring**: pick a color for each unique cell value, plus border and text
+- **Presets**: Identity, Zero, Random, String, Bool, and Chess starting positions
+- **Optional row/column indices**: toggle to show array coordinates
+- **Inline learning panel**: concept, use cases, time complexity, and code snippets
+- **Light + dark themes** with system preference detection and no flash on load
+- **Responsive layout** down to mobile, built without a UI library
+
+## Tech stack
+
+| Layer       | Tools                                         |
+| ----------- | --------------------------------------------- |
+| Framework   | Next.js 16 (App Router) · React 19            |
+| Styling     | Tailwind CSS 4 · CSS variables for theming    |
+| Fonts       | Geist Sans + Geist Mono via `next/font`       |
+| Utilities   | `clsx`, `tailwind-merge`                      |
+| Linting     | ESLint 9 (`eslint-config-next`)               |
+
+No backend, no database. Runs entirely in the browser.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command         | Description                  |
+| --------------- | ---------------------------- |
+| `npm run dev`   | Start dev server             |
+| `npm run build` | Production build             |
+| `npm start`     | Run built app                |
+| `npm run lint`  | Lint with ESLint             |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── layout.js                    # Root layout, fonts, theme bootstrap
+│   ├── page.js                      # Landing page
+│   ├── globals.css                  # CSS variables + base styles
+│   ├── roadmap/page.jsx             # What's shipped / planned
+│   └── data-structures/
+│       └── arrays/page.jsx          # 2D Array Visualizer route
+├── components/
+│   ├── ThemeToggle.jsx              # Light/dark toggle (FAB)
+│   ├── layout/
+│   │   ├── PageShell.jsx            # Standard page wrapper
+│   │   ├── BackLink.jsx             # Reusable back navigation
+│   │   └── Footer.jsx               # Shared footer
+│   └── array/
+│       ├── InputPanel.jsx           # JSON textarea + presets + error
+│       ├── ArrayGrid.jsx            # Grid renderer
+│       ├── ColorSettings.jsx        # Per-value color pickers
+│       └── LearningPanel.jsx        # Tabbed learning content
+└── lib/
+    ├── cn.js                        # clsx + tailwind-merge helper
+    └── array/
+        ├── parser.js                # JSON → matrix, validation
+        └── presets.js               # Starter matrices
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How input parsing works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`lib/array/parser.js` takes a raw string and returns
+`{ matrix, maxLen, error }`. It validates that the input is:
 
-## Deploy on Vercel
+1. Valid JSON
+2. An array
+3. An array of arrays (2D)
+4. Cells are `number | string | boolean | null`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ragged rows are padded to `maxLen` with a `·` token so the grid stays
+rectangular. Errors are returned as messages, not thrown. The UI displays them
+inline.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Roadmap
+
+See [`/roadmap`](http://localhost:3000/roadmap) in the running app, or the
+[roadmap page](src/app/roadmap/page.jsx) in source.
+
+Next up: Linked lists, then sorting algorithms with animated step-through.
+
+## License
+
+MIT. Feel free to fork, learn from, or extend.
+
+---
+
+Built by [Salman Sadik Siddiquee](https://github.com/salsadsid) ·
+[Repository](https://github.com/salsadsid/visualizer)
