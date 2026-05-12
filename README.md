@@ -41,6 +41,23 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000).
 
+### Environment variables
+
+Copy `.env.example` to `.env.local` (for local) or set them in your hosting
+provider (Vercel Dashboard → Project → Settings → Environment Variables):
+
+| Variable                            | Required? | What it does                                                                 |
+| ----------------------------------- | --------- | ---------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`              | No        | Production URL for canonical tags, sitemap, OG image. Falls back to a default. |
+| `NEXT_PUBLIC_GA_ID`                 | No        | Google Analytics 4 Measurement ID (`G-XXXXXXXXXX`). When set, GA loads.       |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | No     | Token for Search Console domain verification.                                 |
+
+### Analytics
+
+- **Vercel Web Analytics** and **Speed Insights** load automatically on Vercel deployments (no env vars needed).
+- **Google Analytics 4** loads only when `NEXT_PUBLIC_GA_ID` is set. Get the ID at [analytics.google.com](https://analytics.google.com) → Admin → Data Streams → Web → Measurement ID.
+- **Search Console**: verify ownership at [search.google.com/search-console](https://search.google.com/search-console). Either drop the token into `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` (HTML-tag method) or verify via DNS TXT record at your registrar.
+
 ### Scripts
 
 | Command         | Description                  |

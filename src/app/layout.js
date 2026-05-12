@@ -1,4 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import ThemeToggle from "@/components/ThemeToggleLazy";
 import { siteConfig } from "@/lib/site";
@@ -75,6 +78,9 @@ export const metadata = {
     telephone: false,
   },
   referrer: "origin-when-cross-origin",
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export const viewport = {
@@ -89,6 +95,8 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -109,6 +117,9 @@ export default function RootLayout({ children }) {
       >
         {children}
         <ThemeToggle />
+        <Analytics />
+        <SpeedInsights />
+        {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>
   );
