@@ -32,8 +32,17 @@ const STATUS_BADGE = {
 };
 
 export const metadata = {
-    title: "Roadmap · DSA Visualizer",
-    description: "What's shipped and what's planned for the DSA Visualizer.",
+    title: "Roadmap",
+    description:
+        "What's shipped and what's planned for the DSA Visualizer: data structures, algorithms, and learning content.",
+    alternates: { canonical: "/roadmap" },
+    openGraph: {
+        title: "Roadmap · DSA Visualizer",
+        description:
+            "Shipped and planned visualizers for data structures and algorithms.",
+        url: "/roadmap",
+        type: "website",
+    },
 };
 
 export default function RoadmapPage() {

@@ -91,7 +91,7 @@ function Complexity() {
 }
 
 function Code() {
-    const [lang, setLang] = useState("javascript");
+    const [lang, setLang] = useState("cpp");
     const snippets = SNIPPETS[lang];
 
     return (

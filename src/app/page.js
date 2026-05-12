@@ -1,6 +1,31 @@
 import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import Footer from "@/components/layout/Footer";
+import { siteConfig } from "@/lib/site";
+
+export const metadata = {
+    title: { absolute: siteConfig.title },
+    description: siteConfig.description,
+    alternates: { canonical: "/" },
+};
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Any (web browser)",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    author: {
+        "@type": "Person",
+        name: siteConfig.author.name,
+        url: siteConfig.author.url,
+    },
+    inLanguage: "en",
+    keywords: siteConfig.keywords.join(", "),
+};
 
 const FEATURES = [
     {
@@ -20,6 +45,10 @@ const FEATURES = [
 export default function HomePage() {
     return (
         <PageShell max="max-w-5xl">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <section className="pt-12 pb-16 text-center">
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full surface-muted text-xs font-medium text-muted mb-6">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
