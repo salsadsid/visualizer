@@ -113,9 +113,9 @@ export default function SortingVisualizer() {
                         aria-selected={algoKey === s.key}
                         onClick={() => setAlgoKey(s.key)}
                         className={cn(
-                            "px-4 py-2 rounded-xl text-sm font-medium border transition-colors focus-ring",
+                            "px-4 py-2 rounded-xl text-sm font-medium border transition-all focus-ring hover:scale-105 active:scale-95",
                             algoKey === s.key
-                                ? "bg-accent text-white border-accent shadow-sm"
+                                ? "bg-accent text-white border-accent shadow-md"
                                 : "surface text-muted hover:text-text"
                         )}
                     >
@@ -130,6 +130,13 @@ export default function SortingVisualizer() {
             <div className="grid lg:grid-cols-[1fr_360px] gap-5">
                 <div className="surface rounded-2xl p-5 md:p-6 shadow-sm relative overflow-hidden">
                     <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+                    <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 overflow-hidden"
+                    >
+                        <div className="absolute -top-8 -right-6 h-40 w-40 rounded-full bg-fuchsia-400/10 blur-3xl animate-blob" />
+                        <div className="absolute -bottom-10 -left-6 h-44 w-44 rounded-full bg-indigo-400/10 blur-2xl animate-float-slow" />
+                    </div>
                     <div className="relative space-y-5">
                         <BarChart
                             array={step.array}

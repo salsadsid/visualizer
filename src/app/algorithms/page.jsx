@@ -45,7 +45,7 @@ export default function AlgorithmsHome() {
             </nav>
 
             <header className="mb-10 text-center">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gradient animate-gradient inline-block pb-1">
                     Algorithms
                 </h1>
                 <p className="mt-3 text-muted max-w-xl mx-auto">
@@ -59,7 +59,7 @@ export default function AlgorithmsHome() {
                     <Link
                         key={item.href}
                         href={item.href}
-                        className="group surface rounded-2xl p-6 shadow-sm hover:border-strong transition-colors"
+                        className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                     >
                         <div className="flex items-center justify-between mb-3">
                             <span className="grid place-items-center h-10 w-10 rounded-xl bg-accent-soft border border-accent/20 text-accent">

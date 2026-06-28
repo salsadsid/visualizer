@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import Footer from "@/components/layout/Footer";
+import HeroDemo from "@/components/algorithms/HeroDemo";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = {
@@ -77,16 +78,27 @@ export default function HomePage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <section className="pt-12 pb-14 text-center">
+            <section className="relative overflow-hidden pt-12 pb-14 text-center">
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+                >
+                    <div className="absolute -top-12 -left-10 h-64 w-64 rounded-full bg-indigo-400/20 blur-3xl animate-blob" />
+                    <div className="absolute top-8 -right-8 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl animate-blob [animation-delay:4s]" />
+                    <div className="absolute bottom-0 left-1/3 h-56 w-56 rounded-full bg-sky-400/20 blur-3xl animate-float-slow" />
+                </div>
+
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full surface-muted text-xs font-medium text-muted mb-6">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     Open source · MIT
                 </span>
 
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
                     Data structures &amp; algorithms,
                     <br />
-                    <span className="text-accent">brought to life.</span>
+                    <span className="text-gradient animate-gradient inline-block pb-1">
+                        brought to life.
+                    </span>
                 </h1>
 
                 <p className="mt-5 text-lg text-muted max-w-xl mx-auto">
@@ -97,7 +109,7 @@ export default function HomePage() {
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <Link
                         href="/algorithms/sorting"
-                        className="group px-6 py-3 rounded-xl bg-accent text-white font-medium shadow-sm hover:bg-accent-hover transition-colors inline-flex items-center gap-2"
+                        className="group px-6 py-3 rounded-xl bg-accent text-white font-medium shadow-sm hover:bg-accent-hover hover:scale-[1.03] active:scale-95 transition-all inline-flex items-center gap-2"
                     >
                         Open Sorting Visualizer
                         <svg
@@ -116,10 +128,19 @@ export default function HomePage() {
                     </Link>
                     <Link
                         href="/data-structures/arrays"
-                        className="px-6 py-3 rounded-xl surface font-medium text-muted hover:text-text transition-colors"
+                        className="px-6 py-3 rounded-xl surface font-medium text-muted hover:text-text hover:scale-[1.03] active:scale-95 transition-all"
                     >
                         2D Array Visualizer
                     </Link>
+                </div>
+
+                <div className="mt-12 max-w-md mx-auto animate-fade-in-up">
+                    <div className="surface rounded-2xl p-6 shadow-sm relative overflow-hidden">
+                        <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+                        <div className="relative">
+                            <HeroDemo />
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -140,7 +161,7 @@ export default function HomePage() {
                         <Link
                             key={v.href}
                             href={v.href}
-                            className="group surface rounded-2xl p-6 shadow-sm hover:border-strong transition-colors"
+                            className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                         >
                             <div className="flex items-center justify-between mb-3">
                                 <span className="grid place-items-center h-11 w-11 rounded-xl bg-accent-soft border border-accent/20 text-accent">

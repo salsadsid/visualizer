@@ -65,7 +65,7 @@ export default function RoadmapPage() {
             </nav>
 
             <header className="mb-10 text-center">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gradient animate-gradient inline-block pb-1">
                     Roadmap
                 </h1>
                 <p className="mt-3 text-muted max-w-xl mx-auto">
@@ -83,7 +83,7 @@ export default function RoadmapPage() {
                             {group.items.map((item) => (
                                 <li
                                     key={item.name}
-                                    className="surface rounded-xl px-4 py-3 flex items-center justify-between gap-4"
+                                    className="surface rounded-xl px-4 py-3 flex items-center justify-between gap-4 hover:border-strong hover:-translate-y-0.5 transition-all"
                                 >
                                     <div className="min-w-0">
                                         <h3 className="font-medium">{item.name}</h3>

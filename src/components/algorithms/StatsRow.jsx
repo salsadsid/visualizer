@@ -21,7 +21,9 @@ export default function StatsRow({ stats, message }) {
                         className="surface-muted rounded-xl px-3 py-2 text-center"
                     >
                         <div className="text-lg font-bold tabular-nums text-text">
-                            {it.value}
+                            <span key={it.value} className="inline-block animate-pop">
+                                {it.value}
+                            </span>
                         </div>
                         <div className="text-[10px] uppercase tracking-wide text-subtle">
                             {it.label}

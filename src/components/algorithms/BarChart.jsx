@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/cn";
 import { barClass, pointerClass } from "@/lib/algorithms/roles";
+import Confetti from "./Confetti";
 
 export default function BarChart({ array, highlights = {}, pointers = {}, done = false }) {
     const max = Math.max(1, ...array);
@@ -10,6 +11,7 @@ export default function BarChart({ array, highlights = {}, pointers = {}, done =
 
     return (
         <div className="relative">
+            <Confetti active={done} />
             {done && (
                 <div className="pointer-events-none absolute inset-x-0 top-2 z-10 grid place-items-center">
                     <div className="animate-fade-in-up motion-reduce:animate-none rounded-full bg-emerald-500 text-white text-sm font-semibold px-4 py-1.5 shadow-lg">
@@ -26,12 +28,14 @@ export default function BarChart({ array, highlights = {}, pointers = {}, done =
                 {array.map((v, i) => {
                     const role = highlights[i] || "default";
                     const pct = (v / max) * 100;
+                    const lively = role === "swap" || role === "shift";
                     return (
                         <div
                             key={i}
                             className={cn(
-                                "flex-1 rounded-t-md shadow-sm transition-[height,background-color] duration-300 ease-out motion-reduce:transition-none",
-                                barClass(role)
+                                "flex-1 rounded-t-lg shadow-sm origin-bottom transition-[height] duration-300 ease-out motion-reduce:transition-none",
+                                barClass(role),
+                                lively && "animate-pop"
                             )}
                             style={{ height: `${Math.max(pct, 4)}%` }}
                             title={`index ${i} = ${v}`}
