@@ -15,10 +15,22 @@ const ROADMAP = [
         ],
     },
     {
+        section: "Sorting & techniques",
+        items: [
+            { name: "Sorting", status: "shipped", note: "Bubble, Selection & Insertion — step-through, speed control, pseudocode & live stats" },
+            { name: "Counting sort", status: "planned", note: "Non-comparison sort built on a frequency array — O(n + k)" },
+            { name: "Frequency array", status: "planned", note: "Count occurrences in O(n); the basis for counting sort & hashing" },
+            { name: "Merge sort", status: "planned", note: "Divide & conquer, stable, O(n log n)" },
+            { name: "Quick sort", status: "planned", note: "In-place partitioning, average O(n log n)" },
+            { name: "Binary search", status: "planned", note: "Find a value in a sorted array in O(log n)" },
+            { name: "Prefix sums", status: "planned", note: "Answer range-sum queries instantly after O(n) prep" },
+            { name: "Two pointers", status: "planned", note: "Pair & subarray problems in a single O(n) pass" },
+            { name: "Sliding window", status: "planned", note: "Running window for subarray sum / min / max" },
+        ],
+    },
+    {
         section: "Algorithms",
         items: [
-            { name: "Sorting", status: "planned", note: "Bubble, quick, merge. Step-through with speed control" },
-            { name: "Searching", status: "planned", note: "Linear & binary search" },
             { name: "Graph algorithms", status: "planned", note: "BFS, DFS, Dijkstra" },
             { name: "Dynamic programming", status: "planned", note: "Classic DP tables (LCS, knapsack)" },
         ],
@@ -53,7 +65,7 @@ export default function RoadmapPage() {
             </nav>
 
             <header className="mb-10 text-center">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gradient animate-gradient inline-block pb-1">
                     Roadmap
                 </h1>
                 <p className="mt-3 text-muted max-w-xl mx-auto">
@@ -71,7 +83,7 @@ export default function RoadmapPage() {
                             {group.items.map((item) => (
                                 <li
                                     key={item.name}
-                                    className="surface rounded-xl px-4 py-3 flex items-center justify-between gap-4"
+                                    className="surface rounded-xl px-4 py-3 flex items-center justify-between gap-4 hover:border-strong hover:-translate-y-0.5 transition-all"
                                 >
                                     <div className="min-w-0">
                                         <h3 className="font-medium">{item.name}</h3>

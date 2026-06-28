@@ -140,3 +140,166 @@
 .animate-fade-in-up {
   animation: fade-in-up 0.4s ease-out;
 }
+
+/* ---------- Playful motion system ---------- */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, 18px);
+  }
+}
+
+@keyframes blob {
+  0%,
+  100% {
+    border-radius: 42% 58% 60% 40% / 50% 45% 55% 50%;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    border-radius: 60% 40% 45% 55% / 55% 55% 45% 45%;
+    transform: translate(14px, -12px) rotate(8deg);
+  }
+  66% {
+    border-radius: 45% 55% 52% 48% / 42% 60% 40% 58%;
+    transform: translate(-12px, 12px) rotate(-6deg);
+  }
+}
+
+@keyframes gradient-pan {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-7deg);
+  }
+  75% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--cx, 0), var(--cy, 120px)) rotate(var(--cr, 360deg));
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-float-slow {
+  animation: float-slow 9s ease-in-out infinite;
+}
+.animate-blob {
+  animation: blob 16s ease-in-out infinite;
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-pan 6s ease infinite;
+}
+.animate-pop {
+  animation: pop 0.34s ease-out;
+}
+.animate-bounce-in {
+  animation: bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+.text-gradient {
+  background-image: linear-gradient(120deg, var(--accent), #a855f7 45%, #ec4899 85%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  will-change: transform, opacity;
+  animation: confetti-fall var(--dur, 1.2s) cubic-bezier(0.2, 0.6, 0.4, 1)
+    var(--delay, 0s) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-slow,
+  .animate-blob,
+  .animate-gradient,
+  .animate-pop,
+  .animate-bounce-in,
+  .animate-wiggle,
+  .animate-fade-in-up,
+  .confetti-piece {
+    animation: none !important;
+  }
+}
