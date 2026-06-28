@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DSA Visualizer">
+  <defs>
+    <linearGradient id="dsaMark" x1="6" y1="4" x2="58" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366F1" />
+      <stop offset="0.5" stop-color="#A855F7" />
+      <stop offset="1" stop-color="#EC4899" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#dsaMark)" />
+  <g fill="#FFFFFF">
+    <rect x="11" y="32" width="10" height="20" rx="4" opacity="0.75" />
+    <rect x="27" y="22" width="10" height="30" rx="4" opacity="0.88" />
+    <rect x="43" y="12" width="10" height="40" rx="4" />
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 // Source-array presets and a parser for custom user input. Kept separate from the
 // algorithms so any future visualizer can reuse the same data generators.
 
-export const MIN_SIZE = 4;
+export const MIN_SIZE = 3;
 export const MAX_SIZE = 24;
 export const MIN_VALUE = 1;
 export const MAX_VALUE = 99;
@@ -55,31 +55,47 @@ export const ARRAY_PRESETS = {
     },
 };
 
-// Parse a free-form string like "5, 3, 8 1 9" into { values, error }.
+// Parse a free-form string into { values, error }. Accepts bare lists ("5, 3, 8 1")
+// and pasted array literals ("[5, 3, 8]", "(5; 3; 8)") — brackets/quotes are stripped.
 export function parseArrayInput(raw) {
     if (!raw || !raw.trim()) {
-        return { values: null, error: "Enter some numbers, e.g. 5, 3, 8, 1" };
+        return {
+            values: null,
+            error: "The bars are waiting! 🎶 Drop in some numbers — try 5, 3, 8, 1.",
+        };
     }
-    const tokens = raw.split(/[\s,]+/).filter(Boolean);
+    const tokens = raw
+        .replace(/[[\](){}'"]/g, " ")
+        .split(/[\s,;]+/)
+        .filter(Boolean);
     const values = [];
     for (const tok of tokens) {
         if (!/^\d+$/.test(tok)) {
-            return { values: null, error: `"${tok}" is not a whole number.` };
+            return {
+                values: null,
+                error: `"${tok}" isn't a whole number — decimals make the bar labels messy, so let's keep it crisp and tidy ✨`,
+            };
         }
         const v = parseInt(tok, 10);
         if (v < MIN_VALUE || v > MAX_VALUE) {
             return {
                 values: null,
-                error: `Values must be between ${MIN_VALUE} and ${MAX_VALUE} (got ${v}).`,
+                error: `Whoa, ${v} is off the charts! 📏 Heights are relative anyway, so keep values ${MIN_VALUE}–${MAX_VALUE} and the labels stay readable.`,
             };
         }
         values.push(v);
     }
     if (values.length < MIN_SIZE) {
-        return { values: null, error: `Enter at least ${MIN_SIZE} numbers.` };
+        return {
+            values: null,
+            error: `A sort needs a little crowd to shuffle — toss in at least ${MIN_SIZE} numbers 👯`,
+        };
     }
     if (values.length > MAX_SIZE) {
-        return { values: null, error: `Keep it to ${MAX_SIZE} numbers or fewer.` };
+        return {
+            values: null,
+            error: `That's a stampede! 🐘 Keep it to ${MAX_SIZE} numbers or fewer so the bars stay nice and chunky.`,
+        };
     }
     return { values, error: null };
 }

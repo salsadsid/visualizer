@@ -1,9 +1,14 @@
-# DSA Visualizer
+<p align="center">
+  <img src="public/logo.svg" alt="DSA Visualizer" width="360" />
+</p>
 
-An interactive, beginner-friendly playground for **seeing** data structures and
-algorithms work — step by step, in the browser. Press play and watch the bars
-compare and swap, follow the highlighted pseudocode, read the live loop variables,
-and learn the *why* behind each technique.
+<p align="center">
+  An interactive, beginner-friendly playground for <strong>seeing</strong> data structures and algorithms work — step by step, in the browser.
+</p>
+
+<p align="center">
+  Press play and watch the bars compare and swap, follow the highlighted pseudocode, read the live loop variables, and learn the <em>why</em> behind each technique.
+</p>
 
 > Built with Next.js 16 and Tailwind CSS 4 to make DSA easier to see, touch, and learn.
 

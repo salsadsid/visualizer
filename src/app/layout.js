@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import ThemeToggle from "@/components/ThemeToggleLazy";
+import SiteHeader from "@/components/layout/SiteHeader";
 import { siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
@@ -68,10 +69,6 @@ export const metadata = {
       "max-video-preview": -1,
     },
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-  },
   formatDetection: {
     email: false,
     address: false,
@@ -115,6 +112,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SiteHeader />
         {children}
         <ThemeToggle />
         <Analytics />

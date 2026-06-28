@@ -75,7 +75,7 @@ export default function ArrayControls({
                     <input
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        placeholder="Custom: 5, 3, 8, 1, 9, 2"
+                        placeholder="Type or paste, e.g. [5, 3, 8, 1, 9, 2]"
                         spellCheck="false"
                         aria-label="Custom numbers"
                         className="flex-1 min-w-0 font-mono text-sm px-3 py-2 rounded-lg bg-bg-subtle border border-token text-text placeholder:text-subtle/60 focus-ring"
