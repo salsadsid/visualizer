@@ -6,7 +6,7 @@ export const siteConfig = {
     shortName: "DSA Visualizer",
     title: "DSA Visualizer · Interactive 2D Array Playground",
     description:
-        "Free interactive 2D array visualizer. Paste any JSON matrix, color cells by value, and learn data structures with built-in C++, Python, JavaScript, and TypeScript snippets.",
+        "Free interactive data structures & algorithms visualizer. Step through Bubble, Selection, and Insertion sort, paste any JSON matrix and color it by value, and learn with built-in C++, Python, JavaScript, and TypeScript code.",
     author: {
         name: "Salman Sadik Siddiquee",
         url: "https://github.com/salsadsid",
@@ -15,6 +15,11 @@ export const siteConfig = {
     repo: "https://github.com/salsadsid/visualizer",
     keywords: [
         "DSA visualizer",
+        "sorting visualizer",
+        "sorting algorithm visualizer",
+        "bubble sort visualizer",
+        "selection sort visualizer",
+        "insertion sort visualizer",
         "2D array visualizer",
         "data structures visualizer",
         "matrix visualization",

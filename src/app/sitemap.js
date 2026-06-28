@@ -16,6 +16,18 @@ export default function sitemap() {
             priority: 0.9,
         },
         {
+            url: `${siteConfig.url}/algorithms`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.8,
+        },
+        {
+            url: `${siteConfig.url}/algorithms/sorting`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.9,
+        },
+        {
             url: `${siteConfig.url}/roadmap`,
             lastModified: now,
             changeFrequency: "monthly",

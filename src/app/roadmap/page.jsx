@@ -15,10 +15,22 @@ const ROADMAP = [
         ],
     },
     {
+        section: "Sorting & techniques",
+        items: [
+            { name: "Sorting", status: "shipped", note: "Bubble, Selection & Insertion — step-through, speed control, pseudocode & live stats" },
+            { name: "Counting sort", status: "planned", note: "Non-comparison sort built on a frequency array — O(n + k)" },
+            { name: "Frequency array", status: "planned", note: "Count occurrences in O(n); the basis for counting sort & hashing" },
+            { name: "Merge sort", status: "planned", note: "Divide & conquer, stable, O(n log n)" },
+            { name: "Quick sort", status: "planned", note: "In-place partitioning, average O(n log n)" },
+            { name: "Binary search", status: "planned", note: "Find a value in a sorted array in O(log n)" },
+            { name: "Prefix sums", status: "planned", note: "Answer range-sum queries instantly after O(n) prep" },
+            { name: "Two pointers", status: "planned", note: "Pair & subarray problems in a single O(n) pass" },
+            { name: "Sliding window", status: "planned", note: "Running window for subarray sum / min / max" },
+        ],
+    },
+    {
         section: "Algorithms",
         items: [
-            { name: "Sorting", status: "planned", note: "Bubble, quick, merge. Step-through with speed control" },
-            { name: "Searching", status: "planned", note: "Linear & binary search" },
             { name: "Graph algorithms", status: "planned", note: "BFS, DFS, Dijkstra" },
             { name: "Dynamic programming", status: "planned", note: "Classic DP tables (LCS, knapsack)" },
         ],
