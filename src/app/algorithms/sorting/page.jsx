@@ -94,7 +94,7 @@ export default function SortingVisualizer() {
                         Sorting Visualizer
                     </h1>
                 </div>
-                <p className="mt-3 text-sm text-muted max-w-lg mx-auto">
+                <p className="mt-3 text-base text-muted max-w-lg mx-auto">
                     Watch a sort run one step at a time. Press play and follow the bars, the
                     highlighted pseudocode, and the running tally of work done.
                 </p>
@@ -123,7 +123,7 @@ export default function SortingVisualizer() {
                     </button>
                 ))}
             </div>
-            <p className="text-center text-sm text-muted max-w-2xl mx-auto mb-6">
+            <p className="text-center text-base text-muted max-w-2xl mx-auto mb-6">
                 {sorter.blurb}
             </p>
 

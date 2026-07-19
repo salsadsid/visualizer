@@ -24,7 +24,7 @@ function scanDemo(n) {
     const t = makeTrace();
     t.push(
         0,
-        `${n} boxes. The plan is honest and simple: visit every single one, and count each visit as 1 step.`
+        `${n} boxes. The plan is honest and simple: visit every single one, and count each visit as 1 step. Press ▶ to watch.`
     );
     const done = {};
     for (let i = 1; i <= n; i++) {
@@ -52,7 +52,7 @@ function doublingDemo(n) {
     const t = makeTrace();
     t.push(
         0,
-        `${n} boxes — but this time we DON'T visit them all. Start at box 1 and double the jump every time: 1, 2, 4, 8…`
+        `${n} boxes — but this time we DON'T visit them all. Start at box 1 and double the jump every time: 1, 2, 4, 8… Press ▶ to watch.`
     );
     const done = {};
     let count = 0;
@@ -84,7 +84,7 @@ function pairsDemo(n) {
     const t = makeTrace();
     t.push(
         0,
-        `Only ${n} boxes… but now every box wants to meet every other box — like handshakes at a party. 🤝 Count every handshake.`
+        `Only ${n} boxes… but now every box wants to meet every other box — like handshakes at a party. 🤝 Count every handshake. Press ▶ to watch.`
     );
     let count = 0;
     for (let i = 1; i <= n; i++) {

@@ -23,7 +23,7 @@ function StepKicker({ n, children }) {
 function BigIdea() {
     return (
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm space-y-4">
-            <p className="text-sm md:text-[15px] leading-relaxed text-muted">
+            <p className="text-base leading-relaxed text-muted">
                 Imagine finding <strong className="text-text">one name</strong> in a phone
                 book with <strong className="text-text">1,000,000 names</strong>. You could
                 do it two very different ways:
@@ -32,8 +32,8 @@ function BigIdea() {
             <div className="grid sm:grid-cols-2 gap-3">
                 <div className="surface-muted rounded-xl p-4">
                     <div className="text-2xl mb-1">🐢</div>
-                    <h3 className="text-sm font-semibold text-text">Page by page</h3>
-                    <p className="text-xs text-muted mt-1 leading-relaxed">
+                    <h3 className="text-base font-semibold text-text">Page by page</h3>
+                    <p className="text-sm text-muted mt-1 leading-relaxed">
                         Check every name, one at a time. Worst case:
                     </p>
                     <p className="text-xl font-bold tabular-nums mt-1.5">
@@ -42,8 +42,8 @@ function BigIdea() {
                 </div>
                 <div className="surface-muted rounded-xl p-4">
                     <div className="text-2xl mb-1">⚡</div>
-                    <h3 className="text-sm font-semibold text-text">Split in half, repeat</h3>
-                    <p className="text-xs text-muted mt-1 leading-relaxed">
+                    <h3 className="text-base font-semibold text-text">Split in half, repeat</h3>
+                    <p className="text-sm text-muted mt-1 leading-relaxed">
                         Open the middle — wrong half? Toss it. Repeat:
                     </p>
                     <p className="text-xl font-bold tabular-nums mt-1.5">
@@ -52,20 +52,20 @@ function BigIdea() {
                 </div>
             </div>
 
-            <p className="text-sm md:text-[15px] leading-relaxed text-muted">
+            <p className="text-base leading-relaxed text-muted">
                 Same phone book, same goal — <em>wildly</em> different amounts of work.{" "}
                 <strong className="text-text">
                     Big-O is simply the label we put on that difference:
                 </strong>{" "}
                 it says how the number of steps grows when your data grows.
             </p>
-            <p className="text-xs text-muted surface-muted rounded-lg px-3 py-2 inline-block">
+            <p className="text-sm text-muted surface-muted rounded-lg px-3 py-2 inline-block">
                 And <code className="font-mono text-accent">n</code>? Nothing scary —{" "}
                 <code className="font-mono text-accent">n</code> just means{" "}
                 <em>&ldquo;how many items you have&rdquo;</em>: 10 photos, 1,000 songs,
                 1,000,000 users.
             </p>
-            <p className="text-xs text-muted surface-muted rounded-lg px-3 py-2 inline-block">
+            <p className="text-sm text-muted surface-muted rounded-lg px-3 py-2 inline-block">
                 Say it like this:{" "}
                 <code className="font-mono text-accent">O(n)</code> reads{" "}
                 <em>&ldquo;oh of en&rdquo;</em> — the O stands for{" "}
@@ -92,7 +92,7 @@ export default function ComplexityPage() {
                         Big-O Playground
                     </h1>
                 </div>
-                <p className="mt-3 text-sm text-muted max-w-lg mx-auto">
+                <p className="mt-3 text-base text-muted max-w-lg mx-auto">
                     Never heard of Big-O? Perfect — start here. A tiny story, then count
                     steps with the computer, then watch real curves grow. No math degree
                     required. 🙌
@@ -121,7 +121,7 @@ export default function ComplexityPage() {
                 </div>
             </div>
 
-            <p className="mt-8 text-center text-sm text-muted">
+            <p className="mt-8 text-center text-base text-muted">
                 Want to see an O(n²) algorithm actually move?{" "}
                 <Link
                     href="/algorithms/sorting"

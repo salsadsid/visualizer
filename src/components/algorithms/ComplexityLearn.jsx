@@ -11,6 +11,10 @@ import {
     COMPLEXITY_CODE,
 } from "@/lib/algorithms/complexity";
 
+// The three speeds the learner already stepped through in LoopLab (step ②) — badged
+// so the names land on something they've already felt rather than arriving cold.
+const COUNTED = new Set(["log", "linear", "quadratic"]);
+
 function Classes() {
     return (
         <div className="grid sm:grid-cols-2 gap-3">
@@ -24,24 +28,29 @@ function Classes() {
                         <span className="font-mono text-sm font-semibold">{c.big}</span>
                         <span className="text-sm text-muted">· {c.name}</span>
                         {c.bonus && (
-                            <span className="ml-auto text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-full surface text-subtle">
+                            <span className="ml-auto text-[11px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-full surface text-subtle">
                                 bonus
                             </span>
                         )}
+                        {COUNTED.has(c.id) && (
+                            <span className="ml-auto text-[11px] font-medium px-1.5 py-0.5 rounded-full bg-accent-soft text-accent border border-accent/20 whitespace-nowrap">
+                                ✓ you counted this one!
+                            </span>
+                        )}
                     </div>
-                    <p className="text-xs font-medium mb-1.5" style={{ color: c.color }}>
+                    <p className="text-sm font-medium mb-1.5" style={{ color: c.color }}>
                         {c.mood}
                     </p>
-                    <p className="text-sm font-medium text-text">{c.tagline}</p>
-                    <p className="text-xs text-muted mt-1.5 leading-relaxed">
+                    <p className="text-base font-medium text-text">{c.tagline}</p>
+                    <p className="text-sm text-muted mt-1.5 leading-relaxed">
                         <span className="text-subtle">🧠 </span>
                         {c.analogy}
                     </p>
-                    <p className="text-xs text-muted mt-1 leading-relaxed">
+                    <p className="text-sm text-muted mt-1 leading-relaxed">
                         <span className="text-subtle">⚙️ What the computer does: </span>
                         {c.computer}
                     </p>
-                    <p className="text-[11px] text-subtle mt-2 leading-relaxed">
+                    <p className="text-xs text-subtle mt-2 leading-relaxed">
                         Seen in: {c.seenIn}
                     </p>
                 </div>
@@ -99,7 +108,7 @@ function Scales() {
                     </tbody>
                 </table>
             </div>
-            <p className="text-xs text-subtle">
+            <p className="text-sm text-subtle">
                 Steps needed as the input grows. The time column assumes a computer doing
                 ~1&nbsp;billion steps per second — notice how O(n²) and O(2ⁿ) fall off a
                 cliff while the others barely move.
@@ -131,7 +140,7 @@ function CodePanel() {
                 ))}
             </div>
             <CodeTabs languages={LANGUAGES} groups={COMPLEXITY_CODE[classId]} />
-            <p className="text-xs text-subtle">
+            <p className="text-sm text-subtle">
                 The C++ mirrors the classic Module&nbsp;1 examples; the other languages are
                 faithful equivalents.
             </p>

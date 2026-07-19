@@ -34,7 +34,7 @@ function BoxRow({ count, cells, pointers }) {
                             >
                                 {idx + 1}
                             </div>
-                            <div className="h-4 text-[10px] font-mono font-bold leading-none">
+                            <div className="h-4 text-[11px] font-mono font-bold leading-none">
                                 {marks[idx] ? (
                                     <span className={pointerClass(marks[idx][0])}>
                                         ▲{marks[idx].join(",")}
@@ -60,7 +60,7 @@ export default function LoopLab() {
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm">
             <div className="mb-4">
                 <h3 className="text-base font-semibold">Count the steps — with the computer</h3>
-                <p className="text-sm text-muted mt-0.5">
+                <p className="text-base text-muted mt-0.5">
                     A <strong className="text-text">step</strong> is one tiny action the
                     computer takes. Press play and count along — this is all Big-O ever
                     measures.
@@ -99,7 +99,7 @@ export default function LoopLab() {
                     );
                 })}
             </div>
-            <p className="text-sm text-muted mb-4">{demo.blurb}</p>
+            <p className="text-base text-muted mb-4">{demo.blurb}</p>
 
             <div className="grid lg:grid-cols-[1fr_320px] gap-5">
                 <div className="relative rounded-xl border border-token bg-bg-subtle/50 p-4 sm:p-5 space-y-4 overflow-hidden">
@@ -109,7 +109,7 @@ export default function LoopLab() {
                         cells={step.cells}
                         pointers={step.pointers}
                     />
-                    <p className="text-xs text-subtle text-center leading-relaxed">
+                    <p className="text-sm text-subtle text-center leading-relaxed">
                         🟨 where the computer is now · 🟩 already visited · 🟪 the box doing
                         the greeting
                     </p>
@@ -123,14 +123,14 @@ export default function LoopLab() {
                                         {step.vars.steps}
                                     </span>
                                 </div>
-                                <div className="text-[10px] uppercase tracking-wide text-subtle">
+                                <div className="text-[11px] uppercase tracking-wide text-subtle">
                                     steps
                                 </div>
                             </div>
                         </div>
                         <div
                             aria-live="polite"
-                            className="surface-muted rounded-xl px-4 py-3 flex-1 flex items-center text-sm leading-relaxed text-muted"
+                            className="surface-muted rounded-xl px-4 py-3 flex-1 flex items-center text-base leading-relaxed text-muted"
                         >
                             {step.message}
                         </div>
@@ -147,7 +147,7 @@ export default function LoopLab() {
                         </span>
                     </div>
                     <Pseudocode lines={demo.pseudocode} activeLine={step.line} />
-                    <p className="text-xs text-subtle leading-relaxed">
+                    <p className="text-sm text-subtle leading-relaxed">
                         Try all three — same idea (visit boxes), wildly different step
                         counts. That difference is the whole story of this page.
                     </p>

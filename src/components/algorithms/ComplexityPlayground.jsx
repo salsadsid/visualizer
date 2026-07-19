@@ -76,7 +76,7 @@ export default function ComplexityPlayground() {
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm space-y-5">
             <div>
                 <h3 className="text-base font-semibold">The sandbox — measure it for real</h3>
-                <p className="text-sm text-muted mt-0.5">
+                <p className="text-base text-muted mt-0.5">
                     You just counted steps by hand. Now let your computer do it{" "}
                     <em>thousands of times</em>: pick loops below, and each one really runs —
                     we count its steps, or time it with the browser&apos;s built-in stopwatch
@@ -169,7 +169,7 @@ export default function ComplexityPlayground() {
             {/* data table */}
             {results.series.length > 0 && (
                 <details className="group">
-                    <summary className="cursor-pointer text-xs font-medium text-accent hover:text-accent-hover focus-ring rounded inline-flex items-center gap-1">
+                    <summary className="cursor-pointer text-sm font-medium text-accent hover:text-accent-hover focus-ring rounded inline-flex items-center gap-1">
                         <span className="group-open:rotate-90 transition-transform">▸</span>
                         Show the numbers
                     </summary>
@@ -218,7 +218,7 @@ export default function ComplexityPlayground() {
                 </details>
             )}
 
-            <div className="surface-muted rounded-xl px-4 py-3 text-xs text-muted leading-relaxed">
+            <div className="surface-muted rounded-xl px-4 py-3 text-sm text-muted leading-relaxed">
                 <span className="font-semibold text-text">🎯 Try this:</span> slide{" "}
                 <span className="font-medium">Max n</span> up and watch the red O(n²) curve
                 shoot away while the others barely move. Then turn on{" "}

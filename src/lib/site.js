@@ -4,6 +4,7 @@ export const siteConfig = {
         "https://visualizer-gold.vercel.app",
     name: "DSA Visualizer",
     shortName: "DSA Visualizer",
+    tagline: "Data structures & algorithms, brought to life",
     title: "DSA Visualizer · Interactive 2D Array Playground",
     description:
         "Free interactive data structures & algorithms visualizer. Step through Bubble, Selection, and Insertion sort, paste any JSON matrix and color it by value, and learn with built-in C++, Python, JavaScript, and TypeScript code.",

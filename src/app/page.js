@@ -40,11 +40,24 @@ const GridIcon = (
     </svg>
 );
 
+const CurveIcon = (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v16h16" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 18c4 0 5-11 8-11s3.5 7 8 7" />
+    </svg>
+);
+
 const VISUALIZERS = [
+    {
+        href: "/algorithms/complexity",
+        title: "Big-O Playground",
+        badge: "Start here",
+        body: "Never heard of Big-O? Start here — a tiny story, count steps with the computer, then watch real growth curves.",
+        icon: CurveIcon,
+    },
     {
         href: "/algorithms/sorting",
         title: "Sorting Visualizer",
-        badge: "New",
         body: "Watch Bubble, Selection & Insertion sort run one step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
         icon: BarsIcon,
     },
@@ -102,8 +115,8 @@ export default function HomePage() {
                 </h1>
 
                 <p className="mt-5 text-lg text-muted max-w-xl mx-auto">
-                    A clean, interactive playground for learning. Paste a matrix and color
-                    it, or watch a sorting algorithm run one step at a time.
+                    Watch sorting run step by step, count the steps algorithms take, and
+                    turn grids into pictures. No setup, no sign-up.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -127,10 +140,10 @@ export default function HomePage() {
                         </svg>
                     </Link>
                     <Link
-                        href="/data-structures/arrays"
+                        href="/algorithms/complexity"
                         className="px-6 py-3 rounded-xl surface font-medium text-muted hover:text-text hover:scale-[1.03] active:scale-95 transition-all"
                     >
-                        2D Array Visualizer
+                        New to Big-O? Start here →
                     </Link>
                 </div>
 
@@ -156,7 +169,7 @@ export default function HomePage() {
                         Roadmap →
                     </Link>
                 </div>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {VISUALIZERS.map((v) => (
                         <Link
                             key={v.href}
@@ -179,7 +192,7 @@ export default function HomePage() {
                                     →
                                 </span>
                             </h3>
-                            <p className="text-sm text-muted mt-1 leading-relaxed">
+                            <p className="text-base text-muted mt-1 leading-relaxed">
                                 {v.body}
                             </p>
                         </Link>
@@ -191,7 +204,7 @@ export default function HomePage() {
                 {FEATURES.map((f) => (
                     <div key={f.title} className="surface rounded-2xl p-5">
                         <h3 className="font-semibold mb-1.5">{f.title}</h3>
-                        <p className="text-sm text-muted leading-relaxed">{f.body}</p>
+                        <p className="text-base text-muted leading-relaxed">{f.body}</p>
                     </div>
                 ))}
             </section>

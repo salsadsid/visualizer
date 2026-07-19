@@ -9,11 +9,19 @@ export function parseInput(raw) {
     try {
         parsed = JSON.parse(raw);
     } catch (_) {
-        return { matrix: [], maxLen: 0, error: "Invalid JSON syntax" };
+        return {
+            matrix: [],
+            maxLen: 0,
+            error: "Hmm, that doesn't parse — check your brackets and commas. Try: [[1, 0], [0, 1]] ✏️",
+        };
     }
 
     if (!Array.isArray(parsed)) {
-        return { matrix: [], maxLen: 0, error: "Input must be an array" };
+        return {
+            matrix: [],
+            maxLen: 0,
+            error: "Almost! A grid needs square brackets around it — [[1, 2], [3, 4]] is 2 rows of 2.",
+        };
     }
 
     if (parsed.length === 0) {
@@ -25,7 +33,7 @@ export function parseInput(raw) {
         return {
             matrix: [],
             maxLen: 0,
-            error: "Input must be a 2D array (array of arrays)",
+            error: "Almost! Wrap each row in its own brackets — [[1, 2], [3, 4]] is 2 rows of 2.",
         };
     }
 
@@ -40,7 +48,7 @@ export function parseInput(raw) {
         return {
             matrix: [],
             maxLen: 0,
-            error: "Cells must be number, string, boolean, or null",
+            error: 'Cells can hold numbers, text, true/false, or null — nothing fancier. Try: [["a", 1], [true, null]] ✏️',
         };
     }
 

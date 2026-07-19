@@ -149,7 +149,7 @@ export default function GrowthChart({ series = [], metric = "ops", scale = "line
                                         y={y + 3}
                                         textAnchor="end"
                                         className="fill-[var(--text-subtle)]"
-                                        fontSize={11}
+                                        fontSize={12}
                                     >
                                         {compact(v)}
                                     </text>
@@ -165,7 +165,7 @@ export default function GrowthChart({ series = [], metric = "ops", scale = "line
                                 y={H - M.bottom + 18}
                                 textAnchor="middle"
                                 className="fill-[var(--text-subtle)]"
-                                fontSize={11}
+                                fontSize={12}
                             >
                                 {compact(n)}
                             </text>
@@ -177,7 +177,7 @@ export default function GrowthChart({ series = [], metric = "ops", scale = "line
                             y={H - 6}
                             textAnchor="middle"
                             className="fill-[var(--text-muted)]"
-                            fontSize={12}
+                            fontSize={13}
                         >
                             input size (n)
                         </text>
@@ -185,7 +185,7 @@ export default function GrowthChart({ series = [], metric = "ops", scale = "line
                             transform={`translate(14 ${M.top + PLOT_H / 2}) rotate(-90)`}
                             textAnchor="middle"
                             className="fill-[var(--text-muted)]"
-                            fontSize={12}
+                            fontSize={13}
                         >
                             {metric === "time" ? "time (ms)" : "steps taken"}
                         </text>
@@ -255,7 +255,7 @@ export default function GrowthChart({ series = [], metric = "ops", scale = "line
                                         x={10}
                                         y={15}
                                         className="fill-[var(--text-subtle)]"
-                                        fontSize={10.5}
+                                        fontSize={12}
                                     >
                                         n = {compact(hoverN)}
                                     </text>
@@ -266,7 +266,7 @@ export default function GrowthChart({ series = [], metric = "ops", scale = "line
                                                 x={14}
                                                 y={0}
                                                 className="fill-[var(--text)]"
-                                                fontSize={11}
+                                                fontSize={12}
                                             >
                                                 {s.big}
                                             </text>
@@ -275,7 +275,7 @@ export default function GrowthChart({ series = [], metric = "ops", scale = "line
                                                 y={0}
                                                 textAnchor="end"
                                                 className="fill-[var(--text-muted)]"
-                                                fontSize={11}
+                                                fontSize={12}
                                             >
                                                 {fmtValue(s.value, metric)}
                                             </text>

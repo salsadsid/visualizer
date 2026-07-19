@@ -1,3 +1,9 @@
+// One row per line — how a human writes a grid. Plain JSON.stringify(m, null, 2) puts
+// every single cell on its own line, which turns an 8×8 board into ~80 lines of noise.
+export function formatMatrix(matrix) {
+    return `[\n${matrix.map((row) => `  ${JSON.stringify(row)}`).join(",\n")}\n]`;
+}
+
 export const PRESETS = {
     identity: {
         label: "Identity",

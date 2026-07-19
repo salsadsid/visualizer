@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
 
+/* Type scale — nudged up one notch from Tailwind's defaults. This is a teaching site:
+   12px was doing most of the explaining, which is too small to read comfortably.
+   The paired --line-height vars must be set explicitly — v4's defaults are ratios
+   computed against the ORIGINAL size, so overriding the size alone tightens leading. */
+@theme {
+  --text-xs: 0.8125rem; /* 12 → 13px */
+  --text-xs--line-height: calc(1.125 / 0.8125); /* 18px */
+  --text-sm: 0.9375rem; /* 14 → 15px */
+  --text-sm--line-height: calc(1.375 / 0.9375); /* 22px */
+}
+
 @layer base {
   :root {
     /* Surfaces */
@@ -12,7 +23,7 @@
     /* Text */
     --text: #0f172a;
     --text-muted: #475569;
-    --text-subtle: #64748b;
+    --text-subtle: #5b6774; /* clears AA (5.25:1) on bg-muted, the worst surface */
 
     /* Borders */
     --border: #e4e4e7;
@@ -43,7 +54,7 @@
 
     --text: #fafafa;
     --text-muted: #a1a1aa;
-    --text-subtle: #71717a;
+    --text-subtle: #8b8b93; /* clears AA (5.03:1) on bg-muted, the worst surface */
 
     --border: #27272a;
     --border-strong: #3f3f46;

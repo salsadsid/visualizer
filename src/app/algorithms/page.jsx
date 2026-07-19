@@ -36,18 +36,20 @@ const CurveIcon = (
 
 const SHIPPED = [
     {
+        href: "/algorithms/complexity",
+        title: "Big-O Playground",
+        badge: "Start here",
+        body: "Never heard of Big-O? Start here: a tiny story, count steps with the computer, then watch real growth curves. No math degree required.",
+        tags: ["O(log n)", "O(√n)", "O(n²)"],
+        icon: CurveIcon,
+    },
+    {
         href: "/algorithms/sorting",
         title: "Sorting",
+        badge: "Live",
         body: "Bubble, Selection & Insertion sort — animated bars, synchronized pseudocode, speed control, and live comparison/swap counters.",
         tags: ["Bubble", "Selection", "Insertion"],
         icon: BarsIcon,
-    },
-    {
-        href: "/algorithms/complexity",
-        title: "Big-O Playground",
-        body: "Measure time complexity for real — plot O(1) through O(2ⁿ) growth curves, toggle operations vs time, and see how algorithms scale.",
-        tags: ["O(log n)", "O(√n)", "O(n²)"],
-        icon: CurveIcon,
     },
 ];
 
@@ -90,8 +92,8 @@ export default function AlgorithmsHome() {
                             <span className="grid place-items-center h-10 w-10 rounded-xl bg-accent-soft border border-accent/20 text-accent">
                                 {item.icon}
                             </span>
-                            <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20">
-                                Live
+                            <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20 whitespace-nowrap">
+                                {item.badge}
                             </span>
                         </div>
                         <h2 className="text-lg font-semibold flex items-center gap-1.5">
@@ -100,7 +102,7 @@ export default function AlgorithmsHome() {
                                 →
                             </span>
                         </h2>
-                        <p className="text-sm text-muted mt-1 leading-relaxed">
+                        <p className="text-base text-muted mt-1 leading-relaxed">
                             {item.body}
                         </p>
                         <div className="flex flex-wrap gap-1.5 mt-3">

@@ -17,20 +17,35 @@ function Concept() {
                 They&apos;re also <strong className="text-text">in-place</strong> (they
                 reuse the same array, O(1) extra memory) and simple to reason about. The
                 trade-off is speed: each runs in{" "}
-                <code className="font-mono text-accent">O(n²)</code> on average, so they
-                shine on small or nearly-sorted inputs rather than huge datasets.
+                <Link
+                    href="/algorithms/complexity"
+                    className="font-mono text-accent hover:text-accent-hover underline decoration-dotted underline-offset-2"
+                >
+                    O(n²)
+                </Link>{" "}
+                on average, so they shine on small or nearly-sorted inputs rather than huge
+                datasets.
+            </p>
+            <p className="text-sm text-subtle">
+                New to this <code className="font-mono">O(…)</code> notation?{" "}
+                <Link
+                    href="/algorithms/complexity"
+                    className="text-accent hover:text-accent-hover font-medium"
+                >
+                    Start with the Big-O Playground →
+                </Link>
             </p>
             <div className="grid sm:grid-cols-2 gap-2 pt-1">
                 <div className="surface-muted rounded-lg p-3">
                     <h4 className="text-sm font-semibold text-text mb-0.5">Stable</h4>
-                    <p className="text-xs">
+                    <p className="text-sm">
                         Keeps equal values in their original relative order. Bubble &amp;
                         insertion are stable; selection is not.
                     </p>
                 </div>
                 <div className="surface-muted rounded-lg p-3">
                     <h4 className="text-sm font-semibold text-text mb-0.5">In-place</h4>
-                    <p className="text-xs">
+                    <p className="text-sm">
                         Sorts within the array itself — no second array needed, so memory
                         stays at O(1).
                     </p>
@@ -71,7 +86,7 @@ function Uses() {
                         <span className="text-lg">{item.icon}</span>
                         <h4 className="text-sm font-semibold">{item.title}</h4>
                     </div>
-                    <p className="text-xs text-muted leading-relaxed">{item.body}</p>
+                    <p className="text-sm text-muted leading-relaxed">{item.body}</p>
                 </div>
             ))}
         </div>
@@ -127,7 +142,7 @@ function Complexity({ algo }) {
             <p className="text-xs text-subtle">
                 n = number of elements. The highlighted row is the sort you&apos;re viewing.
             </p>
-            <p className="text-xs text-muted pt-1">
+            <p className="text-sm text-muted pt-1">
                 Want to <em>see</em> these O(n²) curves next to O(n) and O(log n)?{" "}
                 <Link
                     href="/algorithms/complexity"
