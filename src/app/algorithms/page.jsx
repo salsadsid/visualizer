@@ -17,12 +17,37 @@ export const metadata = {
     },
 };
 
+const BarsIcon = (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 20h4V10H3v10zm7 0h4V4h-4v16zm7 0h4v-7h-4v7z"
+        />
+    </svg>
+);
+
+const CurveIcon = (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v16h16" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 18c4 0 5-11 8-11s3.5 7 8 7" />
+    </svg>
+);
+
 const SHIPPED = [
     {
         href: "/algorithms/sorting",
         title: "Sorting",
         body: "Bubble, Selection & Insertion sort — animated bars, synchronized pseudocode, speed control, and live comparison/swap counters.",
         tags: ["Bubble", "Selection", "Insertion"],
+        icon: BarsIcon,
+    },
+    {
+        href: "/algorithms/complexity",
+        title: "Big-O Playground",
+        body: "Measure time complexity for real — plot O(1) through O(2ⁿ) growth curves, toggle operations vs time, and see how algorithms scale.",
+        tags: ["O(log n)", "O(√n)", "O(n²)"],
+        icon: CurveIcon,
     },
 ];
 
@@ -63,19 +88,7 @@ export default function AlgorithmsHome() {
                     >
                         <div className="flex items-center justify-between mb-3">
                             <span className="grid place-items-center h-10 w-10 rounded-xl bg-accent-soft border border-accent/20 text-accent">
-                                <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M3 20h4V10H3v10zm7 0h4V4h-4v16zm7 0h4v-7h-4v7z"
-                                    />
-                                </svg>
+                                {item.icon}
                             </span>
                             <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20">
                                 Live

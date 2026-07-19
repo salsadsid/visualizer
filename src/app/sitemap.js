@@ -28,6 +28,12 @@ export default function sitemap() {
             priority: 0.9,
         },
         {
+            url: `${siteConfig.url}/algorithms/complexity`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.8,
+        },
+        {
             url: `${siteConfig.url}/roadmap`,
             lastModified: now,
             changeFrequency: "monthly",

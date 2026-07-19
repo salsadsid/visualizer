@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { cn } from "@/lib/cn";
 import LearningTabs, { CodeTabs } from "./LearningTabs";
 import { LANGUAGES, SORT_CODE } from "@/lib/algorithms/snippets";
@@ -125,6 +126,15 @@ function Complexity({ algo }) {
             </div>
             <p className="text-xs text-subtle">
                 n = number of elements. The highlighted row is the sort you&apos;re viewing.
+            </p>
+            <p className="text-xs text-muted pt-1">
+                Want to <em>see</em> these O(n²) curves next to O(n) and O(log n)?{" "}
+                <Link
+                    href="/algorithms/complexity"
+                    className="text-accent hover:text-accent-hover font-medium underline underline-offset-2"
+                >
+                    Measure them for real in the Big-O Playground →
+                </Link>
             </p>
         </div>
     );

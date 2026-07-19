@@ -23,6 +23,16 @@
     --accent-hover: #4f46e5;
     --accent-soft: #eef2ff;
     --accent-ring: rgba(99, 102, 241, 0.35);
+
+    /* Chart series — CVD-validated categorical palette (light steps).
+       Order is the colorblind-safety mechanism; keep it. See GrowthChart. */
+    --series-1: #2a78d6; /* blue    → O(1)        */
+    --series-2: #1baf7a; /* aqua    → O(log n)    */
+    --series-3: #eda100; /* yellow  → O(√n)       */
+    --series-4: #008300; /* green   → O(n)        */
+    --series-5: #4a3aa7; /* violet  → O(n log n)  */
+    --series-6: #e34948; /* red     → O(n²)       */
+    --series-7: #e87ba4; /* magenta → O(2ⁿ)       */
   }
 
   .dark {
@@ -42,6 +52,15 @@
     --accent-hover: #a5b4fc;
     --accent-soft: rgba(99, 102, 241, 0.12);
     --accent-ring: rgba(129, 140, 248, 0.4);
+
+    /* Chart series — same categorical hues stepped for the dark surface. */
+    --series-1: #3987e5;
+    --series-2: #199e70;
+    --series-3: #c98500;
+    --series-4: #008300;
+    --series-5: #9085e9;
+    --series-6: #e66767;
+    --series-7: #d55181;
   }
 
   html,

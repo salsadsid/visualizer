@@ -18,6 +18,7 @@ const ROADMAP = [
         section: "Sorting & techniques",
         items: [
             { name: "Sorting", status: "shipped", note: "Bubble, Selection & Insertion — step-through, speed control, pseudocode & live stats" },
+            { name: "Time complexity / Big-O", status: "shipped", note: "Live growth-curve playground — measure O(1)…O(2ⁿ) by operations or real time" },
             { name: "Counting sort", status: "planned", note: "Non-comparison sort built on a frequency array — O(n + k)" },
             { name: "Frequency array", status: "planned", note: "Count occurrences in O(n); the basis for counting sort & hashing" },
             { name: "Merge sort", status: "planned", note: "Divide & conquer, stable, O(n log n)" },
