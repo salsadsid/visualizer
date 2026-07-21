@@ -40,15 +40,33 @@ const GridIcon = (
     </svg>
 );
 
+const CurveIcon = (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v16h16" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 18c4 0 5-11 8-11s3.5 7 8 7" />
+    </svg>
+);
+
+// Ordered as a suggested path — the step numbers render on the cards so a newcomer
+// has one obvious place to start instead of three equal-looking doors.
 const VISUALIZERS = [
     {
+        step: 1,
+        href: "/algorithms/complexity",
+        title: "Big-O Playground",
+        badge: "Start here",
+        body: "Never heard of Big-O? Start here — a tiny story, count steps with the computer, then watch real growth curves.",
+        icon: CurveIcon,
+    },
+    {
+        step: 2,
         href: "/algorithms/sorting",
         title: "Sorting Visualizer",
-        badge: "New",
         body: "Watch Bubble, Selection & Insertion sort run one step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
         icon: BarsIcon,
     },
     {
+        step: 3,
         href: "/data-structures/arrays",
         title: "2D Array Visualizer",
         body: "Paste any JSON matrix, color cells by value, toggle indices, and see how grids map to rows and columns.",
@@ -102,8 +120,8 @@ export default function HomePage() {
                 </h1>
 
                 <p className="mt-5 text-lg text-muted max-w-xl mx-auto">
-                    A clean, interactive playground for learning. Paste a matrix and color
-                    it, or watch a sorting algorithm run one step at a time.
+                    Watch sorting run step by step, count the steps algorithms take, and
+                    turn grids into pictures. No setup, no sign-up.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -127,10 +145,10 @@ export default function HomePage() {
                         </svg>
                     </Link>
                     <Link
-                        href="/data-structures/arrays"
+                        href="/algorithms/complexity"
                         className="px-6 py-3 rounded-xl surface font-medium text-muted hover:text-text hover:scale-[1.03] active:scale-95 transition-all"
                     >
-                        2D Array Visualizer
+                        New to Big-O? Start here →
                     </Link>
                 </div>
 
@@ -147,7 +165,7 @@ export default function HomePage() {
             <section className="pb-14">
                 <div className="flex items-end justify-between mb-4">
                     <h2 className="text-xs font-semibold text-subtle uppercase tracking-wider">
-                        Visualizers
+                        Visualizers · a good order to explore them
                     </h2>
                     <Link
                         href="/roadmap"
@@ -156,7 +174,7 @@ export default function HomePage() {
                         Roadmap →
                     </Link>
                 </div>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {VISUALIZERS.map((v) => (
                         <Link
                             key={v.href}
@@ -164,8 +182,11 @@ export default function HomePage() {
                             className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                         >
                             <div className="flex items-center justify-between mb-3">
-                                <span className="grid place-items-center h-11 w-11 rounded-xl bg-accent-soft border border-accent/20 text-accent">
+                                <span className="relative grid place-items-center h-11 w-11 rounded-xl bg-accent-soft border border-accent/20 text-accent">
                                     {v.icon}
+                                    <span className="absolute -top-2 -left-2 grid place-items-center h-5 w-5 rounded-full bg-accent text-white text-[11px] font-bold shadow-sm">
+                                        {v.step}
+                                    </span>
                                 </span>
                                 {v.badge && (
                                     <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20">
@@ -179,7 +200,7 @@ export default function HomePage() {
                                     →
                                 </span>
                             </h3>
-                            <p className="text-sm text-muted mt-1 leading-relaxed">
+                            <p className="text-base text-muted mt-1 leading-relaxed">
                                 {v.body}
                             </p>
                         </Link>
@@ -191,7 +212,7 @@ export default function HomePage() {
                 {FEATURES.map((f) => (
                     <div key={f.title} className="surface rounded-2xl p-5">
                         <h3 className="font-semibold mb-1.5">{f.title}</h3>
-                        <p className="text-sm text-muted leading-relaxed">{f.body}</p>
+                        <p className="text-base text-muted leading-relaxed">{f.body}</p>
                     </div>
                 ))}
             </section>

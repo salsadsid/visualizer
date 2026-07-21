@@ -38,7 +38,10 @@ export default function InputPanel({ value, error, onChange, onPreset }) {
                     placeholder={`[\n  [1, 0, 0],\n  [0, 1, 0],\n  [0, 0, 1]\n]`}
                     spellCheck="false"
                     className={cn(
-                        "w-full h-full font-mono text-sm leading-relaxed p-4 rounded-xl resize-none transition-all custom-scrollbar focus-ring",
+                        // Pinned to 14px rather than text-sm: the raised scale makes a
+                        // 34-char grid row wrap in the 400px panel, breaking the
+                        // one-row-per-line layout that mirrors the rendered grid.
+                        "w-full h-full font-mono text-[14px] leading-relaxed p-4 rounded-xl resize-none transition-all custom-scrollbar focus-ring",
                         "bg-bg-subtle border border-token",
                         "text-text placeholder:text-subtle/60"
                     )}

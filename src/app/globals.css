@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
 
+/* Type scale — nudged up one notch from Tailwind's defaults. This is a teaching site:
+   12px was doing most of the explaining, which is too small to read comfortably.
+   The paired --line-height vars must be set explicitly — v4's defaults are ratios
+   computed against the ORIGINAL size, so overriding the size alone tightens leading. */
+@theme {
+  --text-xs: 0.8125rem; /* 12 → 13px */
+  --text-xs--line-height: calc(1.125 / 0.8125); /* 18px */
+  --text-sm: 0.9375rem; /* 14 → 15px */
+  --text-sm--line-height: calc(1.375 / 0.9375); /* 22px */
+}
+
 @layer base {
   :root {
     /* Surfaces */
@@ -12,7 +23,7 @@
     /* Text */
     --text: #0f172a;
     --text-muted: #475569;
-    --text-subtle: #64748b;
+    --text-subtle: #5b6774; /* clears AA (5.25:1) on bg-muted, the worst surface */
 
     /* Borders */
     --border: #e4e4e7;
@@ -23,6 +34,16 @@
     --accent-hover: #4f46e5;
     --accent-soft: #eef2ff;
     --accent-ring: rgba(99, 102, 241, 0.35);
+
+    /* Chart series — CVD-validated categorical palette (light steps).
+       Order is the colorblind-safety mechanism; keep it. See GrowthChart. */
+    --series-1: #2a78d6; /* blue    → O(1)        */
+    --series-2: #1baf7a; /* aqua    → O(log n)    */
+    --series-3: #eda100; /* yellow  → O(√n)       */
+    --series-4: #008300; /* green   → O(n)        */
+    --series-5: #4a3aa7; /* violet  → O(n log n)  */
+    --series-6: #e34948; /* red     → O(n²)       */
+    --series-7: #e87ba4; /* magenta → O(2ⁿ)       */
   }
 
   .dark {
@@ -33,7 +54,7 @@
 
     --text: #fafafa;
     --text-muted: #a1a1aa;
-    --text-subtle: #71717a;
+    --text-subtle: #8b8b93; /* clears AA (5.03:1) on bg-muted, the worst surface */
 
     --border: #27272a;
     --border-strong: #3f3f46;
@@ -42,6 +63,15 @@
     --accent-hover: #a5b4fc;
     --accent-soft: rgba(99, 102, 241, 0.12);
     --accent-ring: rgba(129, 140, 248, 0.4);
+
+    /* Chart series — same categorical hues stepped for the dark surface. */
+    --series-1: #3987e5;
+    --series-2: #199e70;
+    --series-3: #c98500;
+    --series-4: #008300;
+    --series-5: #9085e9;
+    --series-6: #e66767;
+    --series-7: #d55181;
   }
 
   html,

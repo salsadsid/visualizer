@@ -34,7 +34,7 @@ function Concept() {
 
 function Uses() {
     const items = [
-        { icon: "🎯", title: "Game boards", body: "Chess, tic-tac-toe, minesweeper, Conway&apos;s Game of Life." },
+        { icon: "🎯", title: "Game boards", body: "Chess, tic-tac-toe, minesweeper, Conway's Game of Life." },
         { icon: "🖼️", title: "Images", body: "Pixels are a 2D grid of (R, G, B) values. Convolutions slide over them." },
         { icon: "🗺️", title: "Grids & maps", body: "Pathfinding (BFS/DFS/A*), flood-fill, tile-based maps." },
         { icon: "📊", title: "Matrices", body: "Adjacency matrices, linear algebra, DP tables (LCS, knapsack)." },
@@ -47,10 +47,7 @@ function Uses() {
                         <span className="text-lg">{item.icon}</span>
                         <h4 className="text-sm font-semibold">{item.title}</h4>
                     </div>
-                    <p
-                        className="text-xs text-muted leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: item.body }}
-                    />
+                    <p className="text-sm text-muted leading-relaxed">{item.body}</p>
                 </div>
             ))}
         </div>
@@ -81,7 +78,7 @@ function Complexity() {
                         <tr key={i} className={i !== rows.length - 1 ? "border-b border-token/50" : ""}>
                             <td className="px-3 py-2 font-medium">{r.op}</td>
                             <td className="px-3 py-2 font-mono text-accent">{r.time}</td>
-                            <td className="px-3 py-2 text-muted text-xs hidden sm:table-cell">{r.note}</td>
+                            <td className="px-3 py-2 text-muted text-sm hidden sm:table-cell">{r.note}</td>
                         </tr>
                     ))}
                 </tbody>

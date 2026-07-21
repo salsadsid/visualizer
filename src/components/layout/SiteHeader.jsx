@@ -47,20 +47,28 @@ export default function SiteHeader() {
                     <LogoMark className="transition-transform group-hover:scale-110" />
                     <span className="text-[15px] tracking-tight">
                         <span className="font-bold">DSA</span>{" "}
-                        <span className="font-semibold text-muted">Visualizer</span>
+                        <span className="font-semibold text-muted max-sm:hidden">
+                            Visualizer
+                        </span>
                     </span>
                 </Link>
 
                 <nav className="flex items-center gap-1 text-sm">
                     <Link
                         href="/algorithms"
-                        className="hidden sm:inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
+                        className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
                     >
                         Algorithms
                     </Link>
                     <Link
+                        href="/data-structures/arrays"
+                        className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
+                    >
+                        Arrays
+                    </Link>
+                    <Link
                         href="/roadmap"
-                        className="hidden sm:inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
+                        className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
                     >
                         Roadmap
                     </Link>

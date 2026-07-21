@@ -7,11 +7,15 @@ import InputPanel from "@/components/array/InputPanel";
 import ArrayGrid from "@/components/array/ArrayGrid";
 import ColorSettings from "@/components/array/ColorSettings";
 import LearningPanel from "@/components/array/LearningPanel";
-import { PRESETS } from "@/lib/array/presets";
+import { PRESETS, formatMatrix } from "@/lib/array/presets";
 import { parseInput } from "@/lib/array/parser";
 
 export default function TwoDArrayVisualizer() {
-    const [inputValue, setInputValue] = useState("");
+    // Start on the chess board rather than a blank textarea: the beginner sees a grid
+    // (and why grids matter) before touching anything. Deterministic → hydration-safe.
+    const [inputValue, setInputValue] = useState(() =>
+        formatMatrix(PRESETS.chess.build())
+    );
     const [colors, setColors] = useState({});
     const [showIndices, setShowIndices] = useState(false);
 
@@ -25,7 +29,7 @@ export default function TwoDArrayVisualizer() {
     const applyPreset = (key) => {
         const preset = PRESETS[key];
         if (!preset) return;
-        setInputValue(JSON.stringify(preset.build(), null, 2));
+        setInputValue(formatMatrix(preset.build()));
     };
 
     const setColor = (key, value) => {
@@ -47,9 +51,10 @@ export default function TwoDArrayVisualizer() {
                         Array Visualizer
                     </h1>
                 </div>
-                <p className="mt-3 text-sm text-muted max-w-lg mx-auto">
-                    Paste any 2D array as JSON, pick colors for each value, and explore
-                    how matrices map to a grid.
+                <p className="mt-3 text-base text-muted max-w-lg mx-auto">
+                    Type or paste a grid of values — like{" "}
+                    <code className="font-mono text-accent">[[1, 0], [0, 1]]</code> — or
+                    start from a preset. Then color the cells.
                 </p>
             </header>
 

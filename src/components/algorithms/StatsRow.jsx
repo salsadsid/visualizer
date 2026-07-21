@@ -2,9 +2,21 @@
 
 export default function StatsRow({ stats, message }) {
     const items = [
-        { label: "Comparisons", value: stats.comparisons },
-        { label: "Swaps", value: stats.swaps },
-        { label: "Writes", value: stats.writes },
+        {
+            label: "Comparisons",
+            value: stats.comparisons,
+            hint: "Times two values were compared",
+        },
+        {
+            label: "Swaps",
+            value: stats.swaps,
+            hint: "Times two values traded places",
+        },
+        {
+            label: "Writes",
+            value: stats.writes,
+            hint: "Times a value was written into a slot",
+        },
     ];
     return (
         <div className="space-y-3">
@@ -18,6 +30,7 @@ export default function StatsRow({ stats, message }) {
                 {items.map((it) => (
                     <div
                         key={it.label}
+                        title={it.hint}
                         className="surface-muted rounded-xl px-3 py-2 text-center"
                     >
                         <div className="text-lg font-bold tabular-nums text-text">
@@ -25,7 +38,7 @@ export default function StatsRow({ stats, message }) {
                                 {it.value}
                             </span>
                         </div>
-                        <div className="text-[10px] uppercase tracking-wide text-subtle">
+                        <div className="text-[11px] uppercase tracking-wide text-subtle">
                             {it.label}
                         </div>
                     </div>

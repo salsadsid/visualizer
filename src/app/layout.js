@@ -47,7 +47,7 @@ export const metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: `${siteConfig.shortName} — Interactive 2D Array Playground`,
+        alt: `${siteConfig.shortName} — ${siteConfig.tagline}`,
       },
     ],
   },

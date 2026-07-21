@@ -50,7 +50,7 @@ export default function BarChart({ array, highlights = {}, pointers = {}, done =
                         <div
                             key={i}
                             className={cn(
-                                "flex-1 text-center text-[10px] sm:text-xs font-mono tabular-nums",
+                                "flex-1 text-center text-[11px] sm:text-xs font-mono tabular-nums",
                                 highlights[i] && highlights[i] !== "sorted"
                                     ? "text-text font-semibold"
                                     : "text-subtle"
@@ -77,7 +77,7 @@ export default function BarChart({ array, highlights = {}, pointers = {}, done =
                                     <span
                                         key={name}
                                         className={cn(
-                                            "flex flex-col items-center leading-none font-mono font-bold text-[10px] sm:text-xs",
+                                            "flex flex-col items-center leading-none font-mono font-bold text-[11px] sm:text-xs",
                                             pointerClass(name)
                                         )}
                                     >
