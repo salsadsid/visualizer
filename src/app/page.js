@@ -47,8 +47,11 @@ const CurveIcon = (
     </svg>
 );
 
+// Ordered as a suggested path — the step numbers render on the cards so a newcomer
+// has one obvious place to start instead of three equal-looking doors.
 const VISUALIZERS = [
     {
+        step: 1,
         href: "/algorithms/complexity",
         title: "Big-O Playground",
         badge: "Start here",
@@ -56,12 +59,14 @@ const VISUALIZERS = [
         icon: CurveIcon,
     },
     {
+        step: 2,
         href: "/algorithms/sorting",
         title: "Sorting Visualizer",
         body: "Watch Bubble, Selection & Insertion sort run one step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
         icon: BarsIcon,
     },
     {
+        step: 3,
         href: "/data-structures/arrays",
         title: "2D Array Visualizer",
         body: "Paste any JSON matrix, color cells by value, toggle indices, and see how grids map to rows and columns.",
@@ -160,7 +165,7 @@ export default function HomePage() {
             <section className="pb-14">
                 <div className="flex items-end justify-between mb-4">
                     <h2 className="text-xs font-semibold text-subtle uppercase tracking-wider">
-                        Visualizers
+                        Visualizers · a good order to explore them
                     </h2>
                     <Link
                         href="/roadmap"
@@ -177,8 +182,11 @@ export default function HomePage() {
                             className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                         >
                             <div className="flex items-center justify-between mb-3">
-                                <span className="grid place-items-center h-11 w-11 rounded-xl bg-accent-soft border border-accent/20 text-accent">
+                                <span className="relative grid place-items-center h-11 w-11 rounded-xl bg-accent-soft border border-accent/20 text-accent">
                                     {v.icon}
+                                    <span className="absolute -top-2 -left-2 grid place-items-center h-5 w-5 rounded-full bg-accent text-white text-[11px] font-bold shadow-sm">
+                                        {v.step}
+                                    </span>
                                 </span>
                                 {v.badge && (
                                     <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20">

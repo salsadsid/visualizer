@@ -3,6 +3,7 @@ import PageShell from "@/components/layout/PageShell";
 import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
 import LoopLab from "@/components/algorithms/LoopLab";
+import PhoneBookRace from "@/components/algorithms/PhoneBookRace";
 import ComplexityPlayground from "@/components/algorithms/ComplexityPlayground";
 import ComplexityLearn from "@/components/algorithms/ComplexityLearn";
 
@@ -26,31 +27,16 @@ function BigIdea() {
             <p className="text-base leading-relaxed text-muted">
                 Imagine finding <strong className="text-text">one name</strong> in a phone
                 book with <strong className="text-text">1,000,000 names</strong>. You could
-                do it two very different ways:
+                do it two very different ways — and they are not remotely equally hard.
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-3">
-                <div className="surface-muted rounded-xl p-4">
-                    <div className="text-2xl mb-1">🐢</div>
-                    <h3 className="text-base font-semibold text-text">Page by page</h3>
-                    <p className="text-sm text-muted mt-1 leading-relaxed">
-                        Check every name, one at a time. Worst case:
-                    </p>
-                    <p className="text-xl font-bold tabular-nums mt-1.5">
-                        1,000,000 <span className="text-xs font-normal text-subtle">checks</span>
-                    </p>
-                </div>
-                <div className="surface-muted rounded-xl p-4">
-                    <div className="text-2xl mb-1">⚡</div>
-                    <h3 className="text-base font-semibold text-text">Split in half, repeat</h3>
-                    <p className="text-sm text-muted mt-1 leading-relaxed">
-                        Open the middle — wrong half? Toss it. Repeat:
-                    </p>
-                    <p className="text-xl font-bold tabular-nums mt-1.5">
-                        ~20 <span className="text-xs font-normal text-subtle">checks</span>
-                    </p>
-                </div>
-            </div>
+            <p className="text-sm text-muted">
+                Here they are, racing through a shorter book of{" "}
+                <strong className="text-text">24 names</strong> so you can watch the whole
+                thing:
+            </p>
+
+            <PhoneBookRace />
 
             <p className="text-base leading-relaxed text-muted">
                 Same phone book, same goal — <em>wildly</em> different amounts of work.{" "}

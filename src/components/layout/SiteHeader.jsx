@@ -61,6 +61,12 @@ export default function SiteHeader() {
                         Algorithms
                     </Link>
                     <Link
+                        href="/data-structures/arrays"
+                        className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
+                    >
+                        Arrays
+                    </Link>
+                    <Link
                         href="/roadmap"
                         className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
                     >

@@ -51,10 +51,24 @@ function BoxRow({ count, cells, pointers }) {
 
 export default function LoopLab() {
     const [demoKey, setDemoKey] = useState("scan");
+    // The O(…) name is the reward for finishing a demo, not the price of admission:
+    // badges read "?" until the learner has watched that loop reach its last step, where
+    // the narration names the class. Session-only — a refresh re-earns them, which is fine.
+    const [revealed, setRevealed] = useState(() => new Set());
+    const [prevKey, setPrevKey] = useState(demoKey);
     const demo = LOOP_DEMOS.find((d) => d.key === demoKey);
     const player = usePlayer(demo.steps);
     const step = player.step;
     const cls = CLASS_BY_ID[demo.classId];
+
+    // On the render where the demo changes, usePlayer has queued its reset but still
+    // reports the old index — which reads as atEnd against a shorter demo and would
+    // hand out an unearned badge. Skip that one render; the next has index back at 0.
+    const switching = prevKey !== demoKey;
+    if (switching) setPrevKey(demoKey);
+    if (!switching && player.atEnd && !revealed.has(demoKey)) {
+        setRevealed(new Set(revealed).add(demoKey));
+    }
 
     return (
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm">
@@ -72,6 +86,7 @@ export default function LoopLab() {
                 {LOOP_DEMOS.map((d) => {
                     const c = CLASS_BY_ID[d.classId];
                     const on = d.key === demoKey;
+                    const earned = revealed.has(d.key);
                     return (
                         <button
                             key={d.key}
@@ -87,13 +102,20 @@ export default function LoopLab() {
                         >
                             {d.label}
                             <span
+                                key={earned ? "earned" : "locked"}
+                                title={
+                                    earned
+                                        ? undefined
+                                        : "Play this one to the end to unlock its name"
+                                }
                                 className={cn(
                                     "font-mono text-[11px] px-1.5 py-0.5 rounded",
-                                    on ? "bg-white/20" : "surface-muted"
+                                    on ? "bg-white/20" : "surface-muted",
+                                    earned && "animate-pop inline-block"
                                 )}
-                                style={on ? undefined : { color: c.color }}
+                                style={on || !earned ? undefined : { color: c.color }}
                             >
-                                {d.big}
+                                {earned ? d.big : "?"}
                             </span>
                         </button>
                     );
@@ -142,14 +164,21 @@ export default function LoopLab() {
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
                         <h4 className="text-sm font-semibold">The loop</h4>
-                        <span className="text-[11px] px-2 py-0.5 rounded surface-muted text-subtle font-mono">
-                            {demo.big}
+                        <span
+                            key={revealed.has(demoKey) ? "earned" : "locked"}
+                            className={cn(
+                                "text-[11px] px-2 py-0.5 rounded surface-muted text-subtle font-mono",
+                                revealed.has(demoKey) && "animate-pop inline-block"
+                            )}
+                        >
+                            {revealed.has(demoKey) ? demo.big : "?"}
                         </span>
                     </div>
                     <Pseudocode lines={demo.pseudocode} activeLine={step.line} />
                     <p className="text-sm text-subtle leading-relaxed">
                         Try all three — same idea (visit boxes), wildly different step
-                        counts. That difference is the whole story of this page.
+                        counts. That difference is the whole story of this page. Play each
+                        one to the end to unlock its official name 🔓
                     </p>
                 </div>
             </div>
