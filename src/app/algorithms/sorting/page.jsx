@@ -128,7 +128,7 @@ export default function SortingVisualizer() {
             </p>
 
             <div className="grid lg:grid-cols-[1fr_360px] gap-5">
-                <div className="surface rounded-2xl p-5 md:p-6 shadow-sm relative overflow-hidden">
+                <div className="surface rounded-2xl p-5 md:p-6 shadow-sm relative overflow-hidden min-w-0">
                     <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
                     <div
                         aria-hidden="true"
@@ -150,7 +150,7 @@ export default function SortingVisualizer() {
                     </div>
                 </div>
 
-                <div className="surface rounded-2xl p-5 shadow-sm space-y-4">
+                <div className="surface rounded-2xl p-5 shadow-sm space-y-4 min-w-0">
                     <div className="flex items-center justify-between">
                         <h3 className="text-sm font-semibold">Pseudocode</h3>
                         <span className="text-[11px] px-2 py-0.5 rounded surface-muted text-subtle font-mono">
