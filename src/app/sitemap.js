@@ -10,6 +10,12 @@ export default function sitemap() {
             priority: 1.0,
         },
         {
+            url: `${siteConfig.url}/data-structures`,
+            lastModified: now,
+            changeFrequency: "weekly",
+            priority: 0.8,
+        },
+        {
             url: `${siteConfig.url}/data-structures/arrays`,
             lastModified: now,
             changeFrequency: "weekly",
