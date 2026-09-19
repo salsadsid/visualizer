@@ -38,7 +38,7 @@ function LogoMark({ className }) {
 export default function SiteHeader() {
     return (
         <header className="sticky top-0 z-40 border-b border-token bg-bg/80 backdrop-blur-md">
-            <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+            <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-2 sm:gap-4">
                 <Link
                     href="/"
                     aria-label="DSA Visualizer — home"
@@ -56,19 +56,19 @@ export default function SiteHeader() {
                 <nav className="flex items-center gap-1 text-sm">
                     <Link
                         href="/algorithms"
-                        className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
+                        className="inline-flex px-2 sm:px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
                     >
                         Algorithms
                     </Link>
                     <Link
                         href="/data-structures/arrays"
-                        className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
+                        className="inline-flex px-2 sm:px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
                     >
                         Arrays
                     </Link>
                     <Link
                         href="/roadmap"
-                        className="inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
+                        className="hidden sm:inline-flex px-3 py-1.5 rounded-lg text-muted hover:text-text hover:bg-bg-muted transition-colors"
                     >
                         Roadmap
                     </Link>
