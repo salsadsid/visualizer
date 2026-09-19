@@ -30,10 +30,11 @@
     --border-strong: #d4d4d8;
 
     /* Accent (indigo) */
-    --accent: #6366f1;
-    --accent-hover: #4f46e5;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
     --accent-soft: #eef2ff;
-    --accent-ring: rgba(99, 102, 241, 0.35);
+    --accent-ring: rgba(79, 70, 229, 0.35);
+    --gradient-from: #6366f1;
 
     /* Chart series — CVD-validated categorical palette (light steps).
        Order is the colorblind-safety mechanism; keep it. See GrowthChart. */
@@ -63,6 +64,7 @@
     --accent-hover: #a5b4fc;
     --accent-soft: rgba(99, 102, 241, 0.12);
     --accent-ring: rgba(129, 140, 248, 0.4);
+    --gradient-from: #818cf8;
 
     /* Chart series — same categorical hues stepped for the dark surface. */
     --series-1: #3987e5;
@@ -304,7 +306,7 @@
 }
 
 .text-gradient {
-  background-image: linear-gradient(120deg, var(--accent), #a855f7 45%, #ec4899 85%);
+  background-image: linear-gradient(120deg, var(--gradient-from), #a855f7 45%, #ec4899 85%);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
