@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import PageShell from "@/components/layout/PageShell";
 import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
@@ -9,6 +9,7 @@ import ColorSettings from "@/components/array/ColorSettings";
 import LearningPanel from "@/components/array/LearningPanel";
 import { PRESETS, formatMatrix } from "@/lib/array/presets";
 import { parseInput } from "@/lib/array/parser";
+import { track } from "@/lib/analytics";
 
 export default function TwoDArrayVisualizer() {
     // Start on the chess board rather than a blank textarea: the beginner sees a grid
@@ -18,6 +19,7 @@ export default function TwoDArrayVisualizer() {
     );
     const [colors, setColors] = useState({});
     const [showIndices, setShowIndices] = useState(false);
+    const editedRef = useRef(false);
 
     const { matrix, maxLen, error, note } = useMemo(
         () => parseInput(inputValue),
@@ -29,7 +31,16 @@ export default function TwoDArrayVisualizer() {
     const applyPreset = (key) => {
         const preset = PRESETS[key];
         if (!preset) return;
+        track("preset_select", { tool: "arrays", preset: key });
         setInputValue(formatMatrix(preset.build()));
+    };
+
+    const handleInput = (value) => {
+        if (!editedRef.current) {
+            editedRef.current = true;
+            track("custom_input", { tool: "arrays" });
+        }
+        setInputValue(value);
     };
 
     const setColor = (key, value) => {
@@ -63,7 +74,7 @@ export default function TwoDArrayVisualizer() {
                     value={inputValue}
                     error={error}
                     note={note}
-                    onChange={setInputValue}
+                    onChange={handleInput}
                     onPreset={applyPreset}
                 />
                 <ArrayGrid

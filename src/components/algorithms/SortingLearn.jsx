@@ -166,5 +166,5 @@ export default function SortingLearn({ algo }) {
             content: <CodeTabs languages={LANGUAGES} groups={SORT_CODE[algo]} />,
         },
     ];
-    return <LearningTabs heading="Learn sorting" tabs={tabs} />;
+    return <LearningTabs heading="Learn sorting" tabs={tabs} tool="sorting" />;
 }

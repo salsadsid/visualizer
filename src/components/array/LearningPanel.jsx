@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { LANGUAGES, SNIPPETS } from "@/lib/array/snippets";
+import { track } from "@/lib/analytics";
 
 const TABS = [
     { id: "concept", label: "Concept" },
@@ -137,6 +138,11 @@ export default function LearningPanel() {
     const [active, setActive] = useState("concept");
     const ActiveComp = PANELS[active];
 
+    const selectTab = (id) => {
+        track("learn_tab", { tool: "arrays", tab: id });
+        setActive(id);
+    };
+
     return (
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4 gap-3">
@@ -153,7 +159,7 @@ export default function LearningPanel() {
                     <button
                         key={tab.id}
                         type="button"
-                        onClick={() => setActive(tab.id)}
+                        onClick={() => selectTab(tab.id)}
                         className={cn(
                             "px-3 py-2 text-sm font-medium transition-colors relative -mb-px border-b-2 focus-ring",
                             active === tab.id
