@@ -1,6 +1,7 @@
 import Link from "next/link";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import { TOOLS } from "@/lib/catalog";
+import { siteConfig } from "@/lib/site";
 
 const SECTIONS = [
     { path: "/data-structures", title: "Data Structures" },
@@ -24,6 +25,20 @@ export default function Footer() {
                     </Link>
                 ))}
             </nav>
+            <p className="mb-5 text-sm text-muted text-center sm:text-left">
+                Using this in a class?{" "}
+                <TrackedLink
+                    external
+                    event="feedback_click"
+                    params={{ from: "footer" }}
+                    href={siteConfig.feedbackUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-accent hover:text-accent-hover"
+                >
+                    Tell me what you need →
+                </TrackedLink>
+            </p>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
                 <div className="flex items-center gap-1.5 text-muted">
                     <span>&copy; {new Date().getFullYear()}</span>

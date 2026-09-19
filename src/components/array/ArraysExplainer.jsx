@@ -1,4 +1,6 @@
 import Link from "next/link";
+import TrackedLink from "@/components/analytics/TrackedLink";
+import { siteConfig } from "@/lib/site";
 import {
     CodeBlock,
     Explainer,
@@ -160,6 +162,20 @@ matrix[1][2] → 9`}</CodeBlock>
                     </li>
                     <li>Rows of different lengths are padded so you can see where they end.</li>
                 </ul>
+                <p>
+                    Teaching with this tool?{" "}
+                    <TrackedLink
+                        external
+                        event="feedback_click"
+                        params={{ from: "arrays_explainer" }}
+                        href={siteConfig.feedbackUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-accent hover:text-accent-hover"
+                    >
+                        Tell me what would help your class →
+                    </TrackedLink>
+                </p>
             </ExplainerSection>
 
             <Faq items={FAQS} />
