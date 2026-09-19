@@ -32,9 +32,6 @@ export const metadata = {
   creator: siteConfig.author.name,
   publisher: siteConfig.author.name,
   category: "education",
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
