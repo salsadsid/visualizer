@@ -2,20 +2,15 @@ import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
+import TrackedLink from "@/components/analytics/TrackedLink";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = buildMetadata({
     title: "Algorithms",
     description:
-        "Interactive, beginner-friendly algorithm visualizers. Step through sorting algorithms with animated bars, pseudocode, and live stats. More techniques on the way.",
-    alternates: { canonical: "/algorithms" },
-    openGraph: {
-        title: "Algorithms · DSA Visualizer",
-        description:
-            "Step-through algorithm visualizers with animated bars, pseudocode, and live stats.",
-        url: "/algorithms",
-        type: "website",
-    },
-};
+        "Beginner-friendly algorithm visualizers. Step through sorting with animated bars, synced pseudocode and live stats, or measure Big-O growth for real.",
+    path: "/algorithms",
+});
 
 const BarsIcon = (
     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -36,6 +31,7 @@ const CurveIcon = (
 
 const SHIPPED = [
     {
+        tool: "complexity",
         href: "/algorithms/complexity",
         title: "Big-O Playground",
         badge: "Start here",
@@ -44,6 +40,7 @@ const SHIPPED = [
         icon: CurveIcon,
     },
     {
+        tool: "sorting",
         href: "/algorithms/sorting",
         title: "Sorting",
         badge: "Live",
@@ -83,9 +80,11 @@ export default function AlgorithmsHome() {
 
             <section className="grid sm:grid-cols-2 gap-4">
                 {SHIPPED.map((item) => (
-                    <Link
+                    <TrackedLink
                         key={item.href}
                         href={item.href}
+                        event="tool_open"
+                        params={{ tool: item.tool, from: "algorithms_hub" }}
                         className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                     >
                         <div className="flex items-center justify-between mb-3">
@@ -115,7 +114,7 @@ export default function AlgorithmsHome() {
                                 </span>
                             ))}
                         </div>
-                    </Link>
+                    </TrackedLink>
                 ))}
 
                 <div className="surface-muted rounded-2xl p-6 border-dashed">

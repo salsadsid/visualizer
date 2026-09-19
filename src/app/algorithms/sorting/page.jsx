@@ -11,9 +11,11 @@ import Pseudocode from "@/components/algorithms/Pseudocode";
 import ArrayControls from "@/components/algorithms/ArrayControls";
 import SortingLearn from "@/components/algorithms/SortingLearn";
 import { usePlayer } from "@/components/algorithms/usePlayer";
+import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
 import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
 import { ARRAY_PRESETS, DEFAULT_VALUES } from "@/lib/algorithms/presets";
 import { ROLE_STYLES } from "@/lib/algorithms/roles";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 
 const Kbd = ({ children }) => (
@@ -30,7 +32,8 @@ export default function SortingVisualizer() {
 
     const sorter = SORTERS[algoKey];
     const steps = useMemo(() => sorter.run(values).steps, [sorter, values]);
-    const player = usePlayer(steps);
+    const basePlayer = usePlayer(steps);
+    const player = usePlayerAnalytics(basePlayer, "sorting", algoKey);
     const step = player.step;
 
     // Keyboard shortcuts: space = play/pause, arrows = step. Bound once via a ref so
@@ -59,11 +62,17 @@ export default function SortingVisualizer() {
         return () => window.removeEventListener("keydown", onKey);
     }, []);
 
+    const selectAlgo = (key) => {
+        track("algo_select", { tool: "sorting", algo: key });
+        setAlgoKey(key);
+    };
     const applyPreset = (key) => {
+        track("preset_select", { tool: "sorting", preset: key });
         setPresetKey(key);
         setValues(ARRAY_PRESETS[key].build(size));
     };
     const shuffle = () => {
+        track("preset_select", { tool: "sorting", preset: "shuffle" });
         setPresetKey("random");
         setValues(ARRAY_PRESETS.random.build(size));
     };
@@ -74,6 +83,7 @@ export default function SortingVisualizer() {
         setValues(ARRAY_PRESETS[key].build(n));
     };
     const useCustom = (vals) => {
+        track("custom_input", { tool: "sorting", size: vals.length });
         setPresetKey(null);
         setSize(vals.length);
         setValues(vals);
@@ -111,7 +121,7 @@ export default function SortingVisualizer() {
                         type="button"
                         role="tab"
                         aria-selected={algoKey === s.key}
-                        onClick={() => setAlgoKey(s.key)}
+                        onClick={() => selectAlgo(s.key)}
                         className={cn(
                             "px-4 py-2 rounded-xl text-sm font-medium border transition-all focus-ring hover:scale-105 active:scale-95",
                             algoKey === s.key
@@ -128,7 +138,7 @@ export default function SortingVisualizer() {
             </p>
 
             <div className="grid lg:grid-cols-[1fr_360px] gap-5">
-                <div className="surface rounded-2xl p-5 md:p-6 shadow-sm relative overflow-hidden">
+                <div className="surface rounded-2xl p-5 md:p-6 shadow-sm relative overflow-hidden min-w-0">
                     <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
                     <div
                         aria-hidden="true"
@@ -150,7 +160,7 @@ export default function SortingVisualizer() {
                     </div>
                 </div>
 
-                <div className="surface rounded-2xl p-5 shadow-sm space-y-4">
+                <div className="surface rounded-2xl p-5 shadow-sm space-y-4 min-w-0">
                     <div className="flex items-center justify-between">
                         <h3 className="text-sm font-semibold">Pseudocode</h3>
                         <span className="text-[11px] px-2 py-0.5 rounded surface-muted text-subtle font-mono">

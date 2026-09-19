@@ -2,12 +2,14 @@
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { usePlayer } from "./usePlayer";
+import { usePlayerAnalytics } from "./usePlayerAnalytics";
 import PlayerControls from "./PlayerControls";
 import Pseudocode from "./Pseudocode";
 import Confetti from "./Confetti";
 import { LOOP_DEMOS } from "@/lib/algorithms/loopDemos";
 import { CLASS_BY_ID } from "@/lib/algorithms/complexity";
 import { barClass, pointerClass } from "@/lib/algorithms/roles";
+import { track } from "@/lib/analytics";
 
 // A row of numbered boxes the current demo walks over. Roles reuse the sorting
 // color language: amber = "the computer is here now", emerald = already counted,
@@ -58,6 +60,7 @@ export default function LoopLab() {
     const [prevKey, setPrevKey] = useState(demoKey);
     const demo = LOOP_DEMOS.find((d) => d.key === demoKey);
     const player = usePlayer(demo.steps);
+    const trackedPlayer = usePlayerAnalytics(player, "complexity", demoKey);
     const step = player.step;
     const cls = CLASS_BY_ID[demo.classId];
 
@@ -69,6 +72,11 @@ export default function LoopLab() {
     if (!switching && player.atEnd && !revealed.has(demoKey)) {
         setRevealed(new Set(revealed).add(demoKey));
     }
+
+    const selectDemo = (key) => {
+        track("algo_select", { tool: "complexity", algo: key });
+        setDemoKey(key);
+    };
 
     return (
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm">
@@ -92,7 +100,7 @@ export default function LoopLab() {
                             key={d.key}
                             type="button"
                             aria-pressed={on}
-                            onClick={() => setDemoKey(d.key)}
+                            onClick={() => selectDemo(d.key)}
                             className={cn(
                                 "inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium border transition-all focus-ring hover:scale-105 active:scale-95",
                                 on
@@ -124,7 +132,7 @@ export default function LoopLab() {
             <p className="text-base text-muted mb-4">{demo.blurb}</p>
 
             <div className="grid lg:grid-cols-[1fr_320px] gap-5">
-                <div className="relative rounded-xl border border-token bg-bg-subtle/50 p-4 sm:p-5 space-y-4 overflow-hidden">
+                <div className="relative rounded-xl border border-token bg-bg-subtle/50 p-4 sm:p-5 space-y-4 overflow-hidden min-w-0">
                     <Confetti active={player.atEnd} count={30} />
                     <BoxRow
                         count={demo.cellCount}
@@ -158,10 +166,10 @@ export default function LoopLab() {
                         </div>
                     </div>
 
-                    <PlayerControls player={player} />
+                    <PlayerControls player={trackedPlayer} />
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3 min-w-0">
                     <div className="flex items-center justify-between">
                         <h4 className="text-sm font-semibold">The loop</h4>
                         <span

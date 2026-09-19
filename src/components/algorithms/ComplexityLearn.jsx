@@ -19,8 +19,8 @@ function Classes() {
     return (
         <div className="grid sm:grid-cols-2 gap-3">
             {COMPLEXITY_CLASSES.map((c) => (
-                <div key={c.id} className="surface-muted rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-1.5">
+                <div key={c.id} className="surface-muted rounded-xl p-4 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
                         <span
                             className="h-3 w-3 rounded-sm shrink-0"
                             style={{ background: c.color }}
@@ -154,5 +154,5 @@ export default function ComplexityLearn() {
         { id: "scales", label: "How it scales", content: <Scales /> },
         { id: "code", label: "Code", content: <CodePanel /> },
     ];
-    return <LearningTabs heading="The speed classes" tabs={tabs} />;
+    return <LearningTabs heading="The speed classes" tabs={tabs} tool="complexity" />;
 }

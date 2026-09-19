@@ -1,4 +1,5 @@
 import Link from "next/link";
+import TrackedLink from "@/components/analytics/TrackedLink";
 
 export default function Footer() {
     return (
@@ -22,7 +23,10 @@ export default function Footer() {
                     >
                         Roadmap
                     </Link>
-                    <a
+                    <TrackedLink
+                        external
+                        event="github_click"
+                        params={{ from: "footer" }}
                         href="https://github.com/salsadsid/visualizer"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -41,7 +45,7 @@ export default function Footer() {
                             />
                         </svg>
                         GitHub
-                    </a>
+                    </TrackedLink>
                 </div>
             </div>
         </footer>

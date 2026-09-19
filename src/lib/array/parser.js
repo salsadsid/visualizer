@@ -2,7 +2,7 @@ export const PAD_TOKEN = "·";
 
 export function parseInput(raw) {
     if (!raw || raw.trim() === "") {
-        return { matrix: [], maxLen: 0, error: null };
+        return { matrix: [], maxLen: 0, error: null, note: null };
     }
 
     let parsed;
@@ -13,6 +13,7 @@ export function parseInput(raw) {
             matrix: [],
             maxLen: 0,
             error: "Hmm, that doesn't parse — check your brackets and commas. Try: [[1, 0], [0, 1]] ✏️",
+            note: null,
         };
     }
 
@@ -21,11 +22,18 @@ export function parseInput(raw) {
             matrix: [],
             maxLen: 0,
             error: "Almost! A grid needs square brackets around it — [[1, 2], [3, 4]] is 2 rows of 2.",
+            note: null,
         };
     }
 
     if (parsed.length === 0) {
-        return { matrix: [], maxLen: 0, error: null };
+        return { matrix: [], maxLen: 0, error: null, note: null };
+    }
+
+    let note = null;
+    if (!parsed.some((row) => Array.isArray(row))) {
+        parsed = [parsed];
+        note = "That's a 1D array — shown here as a single row. Add more rows, like [[1, 2], [3, 4]], to build a grid.";
     }
 
     const is2D = parsed.every((row) => Array.isArray(row));
@@ -34,6 +42,7 @@ export function parseInput(raw) {
             matrix: [],
             maxLen: 0,
             error: "Almost! Wrap each row in its own brackets — [[1, 2], [3, 4]] is 2 rows of 2.",
+            note: null,
         };
     }
 
@@ -49,6 +58,7 @@ export function parseInput(raw) {
             matrix: [],
             maxLen: 0,
             error: 'Cells can hold numbers, text, true/false, or null — nothing fancier. Try: [["a", 1], [true, null]] ✏️',
+            note: null,
         };
     }
 
@@ -59,7 +69,7 @@ export function parseInput(raw) {
         return [...row, ...Array(maxLen - row.length).fill(PAD_TOKEN)];
     });
 
-    return { matrix: padded, maxLen, error: null };
+    return { matrix: padded, maxLen, error: null, note };
 }
 
 export function uniqueValues(matrix) {

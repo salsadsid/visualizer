@@ -75,7 +75,7 @@ export default function PlayerControls({ player }) {
                 </span>
             </div>
 
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
                 <div className="flex items-center gap-1.5">
                     <ControlButton onClick={reset} label="Reset" disabled={atStart && !playing}>
                         <Icon d={PATHS.reset} />

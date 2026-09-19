@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import PageShell from "@/components/layout/PageShell";
 import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
@@ -9,6 +9,7 @@ import ColorSettings from "@/components/array/ColorSettings";
 import LearningPanel from "@/components/array/LearningPanel";
 import { PRESETS, formatMatrix } from "@/lib/array/presets";
 import { parseInput } from "@/lib/array/parser";
+import { track } from "@/lib/analytics";
 
 export default function TwoDArrayVisualizer() {
     // Start on the chess board rather than a blank textarea: the beginner sees a grid
@@ -18,8 +19,9 @@ export default function TwoDArrayVisualizer() {
     );
     const [colors, setColors] = useState({});
     const [showIndices, setShowIndices] = useState(false);
+    const editedRef = useRef(false);
 
-    const { matrix, maxLen, error } = useMemo(
+    const { matrix, maxLen, error, note } = useMemo(
         () => parseInput(inputValue),
         [inputValue]
     );
@@ -29,7 +31,16 @@ export default function TwoDArrayVisualizer() {
     const applyPreset = (key) => {
         const preset = PRESETS[key];
         if (!preset) return;
+        track("preset_select", { tool: "arrays", preset: key });
         setInputValue(formatMatrix(preset.build()));
+    };
+
+    const handleInput = (value) => {
+        if (!editedRef.current) {
+            editedRef.current = true;
+            track("custom_input", { tool: "arrays" });
+        }
+        setInputValue(value);
     };
 
     const setColor = (key, value) => {
@@ -45,14 +56,14 @@ export default function TwoDArrayVisualizer() {
             <header className="mb-8 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">
                     <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-accent text-white">
-                        [[2D]]
+                        GRID
                     </span>
                     <h1 className="text-xl md:text-2xl font-semibold tracking-tight">
-                        Array Visualizer
+                        2D Array Visualizer
                     </h1>
                 </div>
                 <p className="mt-3 text-base text-muted max-w-lg mx-auto">
-                    Type or paste a grid of values — like{" "}
+                    Type or paste a 2D array or matrix — like{" "}
                     <code className="font-mono text-accent">[[1, 0], [0, 1]]</code> — or
                     start from a preset. Then color the cells.
                 </p>
@@ -62,7 +73,8 @@ export default function TwoDArrayVisualizer() {
                 <InputPanel
                     value={inputValue}
                     error={error}
-                    onChange={setInputValue}
+                    note={note}
+                    onChange={handleInput}
                     onPreset={applyPreset}
                 />
                 <ArrayGrid

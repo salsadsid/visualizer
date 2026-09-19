@@ -32,12 +32,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
 
 # blog drafts (not part of the app)
 /blog/
+
+# internal plans (not part of the app)
+/docs/plans/
 
 # typescript
 *.tsbuildinfo

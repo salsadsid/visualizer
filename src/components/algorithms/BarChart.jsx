@@ -45,12 +45,17 @@ export default function BarChart({ array, highlights = {}, pointers = {}, done =
             </div>
 
             {showLabels && (
-                <div className="flex gap-1 sm:gap-1.5 mt-1.5">
+                <div
+                    className={cn(
+                        "flex gap-1 sm:gap-1.5 mt-1.5",
+                        array.length > 16 && "max-sm:hidden"
+                    )}
+                >
                     {array.map((v, i) => (
                         <div
                             key={i}
                             className={cn(
-                                "flex-1 text-center text-[11px] sm:text-xs font-mono tabular-nums",
+                                "flex-1 min-w-0 flex justify-center text-[11px] sm:text-xs font-mono tabular-nums",
                                 highlights[i] && highlights[i] !== "sorted"
                                     ? "text-text font-semibold"
                                     : "text-subtle"
@@ -71,7 +76,7 @@ export default function BarChart({ array, highlights = {}, pointers = {}, done =
                         return (
                             <div
                                 key={i}
-                                className="flex-1 flex flex-col items-center gap-0.5"
+                                className="flex-1 min-w-0 flex flex-col items-center gap-0.5"
                             >
                                 {names.map((name) => (
                                     <span

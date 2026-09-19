@@ -4,6 +4,7 @@ export default function StatsRow({ stats, message }) {
     const items = [
         {
             label: "Comparisons",
+            short: "Compares",
             value: stats.comparisons,
             hint: "Times two values were compared",
         },
@@ -31,7 +32,7 @@ export default function StatsRow({ stats, message }) {
                     <div
                         key={it.label}
                         title={it.hint}
-                        className="surface-muted rounded-xl px-3 py-2 text-center"
+                        className="surface-muted rounded-xl px-1.5 sm:px-3 py-2 text-center"
                     >
                         <div className="text-lg font-bold tabular-nums text-text">
                             <span key={it.value} className="inline-block animate-pop">
@@ -39,7 +40,8 @@ export default function StatsRow({ stats, message }) {
                             </span>
                         </div>
                         <div className="text-[11px] uppercase tracking-wide text-subtle">
-                            {it.label}
+                            <span className="sm:hidden">{it.short || it.label}</span>
+                            <span className="max-sm:hidden">{it.label}</span>
                         </div>
                     </div>
                 ))}

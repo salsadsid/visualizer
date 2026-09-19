@@ -7,11 +7,12 @@ export const siteConfig = {
     tagline: "Data structures & algorithms, brought to life",
     title: "DSA Visualizer · Interactive 2D Array Playground",
     description:
-        "Free interactive data structures & algorithms visualizer. Step through Bubble, Selection, and Insertion sort, paste any JSON matrix and color it by value, and learn with built-in C++, Python, JavaScript, and TypeScript code.",
+        "Free interactive DSA visualizer: a 2D array & matrix visualizer, step-by-step sorting animations with live code, and a Big-O playground. No sign-up.",
     author: {
         name: "Salman Sadik Siddiquee",
         url: "https://github.com/salsadsid",
         github: "salsadsid",
+        x: "salsadsid",
     },
     repo: "https://github.com/salsadsid/visualizer",
     keywords: [

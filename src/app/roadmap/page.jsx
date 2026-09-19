@@ -1,6 +1,7 @@
 import PageShell from "@/components/layout/PageShell";
 import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
+import { buildMetadata } from "@/lib/seo";
 
 const ROADMAP = [
     {
@@ -44,19 +45,12 @@ const STATUS_BADGE = {
     planned: "bg-bg-muted text-text-muted border-token",
 };
 
-export const metadata = {
+export const metadata = buildMetadata({
     title: "Roadmap",
     description:
         "What's shipped and what's planned for the DSA Visualizer: data structures, algorithms, and learning content.",
-    alternates: { canonical: "/roadmap" },
-    openGraph: {
-        title: "Roadmap · DSA Visualizer",
-        description:
-            "Shipped and planned visualizers for data structures and algorithms.",
-        url: "/roadmap",
-        type: "website",
-    },
-};
+    path: "/roadmap",
+});
 
 export default function RoadmapPage() {
     return (

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
+import { track } from "@/lib/analytics";
 
 // Reusable language-tabbed code viewer. `groups` is { langId: [{ title, code }] }.
 export function CodeTabs({ languages, groups }) {
@@ -50,9 +51,14 @@ export function CodeTabs({ languages, groups }) {
 }
 
 // Generic tabbed learning panel. `tabs` is [{ id, label, content }].
-export default function LearningTabs({ heading = "Learn", tabs }) {
+export default function LearningTabs({ heading = "Learn", tabs, tool }) {
     const [active, setActive] = useState(tabs[0].id);
     const current = tabs.find((t) => t.id === active) || tabs[0];
+
+    const selectTab = (id) => {
+        track("learn_tab", { tool, tab: id });
+        setActive(id);
+    };
 
     return (
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm">
@@ -78,7 +84,7 @@ export default function LearningTabs({ heading = "Learn", tabs }) {
                     <button
                         key={tab.id}
                         type="button"
-                        onClick={() => setActive(tab.id)}
+                        onClick={() => selectTab(tab.id)}
                         className={cn(
                             "px-3 py-2 text-sm font-medium transition-colors relative -mb-px border-b-2 focus-ring",
                             active === tab.id

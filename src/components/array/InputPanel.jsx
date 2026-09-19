@@ -2,7 +2,7 @@
 import { PRESETS, ACCENT_CLASSES } from "@/lib/array/presets";
 import { cn } from "@/lib/cn";
 
-export default function InputPanel({ value, error, onChange, onPreset }) {
+export default function InputPanel({ value, error, note, onChange, onPreset }) {
     return (
         <div className="surface rounded-2xl p-5 flex flex-col h-full shadow-sm">
             <div className="flex items-center justify-between mb-4">
@@ -64,6 +64,25 @@ export default function InputPanel({ value, error, onChange, onPreset }) {
                         />
                     </svg>
                     <span>{error}</span>
+                </div>
+            )}
+
+            {!error && note && (
+                <div className="mt-3 px-3 py-2 rounded-lg bg-accent-soft border border-accent/20 flex items-start gap-2 text-accent text-xs">
+                    <svg
+                        className="w-4 h-4 shrink-0 mt-0.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    <span>{note}</span>
                 </div>
             )}
         </div>
