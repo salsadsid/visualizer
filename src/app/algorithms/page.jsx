@@ -2,20 +2,14 @@ import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = buildMetadata({
     title: "Algorithms",
     description:
         "Interactive, beginner-friendly algorithm visualizers. Step through sorting algorithms with animated bars, pseudocode, and live stats. More techniques on the way.",
-    alternates: { canonical: "/algorithms" },
-    openGraph: {
-        title: "Algorithms · DSA Visualizer",
-        description:
-            "Step-through algorithm visualizers with animated bars, pseudocode, and live stats.",
-        url: "/algorithms",
-        type: "website",
-    },
-};
+    path: "/algorithms",
+});
 
 const BarsIcon = (
     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

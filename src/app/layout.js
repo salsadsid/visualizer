@@ -56,7 +56,7 @@ export const metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     images: ["/opengraph-image"],
-    creator: `@${siteConfig.author.github}`,
+    creator: `@${siteConfig.author.x}`,
   },
   robots: {
     index: true,

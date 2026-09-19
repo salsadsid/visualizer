@@ -12,6 +12,7 @@ export const siteConfig = {
         name: "Salman Sadik Siddiquee",
         url: "https://github.com/salsadsid",
         github: "salsadsid",
+        x: "salsadsid",
     },
     repo: "https://github.com/salsadsid/visualizer",
     keywords: [
