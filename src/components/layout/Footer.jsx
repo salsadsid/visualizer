@@ -1,9 +1,29 @@
 import Link from "next/link";
 import TrackedLink from "@/components/analytics/TrackedLink";
+import { TOOLS } from "@/lib/catalog";
+
+const SECTIONS = [
+    { path: "/data-structures", title: "Data Structures" },
+    { path: "/algorithms", title: "Algorithms" },
+];
 
 export default function Footer() {
     return (
         <footer className="mt-12 border-t border-token pt-6 pb-2">
+            <nav
+                aria-label="Tools"
+                className="flex flex-wrap items-center justify-center sm:justify-start gap-x-5 gap-y-2 mb-5 text-sm"
+            >
+                {[...Object.values(TOOLS), ...SECTIONS].map((item) => (
+                    <Link
+                        key={item.path}
+                        href={item.path}
+                        className="text-muted hover:text-text transition-colors"
+                    >
+                        {item.title}
+                    </Link>
+                ))}
+            </nav>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
                 <div className="flex items-center gap-1.5 text-muted">
                     <span>&copy; {new Date().getFullYear()}</span>

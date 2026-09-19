@@ -1,7 +1,7 @@
-import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
+import NextStep from "@/components/layout/NextStep";
 import LoopLab from "@/components/algorithms/LoopLab";
 import PhoneBookRace from "@/components/algorithms/PhoneBookRace";
 import ComplexityPlayground from "@/components/algorithms/ComplexityPlayground";
@@ -109,15 +109,15 @@ export default function ComplexityPage() {
                 </div>
             </div>
 
-            <p className="mt-8 text-center text-base text-muted">
-                Want to see an O(n²) algorithm actually move?{" "}
-                <Link
-                    href="/algorithms/sorting"
-                    className="text-accent hover:text-accent-hover font-medium"
-                >
-                    Step through a sort in the Sorting Visualizer →
-                </Link>
-            </p>
+            <NextStep
+                href="/algorithms/sorting"
+                label="Open the Sorting Visualizer"
+                tool="sorting"
+                from="complexity_next"
+            >
+                Want to see an O(n²) algorithm actually move? Step through a sort one
+                comparison at a time and watch the counters climb.
+            </NextStep>
 
             <Footer />
         </PageShell>

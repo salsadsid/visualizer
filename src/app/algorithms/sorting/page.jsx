@@ -1,6 +1,7 @@
 import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
+import NextStep from "@/components/layout/NextStep";
 import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
 import SortingExplainer from "@/components/algorithms/SortingExplainer";
 import JsonLd from "@/components/seo/JsonLd";
@@ -31,6 +32,16 @@ export default function SortingPage() {
             <SortingVisualizer />
 
             <SortingExplainer />
+
+            <NextStep
+                href="/data-structures/arrays"
+                label="Open the 2D Array Visualizer"
+                tool="arrays"
+                from="sorting_next"
+            >
+                Sorting works on a single row of values. Next, see what changes when your
+                data has rows <em>and</em> columns.
+            </NextStep>
 
             <Footer />
         </PageShell>

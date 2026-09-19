@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import LearningTabs, { CodeTabs } from "./LearningTabs";
+import TrackedLink from "@/components/analytics/TrackedLink";
 import { LANGUAGES } from "@/lib/algorithms/snippets";
 import {
     COMPLEXITY_CLASSES,
@@ -53,6 +54,16 @@ function Classes() {
                     <p className="text-xs text-subtle mt-2 leading-relaxed">
                         Seen in: {c.seenIn}
                     </p>
+                    {c.link && (
+                        <TrackedLink
+                            href={c.link.href}
+                            event="tool_open"
+                            params={{ tool: "sorting", from: "complexity_class_card" }}
+                            className="inline-block mt-2 text-sm font-medium text-accent hover:text-accent-hover"
+                        >
+                            {c.link.label} →
+                        </TrackedLink>
+                    )}
                 </div>
             ))}
         </div>

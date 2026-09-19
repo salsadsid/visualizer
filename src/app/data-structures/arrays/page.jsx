@@ -1,6 +1,7 @@
 import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
+import NextStep from "@/components/layout/NextStep";
 import ArrayVisualizer from "@/components/array/ArrayVisualizer";
 import LearningPanel from "@/components/array/LearningPanel";
 import ArraysExplainer from "@/components/array/ArraysExplainer";
@@ -37,6 +38,16 @@ export default function ArraysPage() {
             </div>
 
             <ArraysExplainer />
+
+            <NextStep
+                href="/algorithms/complexity"
+                label="Open the Big-O Playground"
+                tool="complexity"
+                from="arrays_next"
+            >
+                Visiting every cell took rows × columns steps. Curious how that kind of
+                growth compares with other algorithms? Measure it for real.
+            </NextStep>
 
             <Footer />
         </PageShell>
