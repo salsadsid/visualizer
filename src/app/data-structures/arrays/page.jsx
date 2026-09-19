@@ -19,7 +19,7 @@ export default function TwoDArrayVisualizer() {
     const [colors, setColors] = useState({});
     const [showIndices, setShowIndices] = useState(false);
 
-    const { matrix, maxLen, error } = useMemo(
+    const { matrix, maxLen, error, note } = useMemo(
         () => parseInput(inputValue),
         [inputValue]
     );
@@ -62,6 +62,7 @@ export default function TwoDArrayVisualizer() {
                 <InputPanel
                     value={inputValue}
                     error={error}
+                    note={note}
                     onChange={setInputValue}
                     onPreset={applyPreset}
                 />
