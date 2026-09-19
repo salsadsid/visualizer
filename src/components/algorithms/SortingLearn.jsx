@@ -1,4 +1,5 @@
 "use client";
+import { memo } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import LearningTabs, { CodeTabs } from "./LearningTabs";
@@ -155,7 +156,7 @@ function Complexity({ algo }) {
     );
 }
 
-export default function SortingLearn({ algo }) {
+function SortingLearn({ algo }) {
     const tabs = [
         { id: "concept", label: "Concept", content: <Concept /> },
         { id: "uses", label: "Use cases", content: <Uses /> },
@@ -168,3 +169,5 @@ export default function SortingLearn({ algo }) {
     ];
     return <LearningTabs heading="Learn sorting" tabs={tabs} tool="sorting" />;
 }
+
+export default memo(SortingLearn);
