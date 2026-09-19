@@ -6,6 +6,9 @@ import LoopLab from "@/components/algorithms/LoopLab";
 import PhoneBookRace from "@/components/algorithms/PhoneBookRace";
 import ComplexityPlayground from "@/components/algorithms/ComplexityPlayground";
 import ComplexityLearn from "@/components/algorithms/ComplexityLearn";
+import JsonLd from "@/components/seo/JsonLd";
+import { learningResourceJsonLd } from "@/lib/jsonld";
+import { TOOLS } from "@/lib/catalog";
 
 // Small numbered kicker that walks beginners through the page in order.
 function StepKicker({ n, children }) {
@@ -65,6 +68,7 @@ function BigIdea() {
 export default function ComplexityPage() {
     return (
         <PageShell>
+            <JsonLd data={learningResourceJsonLd(TOOLS.complexity)} />
             <nav className="mb-6">
                 <BackLink href="/algorithms" label="All algorithms" />
             </nav>

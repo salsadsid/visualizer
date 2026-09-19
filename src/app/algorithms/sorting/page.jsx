@@ -2,10 +2,14 @@ import PageShell from "@/components/layout/PageShell";
 import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
 import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
+import JsonLd from "@/components/seo/JsonLd";
+import { learningResourceJsonLd } from "@/lib/jsonld";
+import { TOOLS } from "@/lib/catalog";
 
 export default function SortingPage() {
     return (
         <PageShell>
+            <JsonLd data={learningResourceJsonLd(TOOLS.sorting)} />
             <nav className="mb-6">
                 <BackLink href="/algorithms" label="All algorithms" />
             </nav>

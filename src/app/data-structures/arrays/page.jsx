@@ -3,10 +3,14 @@ import BackLink from "@/components/layout/BackLink";
 import Footer from "@/components/layout/Footer";
 import ArrayVisualizer from "@/components/array/ArrayVisualizer";
 import LearningPanel from "@/components/array/LearningPanel";
+import JsonLd from "@/components/seo/JsonLd";
+import { learningResourceJsonLd } from "@/lib/jsonld";
+import { TOOLS } from "@/lib/catalog";
 
 export default function ArraysPage() {
     return (
         <PageShell>
+            <JsonLd data={learningResourceJsonLd(TOOLS.arrays)} />
             <nav className="mb-6">
                 <BackLink href="/" label="Back to home" />
             </nav>
