@@ -124,7 +124,7 @@ export default function LoopLab() {
             <p className="text-base text-muted mb-4">{demo.blurb}</p>
 
             <div className="grid lg:grid-cols-[1fr_320px] gap-5">
-                <div className="relative rounded-xl border border-token bg-bg-subtle/50 p-4 sm:p-5 space-y-4 overflow-hidden">
+                <div className="relative rounded-xl border border-token bg-bg-subtle/50 p-4 sm:p-5 space-y-4 overflow-hidden min-w-0">
                     <Confetti active={player.atEnd} count={30} />
                     <BoxRow
                         count={demo.cellCount}
@@ -161,7 +161,7 @@ export default function LoopLab() {
                     <PlayerControls player={player} />
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3 min-w-0">
                     <div className="flex items-center justify-between">
                         <h4 className="text-sm font-semibold">The loop</h4>
                         <span
