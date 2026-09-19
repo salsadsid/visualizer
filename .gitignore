@@ -39,6 +39,9 @@ yarn-error.log*
 # blog drafts (not part of the app)
 /blog/
 
+# internal plans (not part of the app)
+/docs/plans/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
