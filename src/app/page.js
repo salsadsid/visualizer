@@ -2,6 +2,7 @@ import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import Footer from "@/components/layout/Footer";
 import HeroDemo from "@/components/algorithms/HeroDemo";
+import TrackedLink from "@/components/analytics/TrackedLink";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = {
@@ -52,6 +53,7 @@ const CurveIcon = (
 const VISUALIZERS = [
     {
         step: 1,
+        tool: "complexity",
         href: "/algorithms/complexity",
         title: "Big-O Playground",
         badge: "Start here",
@@ -60,6 +62,7 @@ const VISUALIZERS = [
     },
     {
         step: 2,
+        tool: "sorting",
         href: "/algorithms/sorting",
         title: "Sorting Visualizer",
         body: "Watch Bubble, Selection & Insertion sort run one step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
@@ -67,6 +70,7 @@ const VISUALIZERS = [
     },
     {
         step: 3,
+        tool: "arrays",
         href: "/data-structures/arrays",
         title: "2D Array Visualizer",
         body: "Paste any JSON matrix, color cells by value, toggle indices, and see how grids map to rows and columns.",
@@ -75,9 +79,9 @@ const VISUALIZERS = [
 ];
 
 const POPULAR = [
-    { href: "/data-structures/arrays", label: "2D Array Visualizer" },
-    { href: "/algorithms/sorting", label: "Bubble Sort" },
-    { href: "/algorithms/complexity", label: "Big-O Playground" },
+    { tool: "arrays", href: "/data-structures/arrays", label: "2D Array Visualizer" },
+    { tool: "sorting", href: "/algorithms/sorting", label: "Bubble Sort" },
+    { tool: "complexity", href: "/algorithms/complexity", label: "Big-O Playground" },
 ];
 
 const FEATURES = [
@@ -133,19 +137,23 @@ export default function HomePage() {
                 <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm">
                     <span className="text-subtle">Popular:</span>
                     {POPULAR.map((item) => (
-                        <Link
+                        <TrackedLink
                             key={item.href}
                             href={item.href}
+                            event="tool_open"
+                            params={{ tool: item.tool, from: "home_popular" }}
                             className="px-3 py-2 rounded-full bg-accent-soft border border-accent/20 font-medium text-accent hover:bg-accent/15 transition-colors focus-ring"
                         >
                             {item.label}
-                        </Link>
+                        </TrackedLink>
                     ))}
                 </div>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-                    <Link
+                    <TrackedLink
                         href="/algorithms/sorting"
+                        event="tool_open"
+                        params={{ tool: "sorting", from: "home_hero" }}
                         className="group px-6 py-3 rounded-xl bg-accent text-white font-medium shadow-sm hover:bg-accent-hover hover:scale-[1.03] active:scale-95 transition-all inline-flex items-center gap-2"
                     >
                         Open Sorting Visualizer
@@ -162,13 +170,15 @@ export default function HomePage() {
                                 d="M13 7l5 5m0 0l-5 5m5-5H6"
                             />
                         </svg>
-                    </Link>
-                    <Link
+                    </TrackedLink>
+                    <TrackedLink
                         href="/algorithms/complexity"
+                        event="tool_open"
+                        params={{ tool: "complexity", from: "home_hero" }}
                         className="px-6 py-3 rounded-xl surface font-medium text-muted hover:text-text hover:scale-[1.03] active:scale-95 transition-all"
                     >
                         New to Big-O? Start here →
-                    </Link>
+                    </TrackedLink>
                 </div>
 
                 <div className="mt-12 max-w-md mx-auto animate-fade-in-up">
@@ -195,9 +205,11 @@ export default function HomePage() {
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {VISUALIZERS.map((v) => (
-                        <Link
+                        <TrackedLink
                             key={v.href}
                             href={v.href}
+                            event="tool_open"
+                            params={{ tool: v.tool, from: "home_cards" }}
                             className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                         >
                             <div className="flex items-center justify-between mb-3">
@@ -222,7 +234,7 @@ export default function HomePage() {
                             <p className="text-base text-muted mt-1 leading-relaxed">
                                 {v.body}
                             </p>
-                        </Link>
+                        </TrackedLink>
                     ))}
                 </div>
             </section>
