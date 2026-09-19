@@ -1,5 +1,5 @@
 import PageShell from "@/components/layout/PageShell";
-import BackLink from "@/components/layout/BackLink";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
 import JsonLd from "@/components/seo/JsonLd";
@@ -10,9 +10,7 @@ export default function SortingPage() {
     return (
         <PageShell>
             <JsonLd data={learningResourceJsonLd(TOOLS.sorting)} />
-            <nav className="mb-6">
-                <BackLink href="/algorithms" label="All algorithms" />
-            </nav>
+            <Breadcrumbs items={[{ name: "Algorithms", path: "/algorithms" }, { name: "Sorting Visualizer" }]} />
 
             <header className="mb-7 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">

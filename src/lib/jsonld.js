@@ -38,3 +38,17 @@ export function learningResourceJsonLd({ title, description, path, teaches }) {
         isPartOf: { "@id": WEBSITE_ID },
     };
 }
+
+export function breadcrumbJsonLd(trail) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: trail.map((entry, index) => {
+            const element = { "@type": "ListItem", position: index + 1, name: entry.name };
+            if (entry.path && index < trail.length - 1) {
+                element.item = `${siteConfig.url}${entry.path}`;
+            }
+            return element;
+        }),
+    };
+}

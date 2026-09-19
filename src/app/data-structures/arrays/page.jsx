@@ -1,5 +1,5 @@
 import PageShell from "@/components/layout/PageShell";
-import BackLink from "@/components/layout/BackLink";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import ArrayVisualizer from "@/components/array/ArrayVisualizer";
 import LearningPanel from "@/components/array/LearningPanel";
@@ -11,9 +11,7 @@ export default function ArraysPage() {
     return (
         <PageShell>
             <JsonLd data={learningResourceJsonLd(TOOLS.arrays)} />
-            <nav className="mb-6">
-                <BackLink href="/" label="Back to home" />
-            </nav>
+            <Breadcrumbs items={[{ name: "Data Structures", path: "/data-structures" }, { name: "2D Array Visualizer" }]} />
 
             <header className="mb-8 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">

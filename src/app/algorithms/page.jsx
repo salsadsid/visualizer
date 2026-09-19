@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
-import BackLink from "@/components/layout/BackLink";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import { buildMetadata } from "@/lib/seo";
@@ -64,9 +64,7 @@ const COMING = [
 export default function AlgorithmsHome() {
     return (
         <PageShell max="max-w-4xl">
-            <nav className="mb-8">
-                <BackLink href="/" label="Back to home" />
-            </nav>
+            <Breadcrumbs className="mb-8" items={[{ name: "Algorithms" }]} />
 
             <header className="mb-10 text-center">
                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gradient animate-gradient inline-block pb-1">

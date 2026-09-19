@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
-import BackLink from "@/components/layout/BackLink";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import LoopLab from "@/components/algorithms/LoopLab";
 import PhoneBookRace from "@/components/algorithms/PhoneBookRace";
@@ -69,9 +69,7 @@ export default function ComplexityPage() {
     return (
         <PageShell>
             <JsonLd data={learningResourceJsonLd(TOOLS.complexity)} />
-            <nav className="mb-6">
-                <BackLink href="/algorithms" label="All algorithms" />
-            </nav>
+            <Breadcrumbs items={[{ name: "Algorithms", path: "/algorithms" }, { name: "Big-O Playground" }]} />
 
             <header className="mb-8 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">
