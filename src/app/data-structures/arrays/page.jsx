@@ -3,6 +3,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import ArrayVisualizer from "@/components/array/ArrayVisualizer";
 import LearningPanel from "@/components/array/LearningPanel";
+import ArraysExplainer from "@/components/array/ArraysExplainer";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
 import { TOOLS } from "@/lib/catalog";
@@ -34,6 +35,8 @@ export default function ArraysPage() {
             <div className="mt-5">
                 <LearningPanel />
             </div>
+
+            <ArraysExplainer />
 
             <Footer />
         </PageShell>
