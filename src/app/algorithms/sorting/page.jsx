@@ -2,6 +2,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
+import SortingExplainer from "@/components/algorithms/SortingExplainer";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
 import { TOOLS } from "@/lib/catalog";
@@ -28,6 +29,8 @@ export default function SortingPage() {
             </header>
 
             <SortingVisualizer />
+
+            <SortingExplainer />
 
             <Footer />
         </PageShell>
