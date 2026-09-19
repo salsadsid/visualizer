@@ -38,14 +38,14 @@ function Concept() {
             </p>
             <div className="grid sm:grid-cols-2 gap-2 pt-1">
                 <div className="surface-muted rounded-lg p-3">
-                    <h4 className="text-sm font-semibold text-text mb-0.5">Stable</h4>
+                    <h3 className="text-sm font-semibold text-text mb-0.5">Stable</h3>
                     <p className="text-sm">
                         Keeps equal values in their original relative order. Bubble &amp;
                         insertion are stable; selection is not.
                     </p>
                 </div>
                 <div className="surface-muted rounded-lg p-3">
-                    <h4 className="text-sm font-semibold text-text mb-0.5">In-place</h4>
+                    <h3 className="text-sm font-semibold text-text mb-0.5">In-place</h3>
                     <p className="text-sm">
                         Sorts within the array itself — no second array needed, so memory
                         stays at O(1).
@@ -85,7 +85,7 @@ function Uses() {
                 <div key={item.title} className="surface-muted rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-1">
                         <span className="text-lg">{item.icon}</span>
-                        <h4 className="text-sm font-semibold">{item.title}</h4>
+                        <h3 className="text-sm font-semibold">{item.title}</h3>
                     </div>
                     <p className="text-sm text-muted leading-relaxed">{item.body}</p>
                 </div>

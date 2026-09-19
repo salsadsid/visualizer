@@ -154,5 +154,5 @@ export default function ComplexityLearn() {
         { id: "scales", label: "How it scales", content: <Scales /> },
         { id: "code", label: "Code", content: <CodePanel /> },
     ];
-    return <LearningTabs heading="The speed classes" tabs={tabs} tool="complexity" />;
+    return <LearningTabs heading="The speed classes" headingLevel="h3" tabs={tabs} tool="complexity" />;
 }

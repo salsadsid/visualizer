@@ -51,7 +51,8 @@ export function CodeTabs({ languages, groups }) {
 }
 
 // Generic tabbed learning panel. `tabs` is [{ id, label, content }].
-export default function LearningTabs({ heading = "Learn", tabs, tool }) {
+export default function LearningTabs({ heading = "Learn", headingLevel = "h2", tabs, tool }) {
+    const Heading = headingLevel;
     const baseId = useId();
     const [active, setActive] = useState(tabs[0].id);
     const activeId = tabs.some((tab) => tab.id === active) ? active : tabs[0].id;
@@ -74,7 +75,7 @@ export default function LearningTabs({ heading = "Learn", tabs, tool }) {
 
     return (
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm">
-            <h3 className="text-base font-semibold flex items-center gap-2 mb-4">
+            <Heading className="text-base font-semibold flex items-center gap-2 mb-4">
                 <svg
                     className="w-4 h-4 text-accent"
                     fill="none"
@@ -89,7 +90,7 @@ export default function LearningTabs({ heading = "Learn", tabs, tool }) {
                     />
                 </svg>
                 {heading}
-            </h3>
+            </Heading>
 
             <div
                 role="tablist"

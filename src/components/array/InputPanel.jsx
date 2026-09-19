@@ -6,10 +6,10 @@ export default function InputPanel({ value, error, note, onChange, onPreset }) {
     return (
         <div className="surface rounded-2xl p-5 flex flex-col h-full shadow-sm">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
+                <h2 className="text-sm font-semibold flex items-center gap-2">
                     <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                     Input
-                </h3>
+                </h2>
                 <span className="font-mono text-[11px] px-2 py-0.5 rounded surface-muted text-subtle">
                     JSON
                 </span>

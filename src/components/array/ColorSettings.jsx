@@ -31,9 +31,9 @@ export default function ColorSettings({ matrix, colors, onColorChange, showIndic
         <div className="surface rounded-2xl p-5 md:p-6 shadow-sm animate-fade-in-up">
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="md:w-1/3 md:border-r md:border-token md:pr-6">
-                    <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider mb-4">
+                    <h2 className="text-xs font-semibold text-subtle uppercase tracking-wider mb-4">
                         Base styling
-                    </h3>
+                    </h2>
                     <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
                         <Swatch
                             label="Border"
@@ -59,12 +59,12 @@ export default function ColorSettings({ matrix, colors, onColorChange, showIndic
                 </div>
 
                 <div className="md:w-2/3">
-                    <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider mb-4">
+                    <h2 className="text-xs font-semibold text-subtle uppercase tracking-wider mb-4">
                         Element colors
                         <span className="ml-2 font-mono normal-case text-subtle/70">
                             ({values.length} unique)
                         </span>
-                    </h3>
+                    </h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                         {values.map((value, i) => {
                             const k = cellKey(value);

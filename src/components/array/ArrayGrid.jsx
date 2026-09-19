@@ -19,7 +19,7 @@ const EmptyState = () => (
                 />
             </svg>
         </div>
-        <h3 className="text-base font-semibold">Ready to visualize</h3>
+        <h2 className="text-base font-semibold">Ready to visualize</h2>
         <p className="text-sm text-muted">
             Paste a 2D array on the left or pick a preset to see it rendered as a grid.
         </p>

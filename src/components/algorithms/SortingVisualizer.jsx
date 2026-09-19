@@ -144,16 +144,16 @@ export default function SortingVisualizer() {
 
                 <div className="surface rounded-2xl p-5 shadow-sm space-y-4 min-w-0">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-semibold">Pseudocode</h3>
+                        <h2 className="text-sm font-semibold">Pseudocode</h2>
                         <span className="text-[11px] px-2 py-0.5 rounded surface-muted text-subtle font-mono">
                             {sorter.label}
                         </span>
                     </div>
                     <Pseudocode lines={sorter.pseudocode} activeLine={step.line} />
                     <div className="pt-3 border-t border-token">
-                        <h4 className="text-[11px] uppercase tracking-wide text-subtle mb-2">
+                        <h3 className="text-[11px] uppercase tracking-wide text-subtle mb-2">
                             Legend
-                        </h4>
+                        </h3>
                         <div className="flex flex-wrap gap-x-4 gap-y-1.5">
                             {sorter.roles.map((role) => (
                                 <span
