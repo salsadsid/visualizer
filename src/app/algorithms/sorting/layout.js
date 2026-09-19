@@ -1,10 +1,9 @@
 import { buildMetadata } from "@/lib/seo";
+import { TOOLS } from "@/lib/catalog";
 
 export const metadata = buildMetadata({
-    title: "Sorting Visualizer",
-    description:
-        "Step through Bubble, Selection and Insertion sort: animated bars, live i/j pointers, synced pseudocode, swap counters, and code in C++, Python, JS & TS.",
-    path: "/algorithms/sorting",
+    ...TOOLS.sorting,
+    image: `${TOOLS.sorting.path}/opengraph-image`,
 });
 
 export default function Layout({ children }) {

@@ -6,73 +6,48 @@ import TrackedLink from "@/components/analytics/TrackedLink";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-    title: "Algorithms",
+    title: "Data Structures",
     description:
-        "Beginner-friendly algorithm visualizers. Step through sorting with animated bars, synced pseudocode and live stats, or measure Big-O growth for real.",
-    path: "/algorithms",
+        "Beginner-friendly data structure visualizers. Paste a 2D array or matrix and see it as a grid, with linked lists, stacks, queues and trees on the way.",
+    path: "/data-structures",
 });
 
-const BarsIcon = (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+const GridIcon = (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
         <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="M3 20h4V10H3v10zm7 0h4V4h-4v16zm7 0h4v-7h-4v7z"
+            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
         />
-    </svg>
-);
-
-const CurveIcon = (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v16h16" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 18c4 0 5-11 8-11s3.5 7 8 7" />
     </svg>
 );
 
 const SHIPPED = [
     {
-        tool: "complexity",
-        href: "/algorithms/complexity",
-        title: "Big-O Playground",
-        badge: "Start here",
-        body: "Never heard of Big-O? Start here: a tiny story, count steps with the computer, then watch real growth curves. No math degree required.",
-        tags: ["O(log n)", "O(√n)", "O(n²)"],
-        icon: CurveIcon,
-    },
-    {
-        tool: "sorting",
-        href: "/algorithms/sorting",
-        title: "Sorting",
+        tool: "arrays",
+        href: "/data-structures/arrays",
+        title: "2D Array Visualizer",
         badge: "Live",
-        body: "Bubble, Selection & Insertion sort — animated bars, synchronized pseudocode, speed control, and live comparison/swap counters.",
-        tags: ["Bubble", "Selection", "Insertion"],
-        icon: BarsIcon,
+        body: "Paste any 2D array or matrix and see it as a grid. Color cells by value, show row and column indices, and learn how rows and columns map to memory.",
+        tags: ["Matrix", "Grid", "1D arrays too"],
+        icon: GridIcon,
     },
 ];
 
-const COMING = [
-    "Counting sort",
-    "Frequency array",
-    "Merge sort",
-    "Quick sort",
-    "Binary search",
-    "Prefix sums",
-    "Two pointers",
-    "Sliding window",
-];
+const COMING = ["Linked list", "Stack", "Queue", "Binary tree / BST", "Heap", "Graph"];
 
-export default function AlgorithmsHome() {
+export default function DataStructuresHome() {
     return (
         <PageShell max="max-w-4xl">
-            <Breadcrumbs className="mb-8" items={[{ name: "Algorithms" }]} />
+            <Breadcrumbs className="mb-8" items={[{ name: "Data Structures" }]} />
 
             <header className="mb-10 text-center">
                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gradient animate-gradient inline-block pb-1">
-                    Algorithms
+                    Data Structures
                 </h1>
                 <p className="mt-3 text-muted max-w-xl mx-auto">
-                    Press play and watch how it works. Beginner-friendly, step-by-step
-                    visualizers — no setup, no sign-up.
+                    See how data is laid out before you write code for it. Beginner-friendly,
+                    interactive visualizers — no setup, no sign-up.
                 </p>
             </header>
 
@@ -82,7 +57,7 @@ export default function AlgorithmsHome() {
                         key={item.href}
                         href={item.href}
                         event="tool_open"
-                        params={{ tool: item.tool, from: "algorithms_hub" }}
+                        params={{ tool: item.tool, from: "data_structures_hub" }}
                         className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                     >
                         <div className="flex items-center justify-between mb-3">

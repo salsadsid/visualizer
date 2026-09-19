@@ -1,10 +1,9 @@
 import { buildMetadata } from "@/lib/seo";
+import { TOOLS } from "@/lib/catalog";
 
 export const metadata = buildMetadata({
-    title: "Big-O Playground",
-    description:
-        "Learn Big-O by measuring it: count steps with the computer, then watch O(1), O(log n), O(n), O(n log n) and O(n²) growth curves fan out. Beginner friendly.",
-    path: "/algorithms/complexity",
+    ...TOOLS.complexity,
+    image: `${TOOLS.complexity.path}/opengraph-image`,
 });
 
 export default function Layout({ children }) {

@@ -1,11 +1,14 @@
-import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
-import BackLink from "@/components/layout/BackLink";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
+import NextStep from "@/components/layout/NextStep";
 import LoopLab from "@/components/algorithms/LoopLab";
 import PhoneBookRace from "@/components/algorithms/PhoneBookRace";
 import ComplexityPlayground from "@/components/algorithms/ComplexityPlayground";
 import ComplexityLearn from "@/components/algorithms/ComplexityLearn";
+import JsonLd from "@/components/seo/JsonLd";
+import { learningResourceJsonLd } from "@/lib/jsonld";
+import { TOOLS } from "@/lib/catalog";
 
 // Small numbered kicker that walks beginners through the page in order.
 function StepKicker({ n, children }) {
@@ -65,9 +68,8 @@ function BigIdea() {
 export default function ComplexityPage() {
     return (
         <PageShell>
-            <nav className="mb-6">
-                <BackLink href="/algorithms" label="All algorithms" />
-            </nav>
+            <JsonLd data={learningResourceJsonLd(TOOLS.complexity)} />
+            <Breadcrumbs items={[{ name: "Algorithms", path: "/algorithms" }, { name: "Big-O Playground" }]} />
 
             <header className="mb-8 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">
@@ -107,15 +109,15 @@ export default function ComplexityPage() {
                 </div>
             </div>
 
-            <p className="mt-8 text-center text-base text-muted">
-                Want to see an O(n²) algorithm actually move?{" "}
-                <Link
-                    href="/algorithms/sorting"
-                    className="text-accent hover:text-accent-hover font-medium"
-                >
-                    Step through a sort in the Sorting Visualizer →
-                </Link>
-            </p>
+            <NextStep
+                href="/algorithms/sorting"
+                label="Open the Sorting Visualizer"
+                tool="sorting"
+                from="complexity_next"
+            >
+                Want to see an O(n²) algorithm actually move? Step through a sort one
+                comparison at a time and watch the counters climb.
+            </NextStep>
 
             <Footer />
         </PageShell>

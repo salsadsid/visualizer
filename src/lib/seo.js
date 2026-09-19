@@ -20,7 +20,7 @@ export function buildMetadata({ title, description, path, image = "/opengraph-im
             card: "summary_large_image",
             title: fullTitle,
             description,
-            images: [image],
+            images: [{ url: image, alt: fullTitle }],
             creator: `@${siteConfig.author.x}`,
         },
     };

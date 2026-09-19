@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { cn } from "@/lib/cn";
 import { track } from "@/lib/analytics";
 
@@ -51,18 +51,31 @@ export function CodeTabs({ languages, groups }) {
 }
 
 // Generic tabbed learning panel. `tabs` is [{ id, label, content }].
-export default function LearningTabs({ heading = "Learn", tabs, tool }) {
+export default function LearningTabs({ heading = "Learn", headingLevel = "h2", tabs, tool }) {
+    const Heading = headingLevel;
+    const baseId = useId();
     const [active, setActive] = useState(tabs[0].id);
-    const current = tabs.find((t) => t.id === active) || tabs[0];
+    const activeId = tabs.some((tab) => tab.id === active) ? active : tabs[0].id;
 
     const selectTab = (id) => {
         track("learn_tab", { tool, tab: id });
         setActive(id);
     };
 
+    const onKeyDown = (event) => {
+        const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+        if (!step) return;
+        event.preventDefault();
+        event.stopPropagation();
+        const index = tabs.findIndex((tab) => tab.id === activeId);
+        const next = tabs[(index + step + tabs.length) % tabs.length];
+        selectTab(next.id);
+        document.getElementById(`${baseId}-tab-${next.id}`)?.focus();
+    };
+
     return (
         <section className="surface rounded-2xl p-5 md:p-6 shadow-sm">
-            <h3 className="text-base font-semibold flex items-center gap-2 mb-4">
+            <Heading className="text-base font-semibold flex items-center gap-2 mb-4">
                 <svg
                     className="w-4 h-4 text-accent"
                     fill="none"
@@ -77,27 +90,51 @@ export default function LearningTabs({ heading = "Learn", tabs, tool }) {
                     />
                 </svg>
                 {heading}
-            </h3>
+            </Heading>
 
-            <div className="flex flex-wrap gap-1 mb-4 border-b border-token">
-                {tabs.map((tab) => (
-                    <button
-                        key={tab.id}
-                        type="button"
-                        onClick={() => selectTab(tab.id)}
-                        className={cn(
-                            "px-3 py-2 text-sm font-medium transition-colors relative -mb-px border-b-2 focus-ring",
-                            active === tab.id
-                                ? "border-accent text-accent"
-                                : "border-transparent text-muted hover:text-text"
-                        )}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
+            <div
+                role="tablist"
+                aria-label={heading}
+                onKeyDown={onKeyDown}
+                className="flex flex-wrap gap-1 mb-4 border-b border-token"
+            >
+                {tabs.map((tab) => {
+                    const selected = tab.id === activeId;
+                    return (
+                        <button
+                            key={tab.id}
+                            id={`${baseId}-tab-${tab.id}`}
+                            type="button"
+                            role="tab"
+                            aria-selected={selected}
+                            aria-controls={`${baseId}-panel-${tab.id}`}
+                            tabIndex={selected ? 0 : -1}
+                            onClick={() => selectTab(tab.id)}
+                            className={cn(
+                                "px-3 py-2 text-sm font-medium transition-colors relative -mb-px border-b-2 focus-ring",
+                                selected
+                                    ? "border-accent text-accent"
+                                    : "border-transparent text-muted hover:text-text"
+                            )}
+                        >
+                            {tab.label}
+                        </button>
+                    );
+                })}
             </div>
 
-            <div className="min-h-[140px]">{current.content}</div>
+            {tabs.map((tab) => (
+                <div
+                    key={tab.id}
+                    id={`${baseId}-panel-${tab.id}`}
+                    role="tabpanel"
+                    aria-labelledby={`${baseId}-tab-${tab.id}`}
+                    hidden={tab.id !== activeId}
+                    className="min-h-[140px]"
+                >
+                    {tab.content}
+                </div>
+            ))}
         </section>
     );
 }

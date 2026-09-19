@@ -1,3 +1,8 @@
+const feedbackParams = new URLSearchParams({
+    title: "Classroom feedback",
+    body: "Where do you teach or study?\n\nHow are you using the visualizer?\n\nWhat would make it more useful for your class?\n",
+});
+
 export const siteConfig = {
     url:
         process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
@@ -15,6 +20,7 @@ export const siteConfig = {
         x: "salsadsid",
     },
     repo: "https://github.com/salsadsid/visualizer",
+    feedbackUrl: `https://github.com/salsadsid/visualizer/issues/new?${feedbackParams}`,
     keywords: [
         "DSA visualizer",
         "sorting visualizer",
