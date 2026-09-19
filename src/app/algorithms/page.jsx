@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
     title: "Algorithms",
     description:
-        "Interactive, beginner-friendly algorithm visualizers. Step through sorting algorithms with animated bars, pseudocode, and live stats. More techniques on the way.",
+        "Beginner-friendly algorithm visualizers. Step through sorting with animated bars, synced pseudocode and live stats, or measure Big-O growth for real.",
     path: "/algorithms",
 });
 
