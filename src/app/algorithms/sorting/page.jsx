@@ -18,6 +18,9 @@ import { ROLE_STYLES } from "@/lib/algorithms/roles";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 
+const SPACE_TARGETS = "button, a, input, textarea, select, summary, [role=tab]";
+const ARROW_TARGETS = "input, textarea, select, [role=tab]";
+
 const Kbd = ({ children }) => (
     <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
         {children}
@@ -39,24 +42,25 @@ export default function SortingVisualizer() {
     // Keyboard shortcuts: space = play/pause, arrows = step. Bound once via a ref so
     // it always sees the latest player without re-subscribing each render.
     const playerRef = useRef(player);
+    const stageRef = useRef(null);
     useEffect(() => {
         playerRef.current = player;
     });
     useEffect(() => {
         const onKey = (e) => {
-            const tag = e.target?.tagName;
-            if (tag === "INPUT" || tag === "TEXTAREA") return;
+            const isSpace = e.code === "Space";
+            const isArrow = e.key === "ArrowRight" || e.key === "ArrowLeft";
+            if (!isSpace && !isArrow) return;
+            if (e.target?.closest?.(isSpace ? SPACE_TARGETS : ARROW_TARGETS)) return;
+
+            const stage = stageRef.current?.getBoundingClientRect();
+            if (!stage || stage.bottom < 0 || stage.top > window.innerHeight) return;
+
             const p = playerRef.current;
-            if (e.code === "Space") {
-                e.preventDefault();
-                p.toggle();
-            } else if (e.key === "ArrowRight") {
-                e.preventDefault();
-                p.stepF();
-            } else if (e.key === "ArrowLeft") {
-                e.preventDefault();
-                p.stepB();
-            }
+            e.preventDefault();
+            if (isSpace) p.toggle();
+            else if (e.key === "ArrowRight") p.stepF();
+            else p.stepB();
         };
         window.addEventListener("keydown", onKey);
         return () => window.removeEventListener("keydown", onKey);
@@ -137,7 +141,7 @@ export default function SortingVisualizer() {
                 {sorter.blurb}
             </p>
 
-            <div className="grid lg:grid-cols-[1fr_360px] gap-5">
+            <div ref={stageRef} className="grid lg:grid-cols-[1fr_360px] gap-5">
                 <div className="surface rounded-2xl p-5 md:p-6 shadow-sm relative overflow-hidden min-w-0">
                     <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
                     <div
