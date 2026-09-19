@@ -74,6 +74,12 @@ const VISUALIZERS = [
     },
 ];
 
+const POPULAR = [
+    { href: "/data-structures/arrays", label: "2D Array Visualizer" },
+    { href: "/algorithms/sorting", label: "Bubble Sort" },
+    { href: "/algorithms/complexity", label: "Big-O Playground" },
+];
+
 const FEATURES = [
     {
         title: "Step-by-step",
@@ -120,9 +126,22 @@ export default function HomePage() {
                 </h1>
 
                 <p className="mt-5 text-lg text-muted max-w-xl mx-auto">
-                    Watch sorting run step by step, count the steps algorithms take, and
-                    turn grids into pictures. No setup, no sign-up.
+                    Turn any 2D array into a colorful grid, watch sorting run step by
+                    step, and count the steps algorithms take. No setup, no sign-up.
                 </p>
+
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm">
+                    <span className="text-subtle">Popular:</span>
+                    {POPULAR.map((item) => (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className="px-3 py-2 rounded-full bg-accent-soft border border-accent/20 font-medium text-accent hover:bg-accent/15 transition-colors focus-ring"
+                        >
+                            {item.label}
+                        </Link>
+                    ))}
+                </div>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <Link
