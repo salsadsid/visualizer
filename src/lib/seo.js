@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site";
+import { siteConfig } from "./site.js";
 
 export function buildMetadata({ title, description, path, image = "/opengraph-image" }) {
     const fullTitle = `${title} · ${siteConfig.shortName}`;

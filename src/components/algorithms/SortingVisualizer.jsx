@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import BarChart from "@/components/algorithms/BarChart";
 import VarChips from "@/components/algorithms/VarChips";
 import StatsRow from "@/components/algorithms/StatsRow";
@@ -9,10 +9,11 @@ import ArrayControls from "@/components/algorithms/ArrayControls";
 import SortingLearn from "@/components/algorithms/SortingLearn";
 import { usePlayer } from "@/components/algorithms/usePlayer";
 import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
+import { useSortingInput } from "@/components/algorithms/SortingInputProvider";
+import TrackedLink from "@/components/analytics/TrackedLink";
 import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
-import { ARRAY_PRESETS, DEFAULT_VALUES } from "@/lib/algorithms/presets";
 import { ROLE_STYLES } from "@/lib/algorithms/roles";
-import { track } from "@/lib/analytics";
+import { sortPageFor } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 
 const SPACE_TARGETS = "button, a, input, textarea, select, summary, [role=tab]";
@@ -24,11 +25,8 @@ const Kbd = ({ children }) => (
     </kbd>
 );
 
-export default function SortingVisualizer() {
-    const [algoKey, setAlgoKey] = useState("bubble");
-    const [size, setSize] = useState(DEFAULT_VALUES.length);
-    const [presetKey, setPresetKey] = useState(null);
-    const [values, setValues] = useState(DEFAULT_VALUES);
+export default function SortingVisualizer({ algo: algoKey }) {
+    const { size, values, applyPreset, shuffle, changeSize, applyCustom } = useSortingInput();
 
     const sorter = SORTERS[algoKey];
     const steps = useMemo(() => sorter.run(values).steps, [sorter, values]);
@@ -63,47 +61,20 @@ export default function SortingVisualizer() {
         return () => window.removeEventListener("keydown", onKey);
     }, []);
 
-    const selectAlgo = (key) => {
-        track("algo_select", { tool: "sorting", algo: key });
-        setAlgoKey(key);
-    };
-    const applyPreset = (key) => {
-        track("preset_select", { tool: "sorting", preset: key });
-        setPresetKey(key);
-        setValues(ARRAY_PRESETS[key].build(size));
-    };
-    const shuffle = () => {
-        track("preset_select", { tool: "sorting", preset: "shuffle" });
-        setPresetKey("random");
-        setValues(ARRAY_PRESETS.random.build(size));
-    };
-    const changeSize = (n) => {
-        const key = presetKey || "random";
-        setPresetKey(key);
-        setSize(n);
-        setValues(ARRAY_PRESETS[key].build(n));
-    };
-    const useCustom = (vals) => {
-        track("custom_input", { tool: "sorting", size: vals.length });
-        setPresetKey(null);
-        setSize(vals.length);
-        setValues(vals);
-    };
-
     return (
         <>
-            <div
-                role="tablist"
+            <nav
                 aria-label="Sorting algorithm"
                 className="flex flex-wrap justify-center gap-2 mb-3"
             >
                 {SORTER_LIST.map((s) => (
-                    <button
+                    <TrackedLink
                         key={s.key}
-                        type="button"
-                        role="tab"
-                        aria-selected={algoKey === s.key}
-                        onClick={() => selectAlgo(s.key)}
+                        href={sortPageFor(s.key).path}
+                        scroll={false}
+                        event="algo_select"
+                        params={{ tool: "sorting", algo: s.key }}
+                        aria-current={algoKey === s.key ? "page" : undefined}
                         className={cn(
                             "px-4 py-2 rounded-xl text-sm font-medium border transition-all focus-ring hover:scale-105 active:scale-95",
                             algoKey === s.key
@@ -112,9 +83,9 @@ export default function SortingVisualizer() {
                         )}
                     >
                         {s.label}
-                    </button>
+                    </TrackedLink>
                 ))}
-            </div>
+            </nav>
             <p className="text-center text-base text-muted max-w-2xl mx-auto mb-6">
                 {sorter.blurb}
             </p>
@@ -180,7 +151,7 @@ export default function SortingVisualizer() {
                     onSize={changeSize}
                     onPreset={applyPreset}
                     onShuffle={shuffle}
-                    onCustom={useCustom}
+                    onCustom={applyCustom}
                 />
             </div>
 

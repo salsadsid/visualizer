@@ -3,6 +3,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import TrackedLink from "@/components/analytics/TrackedLink";
+import { plannedIn, toolsIn } from "@/lib/catalog";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -22,19 +23,10 @@ const GridIcon = (
     </svg>
 );
 
-const SHIPPED = [
-    {
-        tool: "arrays",
-        href: "/data-structures/arrays",
-        title: "2D Array Visualizer",
-        badge: "Live",
-        body: "Paste any 2D array or matrix and see it as a grid. Color cells by value, show row and column indices, and learn how rows and columns map to memory.",
-        tags: ["Matrix", "Grid", "1D arrays too"],
-        icon: GridIcon,
-    },
-];
+const ICONS = { arrays: GridIcon };
 
-const COMING = ["Linked list", "Stack", "Queue", "Binary tree / BST", "Heap", "Graph"];
+const SHIPPED = toolsIn("data-structures");
+const COMING = plannedIn("data-structures");
 
 export default function DataStructuresHome() {
     return (
@@ -54,36 +46,36 @@ export default function DataStructuresHome() {
             <section className="grid sm:grid-cols-2 gap-4">
                 {SHIPPED.map((item) => (
                     <TrackedLink
-                        key={item.href}
-                        href={item.href}
+                        key={item.id}
+                        href={item.path}
                         event="tool_open"
-                        params={{ tool: item.tool, from: "data_structures_hub" }}
+                        params={{ tool: item.id, from: "data_structures_hub" }}
                         className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                     >
                         <div className="flex items-center justify-between mb-3">
                             <span className="grid place-items-center h-10 w-10 rounded-xl bg-accent-soft border border-accent/20 text-accent">
-                                {item.icon}
+                                {ICONS[item.id]}
                             </span>
                             <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20 whitespace-nowrap">
-                                {item.badge}
+                                {item.card.badge || "Live"}
                             </span>
                         </div>
                         <h2 className="text-lg font-semibold flex items-center gap-1.5">
-                            {item.title}
+                            {item.name}
                             <span className="text-accent group-hover:translate-x-1 transition-transform">
                                 →
                             </span>
                         </h2>
                         <p className="text-base text-muted mt-1 leading-relaxed">
-                            {item.body}
+                            {item.card.body}
                         </p>
                         <div className="flex flex-wrap gap-1.5 mt-3">
-                            {item.tags.map((t) => (
+                            {item.card.tags.map((t) => (
                                 <span
                                     key={t}
                                     className="text-[11px] font-medium px-2 py-0.5 rounded surface-muted text-subtle"
                                 >
-                                    {t}
+                                    {t.name}
                                 </span>
                             ))}
                         </div>
@@ -97,10 +89,10 @@ export default function DataStructuresHome() {
                     <div className="flex flex-wrap gap-1.5">
                         {COMING.map((t) => (
                             <span
-                                key={t}
+                                key={t.name}
                                 className="text-xs font-medium px-2.5 py-1 rounded-full surface text-muted"
                             >
-                                {t}
+                                {t.name}
                             </span>
                         ))}
                     </div>

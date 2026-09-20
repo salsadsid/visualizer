@@ -195,7 +195,7 @@ export default function ComplexityPlayground() {
                                 {ns.map((n, i) => (
                                     <tr
                                         key={n}
-                                        className={i !== ns.length - 1 ? "border-b border-token/50" : ""}
+                                        className={i !== ns.length - 1 ? "border-b border-token" : ""}
                                     >
                                         <td className="text-left px-3 py-1.5 text-subtle">{n}</td>
                                         {results.series.map((s) => {

@@ -94,7 +94,7 @@ function Scales() {
                             return (
                                 <tr
                                     key={row.id}
-                                    className={i !== SCALE_TABLE.length - 1 ? "border-b border-token/50" : ""}
+                                    className={i !== SCALE_TABLE.length - 1 ? "border-b border-token" : ""}
                                 >
                                     <td className="px-3 py-2 whitespace-nowrap">
                                         <span className="inline-flex items-center gap-1.5">

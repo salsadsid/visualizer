@@ -22,11 +22,11 @@ export function websiteJsonLd() {
     };
 }
 
-export function learningResourceJsonLd({ title, description, path, teaches }) {
-    return {
+export function learningResourceJsonLd({ name, title, description, path, teaches }, parts = []) {
+    const resource = {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: title,
+        name: name ?? title,
         description,
         url: `${siteConfig.url}${path}`,
         learningResourceType: "interactive simulation",
@@ -37,6 +37,14 @@ export function learningResourceJsonLd({ title, description, path, teaches }) {
         author,
         isPartOf: { "@id": WEBSITE_ID },
     };
+    if (parts.length > 0) {
+        resource.hasPart = parts.map((part) => ({
+            "@type": "LearningResource",
+            name: part.name,
+            url: `${siteConfig.url}${part.path}`,
+        }));
+    }
+    return resource;
 }
 
 export function breadcrumbJsonLd(trail) {

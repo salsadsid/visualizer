@@ -4,18 +4,42 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import LearningTabs, { CodeTabs } from "./LearningTabs";
 import { LANGUAGES, SORT_CODE } from "@/lib/algorithms/snippets";
+import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
+import { sortPageFor } from "@/lib/catalog";
+import { useSortingInput } from "./SortingInputProvider";
 
-function Concept() {
+const CONCEPT_LEAD = {
+    bubble: "only ever looks at two neighbours at a time and swaps them when they are the wrong way round, so the largest unsorted value reaches the end on every pass.",
+    selection: "scans everything that is still unsorted, remembers where the smallest value is, and swaps it into the next free slot, so it makes at most one swap per pass.",
+    insertion: "takes one value at a time and slides it left into a sorted part that grows from the front, shifting the bigger values over to make room.",
+};
+
+function Concept({ algo }) {
+    const others = SORTER_LIST.filter((sorter) => sorter.key !== algo);
     return (
         <div className="space-y-3 text-sm leading-relaxed text-muted">
             <p>
-                <strong className="text-text">Sorting</strong> arranges items into order
-                (here, smallest&nbsp;→&nbsp;largest). All three sorts on this page are{" "}
-                <em>comparison sorts</em>: they decide what goes where purely by comparing
-                pairs of values.
+                <strong className="text-text">{SORTERS[algo].label}</strong>{" "}
+                {CONCEPT_LEAD[algo]}
             </p>
             <p>
-                They&apos;re also <strong className="text-text">in-place</strong> (they
+                Like{" "}
+                {others.map((sorter, index) => (
+                    <span key={sorter.key}>
+                        {index > 0 && " and "}
+                        <Link
+                            href={sortPageFor(sorter.key).path}
+                            className="text-accent hover:text-accent-hover font-medium"
+                        >
+                            {sorter.label.toLowerCase()}
+                        </Link>
+                    </span>
+                ))}
+                , it is a <em>comparison sort</em>: it decides what goes where purely by
+                comparing pairs of values.
+            </p>
+            <p>
+                All three are also <strong className="text-text">in-place</strong> (they
                 reuse the same array, O(1) extra memory) and simple to reason about. The
                 trade-off is speed: each runs in{" "}
                 <Link
@@ -94,12 +118,6 @@ function Uses() {
     );
 }
 
-const COMPLEXITY = [
-    { key: "bubble", name: "Bubble", best: "O(n)", avg: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "Yes" },
-    { key: "selection", name: "Selection", best: "O(n²)", avg: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "No" },
-    { key: "insertion", name: "Insertion", best: "O(n)", avg: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "Yes" },
-];
-
 function Complexity({ algo }) {
     return (
         <div className="space-y-2">
@@ -116,24 +134,24 @@ function Complexity({ algo }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {COMPLEXITY.map((row, i) => {
+                        {SORTER_LIST.map((row, i) => {
                             const active = row.key === algo;
                             return (
                                 <tr
                                     key={row.key}
                                     className={cn(
-                                        i !== COMPLEXITY.length - 1 && "border-b border-token/50",
+                                        i !== SORTER_LIST.length - 1 && "border-b border-token",
                                         active && "bg-accent-soft"
                                     )}
                                 >
                                     <td className={cn("px-3 py-2 font-medium", active && "text-accent")}>
-                                        {row.name}
+                                        {row.label}
                                     </td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.best}</td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.avg}</td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.worst}</td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.space}</td>
-                                    <td className="px-3 py-2 text-xs">{row.stable}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.best}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.average}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.worst}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.space}</td>
+                                    <td className="px-3 py-2 text-xs">{row.complexity.stable}</td>
                                 </tr>
                             );
                         })}
@@ -157,17 +175,33 @@ function Complexity({ algo }) {
 }
 
 function SortingLearn({ algo }) {
+    const { learnTab, setLearnTab, codeLang, setCodeLang } = useSortingInput();
     const tabs = [
-        { id: "concept", label: "Concept", content: <Concept /> },
+        { id: "concept", label: "Concept", content: <Concept algo={algo} /> },
         { id: "uses", label: "Use cases", content: <Uses /> },
         { id: "complexity", label: "Complexity", content: <Complexity algo={algo} /> },
         {
             id: "code",
             label: "Code",
-            content: <CodeTabs languages={LANGUAGES} groups={SORT_CODE[algo]} />,
+            content: (
+                <CodeTabs
+                    languages={LANGUAGES}
+                    groups={SORT_CODE[algo]}
+                    value={codeLang}
+                    onChange={setCodeLang}
+                />
+            ),
         },
     ];
-    return <LearningTabs heading="Learn sorting" tabs={tabs} tool="sorting" />;
+    return (
+        <LearningTabs
+            heading={`Learn ${SORTERS[algo].label.toLowerCase()}`}
+            tabs={tabs}
+            tool="sorting"
+            value={learnTab}
+            onChange={setLearnTab}
+        />
+    );
 }
 
 export default memo(SortingLearn);

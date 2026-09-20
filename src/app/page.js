@@ -5,6 +5,7 @@ import HeroDemo from "@/components/algorithms/HeroDemo";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import JsonLd from "@/components/seo/JsonLd";
 import { websiteJsonLd } from "@/lib/jsonld";
+import { LEARNING_PATH } from "@/lib/catalog";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = {
@@ -32,39 +33,11 @@ const CurveIcon = (
     </svg>
 );
 
-// Ordered as a suggested path — the step numbers render on the cards so a newcomer
-// has one obvious place to start instead of three equal-looking doors.
-const VISUALIZERS = [
-    {
-        step: 1,
-        tool: "complexity",
-        href: "/algorithms/complexity",
-        title: "Big-O Playground",
-        badge: "Start here",
-        body: "Never heard of Big-O? Start here — a tiny story, count steps with the computer, then watch real growth curves.",
-        icon: CurveIcon,
-    },
-    {
-        step: 2,
-        tool: "sorting",
-        href: "/algorithms/sorting",
-        title: "Sorting Visualizer",
-        body: "Watch Bubble, Selection & Insertion sort run one step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
-        icon: BarsIcon,
-    },
-    {
-        step: 3,
-        tool: "arrays",
-        href: "/data-structures/arrays",
-        title: "2D Array Visualizer",
-        body: "Paste any JSON matrix, color cells by value, toggle indices, and see how grids map to rows and columns.",
-        icon: GridIcon,
-    },
-];
+const ICONS = { complexity: CurveIcon, sorting: BarsIcon, arrays: GridIcon };
 
 const POPULAR = [
     { tool: "arrays", href: "/data-structures/arrays", label: "2D Array Visualizer" },
-    { tool: "sorting", href: "/algorithms/sorting", label: "Bubble Sort" },
+    { tool: "sorting", href: "/algorithms/sorting/bubble-sort", label: "Bubble Sort" },
     { tool: "complexity", href: "/algorithms/complexity", label: "Big-O Playground" },
 ];
 
@@ -185,35 +158,35 @@ export default function HomePage() {
                     </Link>
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {VISUALIZERS.map((v) => (
+                    {LEARNING_PATH.map((v) => (
                         <TrackedLink
-                            key={v.href}
-                            href={v.href}
+                            key={v.id}
+                            href={v.path}
                             event="tool_open"
-                            params={{ tool: v.tool, from: "home_cards" }}
+                            params={{ tool: v.id, from: "home_cards" }}
                             className="group surface rounded-2xl p-6 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                         >
                             <div className="flex items-center justify-between mb-3">
                                 <span className="relative grid place-items-center h-11 w-11 rounded-xl bg-accent-soft border border-accent/20 text-accent">
-                                    {v.icon}
+                                    {ICONS[v.id]}
                                     <span className="absolute -top-2 -left-2 grid place-items-center h-5 w-5 rounded-full bg-accent text-white text-[11px] font-bold shadow-sm">
-                                        {v.step}
+                                        {v.pathOrder}
                                     </span>
                                 </span>
-                                {v.badge && (
+                                {v.card.badge && (
                                     <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20">
-                                        {v.badge}
+                                        {v.card.badge}
                                     </span>
                                 )}
                             </div>
                             <h3 className="text-lg font-semibold flex items-center gap-1.5">
-                                {v.title}
+                                {v.name}
                                 <span className="text-accent group-hover:translate-x-1 transition-transform">
                                     →
                                 </span>
                             </h3>
                             <p className="text-base text-muted mt-1 leading-relaxed">
-                                {v.body}
+                                {v.card.body}
                             </p>
                         </TrackedLink>
                     ))}
