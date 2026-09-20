@@ -117,3 +117,33 @@ test("insertion: never swaps, and writes once per shift plus once per key", () =
     const sorted = SORTERS.insertion.run(ascending(8)).steps.at(-1).stats;
     assert.equal(sorted.comparisons, 7);
 });
+
+test("every sorter ships with everything its page needs", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { LANGUAGES, SORT_CODE } = await import("../src/lib/algorithms/snippets.js");
+    const { sortPageFor } = await import("../src/lib/catalog.js");
+    const route = await readFile(
+        new URL("../src/app/algorithms/sorting/[algo]/page.jsx", import.meta.url),
+        "utf8"
+    );
+    const explainers = route.slice(route.indexOf("const EXPLAINERS"), route.indexOf("};"));
+
+    for (const sorter of SORTER_LIST) {
+        assert.ok(sorter.label && sorter.blurb && sorter.lead, `${sorter.key}: missing copy`);
+        for (const field of ["best", "average", "worst", "space", "stable"]) {
+            assert.ok(sorter.complexity[field], `${sorter.key}: missing complexity.${field}`);
+        }
+        for (const language of LANGUAGES) {
+            assert.ok(
+                SORT_CODE[sorter.key]?.[language.id]?.length > 0,
+                `${sorter.key}: no ${language.label} code in snippets.js`
+            );
+        }
+        assert.ok(sortPageFor(sorter.key), `${sorter.key}: no SORT_PAGES entry in catalog.js`);
+        assert.match(
+            explainers,
+            new RegExp(`\\b${sorter.key}:`),
+            `${sorter.key}: no explainer registered in the sorting route`
+        );
+    }
+});

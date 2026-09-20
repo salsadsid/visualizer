@@ -3,145 +3,55 @@
 </p>
 
 <p align="center">
-  An interactive, beginner-friendly playground for <strong>seeing</strong> data structures and algorithms work — step by step, in the browser.
+  <strong>See data structures and algorithms work, one step at a time.</strong><br />
+  Press play, watch the bars move, follow the highlighted pseudocode and the live loop variables. Free, no sign-up, runs in your browser.
 </p>
 
 <p align="center">
-  Press play and watch the bars compare and swap, follow the highlighted pseudocode, read the live loop variables, and learn the <em>why</em> behind each technique.
+  <a href="https://visualizer-gold.vercel.app"><strong>▶ Open the live demo</strong></a>
 </p>
 
-> Built with Next.js 16 and Tailwind CSS 4 to make DSA easier to see, touch, and learn.
+<p align="center">
+  <a href="https://github.com/salsadsid/visualizer/actions/workflows/ci.yml"><img src="https://github.com/salsadsid/visualizer/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/salsadsid/visualizer" alt="MIT license" /></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs welcome" /></a>
+  <a href="https://github.com/salsadsid/visualizer/stargazers"><img src="https://img.shields.io/github/stars/salsadsid/visualizer?style=social" alt="GitHub stars" /></a>
+</p>
 
----
+<p align="center">
+  <a href="https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort">
+    <img src=".github/assets/demo.gif" alt="Bubble sort running step by step until the bars turn green, then a 2D array being coloured by value" width="800" />
+  </a>
+</p>
 
-## Visualizers
+If this helps you learn or teach, a ⭐ helps other students find it.
 
-### 🔀 Sorting Visualizer — `/algorithms/sorting`
+## What's inside
 
-Compare **Bubble**, **Selection**, and **Insertion** sort on the overview, then step through each one on its own page. Your list travels with you when you switch:
+| Tool | What you can do | Try it |
+| --- | --- | --- |
+| **Big-O Playground** | Start from zero: a short story, count steps together with the computer, then watch O(1) … O(2ⁿ) curves pull apart on a live chart | [Open](https://visualizer-gold.vercel.app/algorithms/complexity) |
+| **Sorting Visualizer** | Compare Bubble, Selection and Insertion sort, then step through each on its own page. Your list travels with you when you switch | [Overview](https://visualizer-gold.vercel.app/algorithms/sorting) · [Bubble](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) · [Selection](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) · [Insertion](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) |
+| **2D Array Visualizer** | Paste any 2D array or matrix and see it as a grid. Colour cells by value, show row and column indices, mix numbers, strings, booleans and `null` | [Open](https://visualizer-gold.vercel.app/data-structures/arrays) |
 
-| Algorithm | Page |
-| --- | --- |
-| Bubble sort | [`/algorithms/sorting/bubble-sort`](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) |
-| Selection sort | [`/algorithms/sorting/selection-sort`](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) |
-| Insertion sort | [`/algorithms/sorting/insertion-sort`](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) |
+Every sorting page has:
 
-Every page has:
-
-- Animated gradient bars that **pop** on each swap, with a 🎉 confetti finish
-- **Play / pause / step / scrub** controls and a 0.5×–4× speed dial (plus `Space` and `←`/`→` shortcuts)
-- **Synchronized pseudocode** — the active line highlights as it runs
-- **Live variables on the board** — pointer markers (`i`, `j`, `min`) under the bars and value chips (`key`, `swapped`)
+- **Play / pause / step / scrub** controls and a 0.5×–4× speed dial (plus `Space` and `←` / `→`)
+- **Synchronized pseudocode**: the active line highlights as it runs
+- **Live variables on the board**: pointer markers (`i`, `j`, `min`) under the bars and value chips (`key`, `swapped`)
 - A plain-English **narration** line and live **comparison / swap / write** counters
-- Presets (random, reversed, nearly-sorted, few-unique, sorted), a size slider, shuffle, and custom input
+- Presets (random, reversed, nearly sorted, few unique, sorted), a size slider, shuffle and custom input
+- A written explainer with a worked example, common beginner mistakes and an FAQ
+- Code in **C++, Python, JavaScript and TypeScript**
 
-### 🟦 2D Array Visualizer — `/data-structures/arrays`
+Light and dark themes, works on a 320 px phone, and honours `prefers-reduced-motion`.
 
-Paste any JSON matrix, color each value, and see how grids map to rows and columns:
+## Why it's built this way
 
-- JSON-driven input; ragged rows pad automatically; numbers, strings, booleans, and `null` all render
-- Per-value coloring (fill, border, text) and optional row/column indices
-
-Both tools ship with an inline learning panel (concept, use cases, complexity, and
-**C++ / Python / JavaScript / TypeScript** code), light + dark themes, a responsive
-layout, and full `prefers-reduced-motion` support.
-
----
-
-## Learn the topics
-
-A condensed version of the in-app learning panels — enough to understand what you're
-watching.
-
-### Sorting — the big picture
-
-**Sorting** arranges items into order (here, smallest → largest). The three sorts in
-this app share three traits:
-
-- **Comparison sorts** — they decide order purely by comparing pairs of values.
-- **In-place** — they reuse the same array, so extra memory is **O(1)**.
-- **O(n²) average time** — great for learning and for small or nearly-sorted data,
-  not for huge datasets.
-
-Two terms worth knowing:
-
-- **Stable** — equal values keep their original relative order. (Bubble and insertion
-  are stable; selection is not.)
-- **Adaptive** — runs faster when the input is already partly sorted. (Bubble with an
-  early-exit and insertion are adaptive; selection is not.)
-
-### 🫧 Bubble sort
-
-**Idea:** repeatedly walk the list and swap any adjacent pair that's out of order, so
-large values "bubble" to the right.
-
-**How it works:** on each pass, compare `a[j]` with `a[j+1]` and swap if needed. After
-pass *k*, the largest *k* values are parked at the end. If a whole pass makes **no
-swaps**, the array is already sorted and we stop early.
-
-| Best | Average | Worst | Space | Stable |
-| ---- | ------- | ----- | ----- | ------ |
-| O(n) | O(n²)   | O(n²) | O(1)  | Yes    |
-
-**Why learn it:** the gentlest introduction to sorting, and the early-exit shows how an
-algorithm can detect "already sorted" cheaply (the O(n) best case).
-
-### 🎯 Selection sort
-
-**Idea:** each pass finds the smallest remaining value and drops it into the next slot.
-
-**How it works:** scan the unsorted region for the index of its minimum, then swap that
-minimum into the front of the region. Repeat with a region that shrinks by one each time.
-
-| Best  | Average | Worst | Space | Stable |
-| ----- | ------- | ----- | ----- | ------ |
-| O(n²) | O(n²)   | O(n²) | O(1)  | No     |
-
-**Why learn it:** it always does the **fewest swaps** (at most *n − 1*), which matters
-when writing to memory is expensive — even though it never gets faster on sorted input.
-
-### 📥 Insertion sort
-
-**Idea:** grow a sorted prefix one element at a time, inserting each new value into its
-correct spot — exactly how most people sort a hand of playing cards.
-
-**How it works:** take `a[i]` as the **key**, slide every larger value in the sorted
-prefix one step right, then drop the key into the gap that opens up.
-
-| Best | Average | Worst | Space | Stable |
-| ---- | ------- | ----- | ----- | ------ |
-| O(n) | O(n²)   | O(n²) | O(1)  | Yes    |
-
-**Why learn it:** the best real-world performer of the three on **small or nearly-sorted**
-data, and it's used as the base case inside fast hybrid sorts like Timsort (Python, Java)
-and introsort (C++ `std::sort`).
-
-### 🟦 2D arrays
-
-A **2D array** is an array of arrays — a grid of `rows × cols` cells reached with two
-indices, `matrix[row][col]`. Most languages store it in **row-major** order (all of row
-0, then all of row 1, …), which is why iterating row-by-row is cache-friendly.
-
-| Operation                | Time     |
-| ------------------------ | -------- |
-| Access / update a cell   | O(1)     |
-| Search for a value       | O(r · c) |
-| Iterate (row-major)      | O(r · c) |
-| Space                    | O(r · c) |
-
-Used everywhere: game boards, images (a grid of pixels), adjacency matrices for graphs,
-and dynamic-programming tables.
-
-### Big-O, quickly
-
-`O(1)` constant · `O(log n)` halving each step · `O(n)` one pass · `O(n log n)` the best
-general sorts · `O(n²)` nested passes (the sorts above). Lower is better as *n* grows.
-
----
-
-## Under the hood
-
-Each algorithm is a generator that returns a flat list of **step snapshots**:
+- **One tiny step-trace engine, no chart or animation library.** An algorithm is a plain function that records a list of snapshots. One `usePlayer` hook plays, pauses, steps and scrubs through that list, and shared components draw it. The bars are `div`s.
+- **Pure by construction.** The strict React Compiler lint rules are on (no `setState` in effects, no ref writes or impure calls during render), and CI runs lint, tests and a production build on every pull request.
+- **Tested logic.** The sorting engine, both input parsers and the page catalog are covered with `node:test`, with zero test dependencies.
+- **Fast and accessible.** Statically generated pages; Lighthouse (mobile) scores 94–95 performance, 100 accessibility and 100 SEO on the tool pages.
 
 ```js
 Step = {
@@ -155,9 +65,59 @@ Step = {
 }
 ```
 
-A small `usePlayer` hook plays, pauses, steps, and scrubs through that list, and shared
-components (`BarChart`, `Pseudocode`, `PlayerControls`, `StatsRow`, `LearningTabs`)
-render it. New algorithms only need to emit steps — the player and UI come for free.
+## Quick start
+
+```bash
+git clone https://github.com/salsadsid/visualizer.git
+cd visualizer
+npm install
+npm run dev        # http://localhost:3000
+```
+
+```bash
+npm run lint       # ESLint, including the strict React hooks rules
+npm test           # node:test, no extra dependencies
+npm run build      # production build
+```
+
+Needs Node 22 or newer (the test script uses `node --test` with a glob). There is no backend, database or API key. Analytics only load when `NEXT_PUBLIC_GA_ID` is set (see `.env.example`).
+
+## Add an algorithm
+
+A new sort is a plain function in `src/lib/algorithms/sorting.js` that mutates a copy of the array and records a step whenever something worth showing happens:
+
+```js
+function mySort(values) {
+    const a = values.slice();
+    const r = makeRecorder(a);
+
+    r.pointers.j = 0;
+    r.stats.comparisons++;
+    r.push(3, `Compare ${a[0]} and ${a[1]}.`, { 0: "compare", 1: "compare" });
+
+    [a[0], a[1]] = [a[1], a[0]];
+    r.stats.swaps++;
+    r.push(4, "Swapped them.", { 0: "swap", 1: "swap" });
+
+    r.lockAll();
+    r.push(6, "Sorted!");
+    return { steps: r.steps };
+}
+```
+
+The player, bars, pseudocode highlighting, counters and keyboard shortcuts come for free. [CONTRIBUTING.md](CONTRIBUTING.md) has the full checklist, the project structure and the lint rules that trip people up. Looking for somewhere to start? Try the [good first issues](https://github.com/salsadsid/visualizer/labels/good%20first%20issue).
+
+## Roadmap
+
+Next up: **counting sort and frequency arrays**, then merge sort, quick sort, binary search and the core array techniques (prefix sums, two pointers, sliding window). The full list lives on the [roadmap page](https://visualizer-gold.vercel.app/roadmap). Want something sooner? [Open an issue](https://github.com/salsadsid/visualizer/issues/new/choose).
+
+## The story so far
+
+I built this while learning DSA myself, because the tools I found either animated too fast to follow or hid the code. Some things I'm happy with:
+
+- The 2D Array Visualizer ranks **#1 on Google for "2d array visualizer"** (Search Console, September 2026) and has been used by visitors in seven countries.
+- Every algorithm plugs into the same zero-dependency step-trace engine, so a new visualizer is mostly writing the algorithm and explaining it well.
+- Each release is measured: a private checklist crawls every page for metadata, structured data and phone-width overflow before it ships.
 
 ## Tech stack
 
@@ -171,44 +131,10 @@ render it. New algorithms only need to emit steps — the player and UI come for
 
 No backend, no database — it runs entirely in the browser.
 
-## Project structure
-
-```
-src/
-├── app/
-│   ├── page.js                      # Landing page (live auto-sort hero demo)
-│   ├── layout.js                    # Root layout, fonts, theme bootstrap
-│   ├── globals.css                  # Design tokens + motion system
-│   ├── roadmap/page.jsx             # What's shipped / planned
-│   ├── algorithms/
-│   │   ├── page.jsx                 # Algorithms hub
-│   │   └── sorting/
-│   │       ├── page.jsx             # Sorting overview: compare the three sorts
-│   │       └── [algo]/page.jsx      # One page per algorithm, built from lib/catalog.js
-│   └── data-structures/
-│       └── arrays/page.jsx          # 2D Array Visualizer
-├── components/
-│   ├── ThemeToggle.jsx              # Light/dark toggle (floating button)
-│   ├── algorithms/                  # BarChart, PlayerControls, Pseudocode,
-│   │                                #   usePlayer, StatsRow, VarChips, Confetti, HeroDemo …
-│   ├── array/                       # InputPanel, ArrayGrid, ColorSettings, LearningPanel
-│   └── layout/                      # PageShell, Breadcrumbs, NextStep, Footer
-└── lib/
-    ├── algorithms/                  # sorting.js (step model), presets, roles, snippets
-    └── array/                       # parser, presets, snippets
-```
-
-## Roadmap
-
-See [`/roadmap`](src/app/roadmap/page.jsx) in the app for the full list. Next up:
-**counting sort & frequency arrays**, then merge/quick sort, binary search, and the
-core array techniques (prefix sums, two pointers, sliding window).
-
 ## License
 
-MIT. Feel free to fork, learn from, or extend.
+[MIT](LICENSE). Fork it, learn from it, use it in your class.
 
 ---
 
-Built by [Salman Sadik Siddiquee](https://github.com/salsadsid) ·
-[Repository](https://github.com/salsadsid/visualizer)
+Built by [Salman Sadik Siddiquee](https://github.com/salsadsid) · [Live site](https://visualizer-gold.vercel.app) · [Report a problem](https://github.com/salsadsid/visualizer/issues/new/choose)

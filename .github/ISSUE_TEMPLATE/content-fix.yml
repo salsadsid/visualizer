@@ -1,0 +1,24 @@
+name: Explanation or content fix
+description: A wrong fact, a confusing sentence, a typo, or a better way to explain something
+title: "Content: "
+labels: ["documentation"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Which page or section?
+    validations:
+      required: true
+  - type: textarea
+    id: now
+    attributes:
+      label: What does it say now?
+    validations:
+      required: true
+  - type: textarea
+    id: better
+    attributes:
+      label: What should it say?
+      description: If it is a factual fix, a source is welcome.
+    validations:
+      required: true

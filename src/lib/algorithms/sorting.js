@@ -229,6 +229,8 @@ export const SORTERS = {
         label: "Bubble Sort",
         blurb:
             "Repeatedly swaps adjacent out-of-order pairs. The simplest sort to picture — but O(n²) and slow.",
+        lead:
+            "only ever looks at two neighbours at a time and swaps them when they are the wrong way round, so the largest unsorted value reaches the end on every pass.",
         roles: ["compare", "swap", "sorted"],
         pseudocode: [
             "for i in 0 .. n-2:",
@@ -247,6 +249,8 @@ export const SORTERS = {
         label: "Selection Sort",
         blurb:
             "Finds the smallest remaining value each pass and places it. Always O(n²), but does the fewest swaps.",
+        lead:
+            "scans everything that is still unsorted, remembers where the smallest value is, and swaps it into the next free slot, so it makes at most one swap per pass.",
         roles: ["compare", "min", "swap", "sorted"],
         pseudocode: [
             "for i in 0 .. n-1:",
@@ -264,6 +268,8 @@ export const SORTERS = {
         label: "Insertion Sort",
         blurb:
             "Inserts each value into a growing sorted prefix. Great on small or nearly-sorted data (best case O(n)).",
+        lead:
+            "takes one value at a time and slides it left into a sorted part that grows from the front, shifting the bigger values over to make room.",
         roles: ["compare", "key", "shift", "sorted"],
         pseudocode: [
             "for i in 1 .. n-1:",

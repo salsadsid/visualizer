@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Using this in a class?
+    url: https://github.com/salsadsid/visualizer/issues/new?title=Classroom+feedback&body=Where+do+you+teach+or+study%3F%0A%0AHow+are+you+using+the+visualizer%3F%0A%0AWhat+would+make+it+more+useful+for+your+class%3F%0A
+    about: Tell me where you teach and what would make it more useful for your students.
+  - name: Question or idea
+    url: https://github.com/salsadsid/visualizer/discussions
+    about: Ask a question or share an idea without opening an issue.
