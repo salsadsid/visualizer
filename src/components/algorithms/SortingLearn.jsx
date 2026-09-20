@@ -140,7 +140,7 @@ function Complexity({ algo }) {
                                 <tr
                                     key={row.key}
                                     className={cn(
-                                        i !== SORTER_LIST.length - 1 && "border-b border-token/50",
+                                        i !== SORTER_LIST.length - 1 && "border-b border-token",
                                         active && "bg-accent-soft"
                                     )}
                                 >

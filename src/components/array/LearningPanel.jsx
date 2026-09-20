@@ -66,7 +66,7 @@ function Complexity() {
                 </thead>
                 <tbody>
                     {rows.map((r, i) => (
-                        <tr key={i} className={i !== rows.length - 1 ? "border-b border-token/50" : ""}>
+                        <tr key={i} className={i !== rows.length - 1 ? "border-b border-token" : ""}>
                             <td className="px-3 py-2 font-medium">{r.op}</td>
                             <td className="px-3 py-2 font-mono text-accent">{r.time}</td>
                             <td className="px-3 py-2 text-muted text-sm hidden sm:table-cell">{r.note}</td>
