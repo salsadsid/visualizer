@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Explainer, ExplainerSection, Faq, InlineCode } from "@/components/learn/Explainer";
+import { SORTERS } from "@/lib/algorithms/sorting";
 
 const FAQS = [
     {
@@ -28,12 +29,13 @@ const FAQS = [
     },
 ];
 
-function Costs({ best, average, worst, stable }) {
+function Costs({ algo }) {
+    const { best, average, worst, space, stable } = SORTERS[algo].complexity;
     const cells = [
         ["Best", best],
         ["Average", average],
         ["Worst", worst],
-        ["Extra memory", "O(1)"],
+        ["Extra memory", space],
         ["Stable", stable],
     ];
     return (
@@ -72,7 +74,7 @@ export default function SortingExplainer() {
                     roughly quadruples the steps. That growth is what{" "}
                     <InlineCode>O(n²)</InlineCode> means.
                 </p>
-                <Costs best="O(n)" average="O(n²)" worst="O(n²)" stable="Yes" />
+                <Costs algo="bubble" />
             </ExplainerSection>
 
             <ExplainerSection title="How selection sort works">
@@ -96,7 +98,7 @@ export default function SortingExplainer() {
                     swap per pass, fewer than either other sort. That matters when moving
                     data is expensive.
                 </p>
-                <Costs best="O(n²)" average="O(n²)" worst="O(n²)" stable="No" />
+                <Costs algo="selection" />
             </ExplainerSection>
 
             <ExplainerSection title="How insertion sort works">
@@ -118,7 +120,7 @@ export default function SortingExplainer() {
                     That is why real libraries use it for short or almost-sorted stretches of
                     data.
                 </p>
-                <Costs best="O(n)" average="O(n²)" worst="O(n²)" stable="Yes" />
+                <Costs algo="insertion" />
             </ExplainerSection>
 
             <ExplainerSection title="Which sort should you learn first?">

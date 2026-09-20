@@ -239,6 +239,7 @@ export const SORTERS = {
             "      swapped = true",
             "  if not swapped: break   // already sorted",
         ],
+        complexity: { best: "O(n)", average: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "Yes" },
         run: bubble,
     },
     selection: {
@@ -255,6 +256,7 @@ export const SORTERS = {
             "      min = j",
             "  swap(a[i], a[min])",
         ],
+        complexity: { best: "O(n²)", average: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "No" },
         run: selection,
     },
     insertion: {
@@ -272,6 +274,7 @@ export const SORTERS = {
             "    j = j - 1",
             "  a[j+1] = key",
         ],
+        complexity: { best: "O(n)", average: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "Yes" },
         run: insertion,
     },
 };

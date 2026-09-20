@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import LearningTabs, { CodeTabs } from "./LearningTabs";
 import { LANGUAGES, SORT_CODE } from "@/lib/algorithms/snippets";
+import { SORTER_LIST } from "@/lib/algorithms/sorting";
 
 function Concept() {
     return (
@@ -94,12 +95,6 @@ function Uses() {
     );
 }
 
-const COMPLEXITY = [
-    { key: "bubble", name: "Bubble", best: "O(n)", avg: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "Yes" },
-    { key: "selection", name: "Selection", best: "O(n²)", avg: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "No" },
-    { key: "insertion", name: "Insertion", best: "O(n)", avg: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "Yes" },
-];
-
 function Complexity({ algo }) {
     return (
         <div className="space-y-2">
@@ -116,24 +111,24 @@ function Complexity({ algo }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {COMPLEXITY.map((row, i) => {
+                        {SORTER_LIST.map((row, i) => {
                             const active = row.key === algo;
                             return (
                                 <tr
                                     key={row.key}
                                     className={cn(
-                                        i !== COMPLEXITY.length - 1 && "border-b border-token/50",
+                                        i !== SORTER_LIST.length - 1 && "border-b border-token/50",
                                         active && "bg-accent-soft"
                                     )}
                                 >
                                     <td className={cn("px-3 py-2 font-medium", active && "text-accent")}>
-                                        {row.name}
+                                        {row.label}
                                     </td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.best}</td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.avg}</td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.worst}</td>
-                                    <td className="px-3 py-2 font-mono text-xs">{row.space}</td>
-                                    <td className="px-3 py-2 text-xs">{row.stable}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.best}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.average}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.worst}</td>
+                                    <td className="px-3 py-2 font-mono text-xs">{row.complexity.space}</td>
+                                    <td className="px-3 py-2 text-xs">{row.complexity.stable}</td>
                                 </tr>
                             );
                         })}
