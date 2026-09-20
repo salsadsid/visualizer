@@ -18,7 +18,15 @@
 
 ### 🔀 Sorting Visualizer — `/algorithms/sorting`
 
-Step through **Bubble**, **Selection**, and **Insertion** sort:
+Compare **Bubble**, **Selection**, and **Insertion** sort on the overview, then step through each one on its own page. Your list travels with you when you switch:
+
+| Algorithm | Page |
+| --- | --- |
+| Bubble sort | [`/algorithms/sorting/bubble-sort`](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) |
+| Selection sort | [`/algorithms/sorting/selection-sort`](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) |
+| Insertion sort | [`/algorithms/sorting/insertion-sort`](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) |
+
+Every page has:
 
 - Animated gradient bars that **pop** on each swap, with a 🎉 confetti finish
 - **Play / pause / step / scrub** controls and a 0.5×–4× speed dial (plus `Space` and `←`/`→` shortcuts)
@@ -174,7 +182,9 @@ src/
 │   ├── roadmap/page.jsx             # What's shipped / planned
 │   ├── algorithms/
 │   │   ├── page.jsx                 # Algorithms hub
-│   │   └── sorting/page.jsx         # Sorting Visualizer
+│   │   └── sorting/
+│   │       ├── page.jsx             # Sorting overview: compare the three sorts
+│   │       └── [algo]/page.jsx      # One page per algorithm, built from lib/catalog.js
 │   └── data-structures/
 │       └── arrays/page.jsx          # 2D Array Visualizer
 ├── components/
@@ -182,7 +192,7 @@ src/
 │   ├── algorithms/                  # BarChart, PlayerControls, Pseudocode,
 │   │                                #   usePlayer, StatsRow, VarChips, Confetti, HeroDemo …
 │   ├── array/                       # InputPanel, ArrayGrid, ColorSettings, LearningPanel
-│   └── layout/                      # PageShell, BackLink, Footer
+│   └── layout/                      # PageShell, Breadcrumbs, NextStep, Footer
 └── lib/
     ├── algorithms/                  # sorting.js (step model), presets, roles, snippets
     └── array/                       # parser, presets, snippets
