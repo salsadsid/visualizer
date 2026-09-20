@@ -1,29 +1,12 @@
 import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import Footer from "@/components/layout/Footer";
+import { TOOLS } from "@/lib/catalog";
 
 export const metadata = {
     title: "Page not found",
     robots: { index: false, follow: true },
 };
-
-const TOOLS = [
-    {
-        href: "/data-structures/arrays",
-        title: "2D Array Visualizer",
-        body: "Paste a 2D array or matrix and see it as a grid.",
-    },
-    {
-        href: "/algorithms/sorting",
-        title: "Sorting Visualizer",
-        body: "Step through Bubble, Selection and Insertion sort.",
-    },
-    {
-        href: "/algorithms/complexity",
-        title: "Big-O Playground",
-        body: "Count steps and watch real growth curves.",
-    },
-];
 
 export default function NotFound() {
     return (
@@ -42,19 +25,19 @@ export default function NotFound() {
             </header>
 
             <section className="grid sm:grid-cols-3 gap-4">
-                {TOOLS.map((tool) => (
+                {Object.values(TOOLS).map((tool) => (
                     <Link
-                        key={tool.href}
-                        href={tool.href}
+                        key={tool.id}
+                        href={tool.path}
                         className="group surface rounded-2xl p-5 shadow-sm hover:border-strong hover:-translate-y-1 hover:shadow-lg transition-all"
                     >
                         <h2 className="font-semibold flex items-center gap-1.5">
-                            {tool.title}
+                            {tool.name}
                             <span className="text-accent group-hover:translate-x-1 transition-transform">
                                 →
                             </span>
                         </h2>
-                        <p className="text-sm text-muted mt-1 leading-relaxed">{tool.body}</p>
+                        <p className="text-sm text-muted mt-1 leading-relaxed">{tool.card.short}</p>
                     </Link>
                 ))}
             </section>

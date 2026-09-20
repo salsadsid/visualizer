@@ -1,43 +1,25 @@
+import Link from "next/link";
 import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
+import { LEARNING_PATH, PLANNED, ROADMAP_GROUPS } from "@/lib/catalog";
 import { buildMetadata } from "@/lib/seo";
 
-const ROADMAP = [
-    {
-        section: "Data Structures",
-        items: [
-            { name: "2D Arrays", status: "shipped", note: "Custom colors, presets, learning panel" },
-            { name: "Linked List", status: "planned", note: "Singly & doubly linked, animated pointers" },
-            { name: "Stack", status: "planned", note: "Push / pop with overflow visualization" },
-            { name: "Queue", status: "planned", note: "FIFO + circular queue" },
-            { name: "Binary Tree / BST", status: "planned", note: "Insert, traverse, search" },
-            { name: "Graph", status: "planned", note: "Adjacency list & matrix views" },
-        ],
-    },
-    {
-        section: "Sorting & techniques",
-        items: [
-            { name: "Sorting", status: "shipped", note: "Bubble, Selection & Insertion — step-through, speed control, pseudocode & live stats" },
-            { name: "Time complexity / Big-O", status: "shipped", note: "Live growth-curve playground — measure O(1)…O(2ⁿ) by operations or real time" },
-            { name: "Counting sort", status: "planned", note: "Non-comparison sort built on a frequency array — O(n + k)" },
-            { name: "Frequency array", status: "planned", note: "Count occurrences in O(n); the basis for counting sort & hashing" },
-            { name: "Merge sort", status: "planned", note: "Divide & conquer, stable, O(n log n)" },
-            { name: "Quick sort", status: "planned", note: "In-place partitioning, average O(n log n)" },
-            { name: "Binary search", status: "planned", note: "Find a value in a sorted array in O(log n)" },
-            { name: "Prefix sums", status: "planned", note: "Answer range-sum queries instantly after O(n) prep" },
-            { name: "Two pointers", status: "planned", note: "Pair & subarray problems in a single O(n) pass" },
-            { name: "Sliding window", status: "planned", note: "Running window for subarray sum / min / max" },
-        ],
-    },
-    {
-        section: "Algorithms",
-        items: [
-            { name: "Graph algorithms", status: "planned", note: "BFS, DFS, Dijkstra" },
-            { name: "Dynamic programming", status: "planned", note: "Classic DP tables (LCS, knapsack)" },
-        ],
-    },
-];
+const ROADMAP = ROADMAP_GROUPS.map((section) => ({
+    section,
+    items: [
+        ...LEARNING_PATH.filter((tool) => tool.group === section).map((tool) => ({
+            name: tool.name,
+            status: "shipped",
+            note: tool.card.short,
+            path: tool.path,
+        })),
+        ...PLANNED.filter((topic) => topic.group === section).map((topic) => ({
+            ...topic,
+            status: "planned",
+        })),
+    ],
+}));
 
 const STATUS_BADGE = {
     shipped: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20",
@@ -79,7 +61,18 @@ export default function RoadmapPage() {
                                     className="surface rounded-xl px-4 py-3 flex items-center justify-between gap-4 hover:border-strong hover:-translate-y-0.5 transition-all"
                                 >
                                     <div className="min-w-0">
-                                        <h3 className="font-medium">{item.name}</h3>
+                                        <h3 className="font-medium">
+                                            {item.path ? (
+                                                <Link
+                                                    href={item.path}
+                                                    className="hover:text-accent transition-colors"
+                                                >
+                                                    {item.name}
+                                                </Link>
+                                            ) : (
+                                                item.name
+                                            )}
+                                        </h3>
                                         <p className="text-xs text-muted mt-0.5">{item.note}</p>
                                     </div>
                                     <span
