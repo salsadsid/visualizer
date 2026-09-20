@@ -48,3 +48,29 @@ export const TOOLS = {
         updatedAt: "2026-09-19",
     },
 };
+
+const STATIC_PAGES = [
+    { path: "/", updatedAt: "2026-09-19", changeFrequency: "weekly", priority: 1.0 },
+    { path: "/roadmap", updatedAt: "2026-09-19", changeFrequency: "monthly", priority: 0.5 },
+];
+
+export function sitemapEntries() {
+    const sections = Object.values(SECTIONS).map((page) => ({
+        ...page,
+        changeFrequency: "weekly",
+        priority: 0.8,
+    }));
+    const tools = Object.values(TOOLS).map((page) => ({
+        ...page,
+        changeFrequency: "weekly",
+        priority: 0.9,
+    }));
+    return [...STATIC_PAGES, ...sections, ...tools].map(
+        ({ path, updatedAt, changeFrequency, priority }) => ({
+            path,
+            lastModified: updatedAt,
+            changeFrequency,
+            priority,
+        })
+    );
+}
