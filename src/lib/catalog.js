@@ -71,6 +71,67 @@ export const TOOLS = {
     },
 };
 
+export const SORT_PAGES = {
+    "bubble-sort": {
+        id: "bubble-sort",
+        key: "bubble",
+        path: "/algorithms/sorting/bubble-sort",
+        section: "algorithms",
+        name: "Bubble Sort",
+        title: "Bubble Sort Visualizer — Step by Step",
+        h1: "Bubble Sort Visualizer",
+        description:
+            "Watch bubble sort run one step at a time: animated bars, live i/j pointers, highlighted pseudocode, swap counters, and code in C++, Python, JS & TS.",
+        intro: "Watch neighbours swap until the biggest values bubble to the end. Press play, or step through one comparison at a time.",
+        teaches: ["bubble sort", "adjacent swaps", "early exit on a pass with no swaps"],
+        share: {
+            accent: "Watch every swap.",
+            subtitle: "Animated bars, live i and j pointers, synced pseudocode and swap counters.",
+        },
+        updatedAt: "2026-09-20",
+    },
+    "selection-sort": {
+        id: "selection-sort",
+        key: "selection",
+        path: "/algorithms/sorting/selection-sort",
+        section: "algorithms",
+        name: "Selection Sort",
+        title: "Selection Sort Visualizer — Step by Step",
+        h1: "Selection Sort Visualizer",
+        description:
+            "Watch selection sort find the minimum each pass: animated bars, live i/j/min pointers, highlighted pseudocode, and code in C++, Python, JS & TS.",
+        intro: "Watch each pass hunt for the smallest value left and drop it into place. Press play, or step through one comparison at a time.",
+        teaches: ["selection sort", "finding the minimum with a running best", "in-place swapping"],
+        share: {
+            accent: "Find the minimum.",
+            subtitle: "Animated bars, live i, j and min pointers, synced pseudocode and counters.",
+        },
+        updatedAt: "2026-09-20",
+    },
+    "insertion-sort": {
+        id: "insertion-sort",
+        key: "insertion",
+        path: "/algorithms/sorting/insertion-sort",
+        section: "algorithms",
+        name: "Insertion Sort",
+        title: "Insertion Sort Visualizer — Step by Step",
+        h1: "Insertion Sort Visualizer",
+        description:
+            "Watch insertion sort slide each key into place: animated bars, live pointers, highlighted pseudocode, and code in C++, Python, JS & TS.",
+        intro: "Watch each value slide left into a growing sorted part, the way you sort a hand of cards. Press play, or step through it.",
+        teaches: ["insertion sort", "shifting values to open a gap", "why nearly sorted input is fast"],
+        share: {
+            accent: "Slide it into place.",
+            subtitle: "Animated bars, the key and its shifts, synced pseudocode and live counters.",
+        },
+        updatedAt: "2026-09-20",
+    },
+};
+
+export const SORT_PAGE_LIST = Object.values(SORT_PAGES);
+
+export const sortPageFor = (key) => SORT_PAGE_LIST.find((page) => page.key === key);
+
 export const LEARNING_PATH = Object.values(TOOLS).sort((a, b) => a.pathOrder - b.pathOrder);
 
 export const toolsIn = (section) =>
@@ -115,7 +176,12 @@ export function sitemapEntries() {
         changeFrequency: "weekly",
         priority: 0.9,
     }));
-    return [...STATIC_PAGES, ...sections, ...tools].map(
+    const sorts = SORT_PAGE_LIST.map((page) => ({
+        ...page,
+        changeFrequency: "weekly",
+        priority: 0.9,
+    }));
+    return [...STATIC_PAGES, ...sections, ...tools, ...sorts].map(
         ({ path, updatedAt, changeFrequency, priority }) => ({
             path,
             lastModified: updatedAt,

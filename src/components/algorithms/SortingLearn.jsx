@@ -4,20 +4,42 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import LearningTabs, { CodeTabs } from "./LearningTabs";
 import { LANGUAGES, SORT_CODE } from "@/lib/algorithms/snippets";
-import { SORTER_LIST } from "@/lib/algorithms/sorting";
+import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
+import { sortPageFor } from "@/lib/catalog";
 import { useSortingInput } from "./SortingInputProvider";
 
-function Concept() {
+const CONCEPT_LEAD = {
+    bubble: "only ever looks at two neighbours at a time and swaps them when they are the wrong way round, so the largest unsorted value reaches the end on every pass.",
+    selection: "scans everything that is still unsorted, remembers where the smallest value is, and swaps it into the next free slot, so it makes at most one swap per pass.",
+    insertion: "takes one value at a time and slides it left into a sorted part that grows from the front, shifting the bigger values over to make room.",
+};
+
+function Concept({ algo }) {
+    const others = SORTER_LIST.filter((sorter) => sorter.key !== algo);
     return (
         <div className="space-y-3 text-sm leading-relaxed text-muted">
             <p>
-                <strong className="text-text">Sorting</strong> arranges items into order
-                (here, smallest&nbsp;→&nbsp;largest). All three sorts on this page are{" "}
-                <em>comparison sorts</em>: they decide what goes where purely by comparing
-                pairs of values.
+                <strong className="text-text">{SORTERS[algo].label}</strong>{" "}
+                {CONCEPT_LEAD[algo]}
             </p>
             <p>
-                They&apos;re also <strong className="text-text">in-place</strong> (they
+                Like{" "}
+                {others.map((sorter, index) => (
+                    <span key={sorter.key}>
+                        {index > 0 && " and "}
+                        <Link
+                            href={sortPageFor(sorter.key).path}
+                            className="text-accent hover:text-accent-hover font-medium"
+                        >
+                            {sorter.label.toLowerCase()}
+                        </Link>
+                    </span>
+                ))}
+                , it is a <em>comparison sort</em>: it decides what goes where purely by
+                comparing pairs of values.
+            </p>
+            <p>
+                All three are also <strong className="text-text">in-place</strong> (they
                 reuse the same array, O(1) extra memory) and simple to reason about. The
                 trade-off is speed: each runs in{" "}
                 <Link
@@ -155,7 +177,7 @@ function Complexity({ algo }) {
 function SortingLearn({ algo }) {
     const { learnTab, setLearnTab, codeLang, setCodeLang } = useSortingInput();
     const tabs = [
-        { id: "concept", label: "Concept", content: <Concept /> },
+        { id: "concept", label: "Concept", content: <Concept algo={algo} /> },
         { id: "uses", label: "Use cases", content: <Uses /> },
         { id: "complexity", label: "Complexity", content: <Complexity algo={algo} /> },
         {
@@ -173,7 +195,7 @@ function SortingLearn({ algo }) {
     ];
     return (
         <LearningTabs
-            heading="Learn sorting"
+            heading={`Learn ${SORTERS[algo].label.toLowerCase()}`}
             tabs={tabs}
             tool="sorting"
             value={learnTab}

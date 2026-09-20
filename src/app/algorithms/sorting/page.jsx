@@ -6,7 +6,13 @@ import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
 import SortingExplainer from "@/components/algorithms/SortingExplainer";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
+import { buildMetadata } from "@/lib/seo";
 import { SECTIONS, TOOLS } from "@/lib/catalog";
+
+export const metadata = buildMetadata({
+    ...TOOLS.sorting,
+    image: `${TOOLS.sorting.path}/opengraph-image`,
+});
 
 export default function SortingPage() {
     return (
@@ -29,7 +35,7 @@ export default function SortingPage() {
                 </p>
             </header>
 
-            <SortingVisualizer />
+            <SortingVisualizer algo="bubble" />
 
             <SortingExplainer />
 

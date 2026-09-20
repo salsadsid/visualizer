@@ -5,14 +5,17 @@ import {
     PLANNED,
     ROADMAP_GROUPS,
     SECTIONS,
+    SORT_PAGES,
+    SORT_PAGE_LIST,
     TOOLS,
     sitemapEntries,
 } from "../src/lib/catalog.js";
+import { SORTERS } from "../src/lib/algorithms/sorting.js";
 import { buildMetadata } from "../src/lib/seo.js";
 import { siteConfig } from "../src/lib/site.js";
 
 const TITLE_SUFFIX = ` · ${siteConfig.shortName}`;
-const pages = Object.values(TOOLS);
+const pages = [...Object.values(TOOLS), ...SORT_PAGE_LIST];
 
 test("every page has a title that fits in a search result", () => {
     for (const page of pages) {
@@ -44,6 +47,15 @@ test("every page belongs to a section and has what its cards need", () => {
         assert.ok(page.path.startsWith(`${SECTIONS[page.section].path}/`), page.id);
         assert.ok(page.name && page.teaches.length > 0, page.id);
         assert.match(page.updatedAt, /^\d{4}-\d{2}-\d{2}$/, page.id);
+    }
+});
+
+test("every sorter has exactly one page, addressed by its slug", () => {
+    assert.deepEqual(SORT_PAGE_LIST.map((page) => page.key).sort(), Object.keys(SORTERS).sort());
+    for (const [slug, page] of Object.entries(SORT_PAGES)) {
+        assert.equal(page.id, slug);
+        assert.equal(page.path, `/algorithms/sorting/${slug}`);
+        assert.ok(page.h1 && page.intro && page.share.accent && page.share.subtitle, slug);
     }
 });
 

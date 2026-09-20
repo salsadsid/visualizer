@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import BarChart from "@/components/algorithms/BarChart";
 import VarChips from "@/components/algorithms/VarChips";
 import StatsRow from "@/components/algorithms/StatsRow";
@@ -10,9 +10,10 @@ import SortingLearn from "@/components/algorithms/SortingLearn";
 import { usePlayer } from "@/components/algorithms/usePlayer";
 import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
 import { useSortingInput } from "@/components/algorithms/SortingInputProvider";
+import TrackedLink from "@/components/analytics/TrackedLink";
 import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
 import { ROLE_STYLES } from "@/lib/algorithms/roles";
-import { track } from "@/lib/analytics";
+import { sortPageFor } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 
 const SPACE_TARGETS = "button, a, input, textarea, select, summary, [role=tab]";
@@ -24,8 +25,7 @@ const Kbd = ({ children }) => (
     </kbd>
 );
 
-export default function SortingVisualizer() {
-    const [algoKey, setAlgoKey] = useState("bubble");
+export default function SortingVisualizer({ algo: algoKey }) {
     const { size, values, applyPreset, shuffle, changeSize, applyCustom } = useSortingInput();
 
     const sorter = SORTERS[algoKey];
@@ -61,24 +61,20 @@ export default function SortingVisualizer() {
         return () => window.removeEventListener("keydown", onKey);
     }, []);
 
-    const selectAlgo = (key) => {
-        track("algo_select", { tool: "sorting", algo: key });
-        setAlgoKey(key);
-    };
     return (
         <>
-            <div
-                role="tablist"
+            <nav
                 aria-label="Sorting algorithm"
                 className="flex flex-wrap justify-center gap-2 mb-3"
             >
                 {SORTER_LIST.map((s) => (
-                    <button
+                    <TrackedLink
                         key={s.key}
-                        type="button"
-                        role="tab"
-                        aria-selected={algoKey === s.key}
-                        onClick={() => selectAlgo(s.key)}
+                        href={sortPageFor(s.key).path}
+                        scroll={false}
+                        event="algo_select"
+                        params={{ tool: "sorting", algo: s.key }}
+                        aria-current={algoKey === s.key ? "page" : undefined}
                         className={cn(
                             "px-4 py-2 rounded-xl text-sm font-medium border transition-all focus-ring hover:scale-105 active:scale-95",
                             algoKey === s.key
@@ -87,9 +83,9 @@ export default function SortingVisualizer() {
                         )}
                     >
                         {s.label}
-                    </button>
+                    </TrackedLink>
                 ))}
-            </div>
+            </nav>
             <p className="text-center text-base text-muted max-w-2xl mx-auto mb-6">
                 {sorter.blurb}
             </p>
