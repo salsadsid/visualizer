@@ -37,7 +37,7 @@ export function Trace({ caption, rows }) {
                     {rows.map(([when, list, note], index) => (
                         <tr
                             key={when}
-                            className={index !== rows.length - 1 ? "border-b border-token/50" : undefined}
+                            className={index !== rows.length - 1 ? "border-b border-token" : undefined}
                         >
                             <th scope="row" className="text-left px-3 py-2 font-medium text-text whitespace-nowrap">
                                 {when}
