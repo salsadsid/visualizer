@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
+import NextStep from "@/components/layout/NextStep";
 import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
 import BubbleSortExplainer from "@/components/algorithms/explainers/BubbleSortExplainer";
 import SelectionSortExplainer from "@/components/algorithms/explainers/SelectionSortExplainer";
@@ -60,6 +61,15 @@ export default async function SortPage({ params }) {
             <SortingVisualizer algo={page.key} />
 
             <Explainer />
+
+            <NextStep
+                href={page.next.path}
+                label={page.next.label}
+                tool={page.next.tool}
+                from={`${page.id}_next`}
+            >
+                {page.next.text}
+            </NextStep>
 
             <Footer />
         </PageShell>

@@ -56,6 +56,8 @@ test("every sorter has exactly one page, addressed by its slug", () => {
         assert.equal(page.id, slug);
         assert.equal(page.path, `/algorithms/sorting/${slug}`);
         assert.ok(page.h1 && page.intro && page.share.accent && page.share.subtitle, slug);
+        assert.ok(page.next.label && page.next.text, slug);
+        assert.ok(pages.some((target) => target.path === page.next.path), `${slug}: next step leads nowhere`);
     }
 });
 

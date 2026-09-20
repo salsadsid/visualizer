@@ -88,6 +88,12 @@ export const SORT_PAGES = {
             accent: "Watch every swap.",
             subtitle: "Animated bars, live i and j pointers, synced pseudocode and swap counters.",
         },
+        next: {
+            path: "/algorithms/sorting/selection-sort",
+            label: "Open the Selection Sort Visualizer",
+            tool: "sorting",
+            text: "Bubble sort makes lots of small swaps. Next, watch a sort that looks first and makes at most one swap per pass.",
+        },
         updatedAt: "2026-09-20",
     },
     "selection-sort": {
@@ -106,6 +112,12 @@ export const SORT_PAGES = {
             accent: "Find the minimum.",
             subtitle: "Animated bars, live i, j and min pointers, synced pseudocode and counters.",
         },
+        next: {
+            path: "/algorithms/sorting/insertion-sort",
+            label: "Open the Insertion Sort Visualizer",
+            tool: "sorting",
+            text: "Selection sort does the same work whatever you give it. Next, meet a sort that gets faster the closer your list already is to sorted.",
+        },
         updatedAt: "2026-09-20",
     },
     "insertion-sort": {
@@ -123,6 +135,12 @@ export const SORT_PAGES = {
         share: {
             accent: "Slide it into place.",
             subtitle: "Animated bars, the key and its shifts, synced pseudocode and live counters.",
+        },
+        next: {
+            path: "/data-structures/arrays",
+            label: "Open the 2D Array Visualizer",
+            tool: "arrays",
+            text: "Sorting works on a single row of values. Next, see what changes when your data has rows and columns.",
         },
         updatedAt: "2026-09-20",
     },

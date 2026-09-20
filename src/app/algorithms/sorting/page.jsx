@@ -40,13 +40,13 @@ export default function SortingPage() {
             <SortingComparison />
 
             <NextStep
-                href="/data-structures/arrays"
-                label="Open the 2D Array Visualizer"
-                tool="arrays"
+                href={SORT_PAGE_LIST[0].path}
+                label="Open the Bubble Sort Visualizer"
+                tool="sorting"
                 from="sorting_next"
             >
-                Sorting works on a single row of values. Next, see what changes when your
-                data has rows <em>and</em> columns.
+                Not sure where to begin? Bubble sort is the easiest one to picture, so
+                start there and work your way across.
             </NextStep>
 
             <Footer />

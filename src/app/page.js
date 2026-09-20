@@ -37,7 +37,7 @@ const ICONS = { complexity: CurveIcon, sorting: BarsIcon, arrays: GridIcon };
 
 const POPULAR = [
     { tool: "arrays", href: "/data-structures/arrays", label: "2D Array Visualizer" },
-    { tool: "sorting", href: "/algorithms/sorting", label: "Bubble Sort" },
+    { tool: "sorting", href: "/algorithms/sorting/bubble-sort", label: "Bubble Sort" },
     { tool: "complexity", href: "/algorithms/complexity", label: "Big-O Playground" },
 ];
 

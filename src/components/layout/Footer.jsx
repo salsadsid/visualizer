@@ -1,23 +1,44 @@
 import Link from "next/link";
 import TrackedLink from "@/components/analytics/TrackedLink";
-import { SECTIONS, TOOLS } from "@/lib/catalog";
+import { SECTIONS, SORT_PAGE_LIST, TOOLS } from "@/lib/catalog";
 import { siteConfig } from "@/lib/site";
+
+const GROUPS = [
+    {
+        section: SECTIONS.algorithms,
+        links: [TOOLS.complexity, TOOLS.sorting, ...SORT_PAGE_LIST],
+    },
+    {
+        section: SECTIONS["data-structures"],
+        links: [TOOLS.arrays],
+    },
+];
 
 export default function Footer() {
     return (
         <footer className="mt-12 border-t border-token pt-6 pb-2">
-            <nav
-                aria-label="Tools"
-                className="flex flex-wrap items-center justify-center sm:justify-start gap-x-5 gap-y-2 mb-5 text-sm"
-            >
-                {[...Object.values(TOOLS), ...Object.values(SECTIONS)].map((item) => (
-                    <Link
-                        key={item.path}
-                        href={item.path}
-                        className="text-muted hover:text-text transition-colors"
-                    >
-                        {item.name}
-                    </Link>
+            <nav aria-label="Tools" className="grid sm:grid-cols-2 gap-x-8 gap-y-5 mb-6 text-sm">
+                {GROUPS.map((group) => (
+                    <div key={group.section.id} className="text-center sm:text-left">
+                        <Link
+                            href={group.section.path}
+                            className="text-xs font-semibold uppercase tracking-wider text-subtle hover:text-text transition-colors"
+                        >
+                            {group.section.name}
+                        </Link>
+                        <ul className="mt-2 flex flex-wrap justify-center sm:justify-start gap-x-5 gap-y-2">
+                            {group.links.map((item) => (
+                                <li key={item.path}>
+                                    <Link
+                                        href={item.path}
+                                        className="text-muted hover:text-text transition-colors"
+                                    >
+                                        {item.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 ))}
             </nav>
             <p className="mb-5 text-sm text-muted text-center sm:text-left">

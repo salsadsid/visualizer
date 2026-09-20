@@ -89,7 +89,7 @@ export const COMPLEXITY_CLASSES = [
         computer:
             "Two nested loops → n × n steps. 10× the data becomes 100× the work.",
         seenIn: "Bubble / selection / insertion sort, all-pairs, nested loops.",
-        link: { href: "/algorithms/sorting", label: "Watch an O(n²) sort run step by step" },
+        link: { href: "/algorithms/sorting/bubble-sort", label: "Watch an O(n²) sort run step by step" },
     },
     {
         id: "exponential",
