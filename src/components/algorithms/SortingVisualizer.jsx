@@ -11,6 +11,7 @@ import { usePlayer } from "@/components/algorithms/usePlayer";
 import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
 import { useSortingInput } from "@/components/algorithms/SortingInputProvider";
 import TrackedLink from "@/components/analytics/TrackedLink";
+import RunCompleteNudge from "@/components/engagement/RunCompleteNudge";
 import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
 import { ROLE_STYLES } from "@/lib/algorithms/roles";
 import { sortPageFor } from "@/lib/catalog";
@@ -110,6 +111,12 @@ export default function SortingVisualizer({ algo: algoKey }) {
                         <VarChips vars={step.vars} />
                         <StatsRow stats={step.stats} message={step.message} />
                         <PlayerControls player={player} />
+                        <RunCompleteNudge
+                            show={player.atEnd && player.total > 1}
+                            tool="sorting"
+                            algo={algoKey}
+                            path={sortPageFor(algoKey).path}
+                        />
                     </div>
                 </div>
 
