@@ -1,0 +1,30 @@
+name: Algorithm or data structure request
+description: Ask for a new visualizer, or offer to build one
+title: "Add: "
+labels: ["enhancement"]
+body:
+  - type: input
+    id: topic
+    attributes:
+      label: What should be visualized?
+      placeholder: Merge sort, binary search, stack, BFS on a grid …
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What is hard to understand about it?
+      description: The part that confuses beginners is the part the visualizer should make obvious.
+    validations:
+      required: true
+  - type: textarea
+    id: shape
+    attributes:
+      label: What would you want to see on screen?
+      description: Pointers, colours, counters, a call stack … a rough sketch in words is fine.
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Would you like to build it?
+      options:
+        - label: Yes, I can open a pull request (see CONTRIBUTING.md for the checklist)

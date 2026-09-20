@@ -1,0 +1,28 @@
+name: Bug report
+description: Something looks wrong or does not work
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      placeholder: https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: What did you do, and what happened?
+      description: Include the input you typed if there was one. A screenshot helps a lot.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+  - type: input
+    id: device
+    attributes:
+      label: Browser and device
+      placeholder: Chrome 140 on Android, Safari on iPhone 13, Firefox on Windows …
