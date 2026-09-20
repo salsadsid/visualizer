@@ -8,19 +8,13 @@ import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
 import { sortPageFor } from "@/lib/catalog";
 import { useSortingInput } from "./SortingInputProvider";
 
-const CONCEPT_LEAD = {
-    bubble: "only ever looks at two neighbours at a time and swaps them when they are the wrong way round, so the largest unsorted value reaches the end on every pass.",
-    selection: "scans everything that is still unsorted, remembers where the smallest value is, and swaps it into the next free slot, so it makes at most one swap per pass.",
-    insertion: "takes one value at a time and slides it left into a sorted part that grows from the front, shifting the bigger values over to make room.",
-};
-
 function Concept({ algo }) {
     const others = SORTER_LIST.filter((sorter) => sorter.key !== algo);
     return (
         <div className="space-y-3 text-sm leading-relaxed text-muted">
             <p>
                 <strong className="text-text">{SORTERS[algo].label}</strong>{" "}
-                {CONCEPT_LEAD[algo]}
+                {SORTERS[algo].lead}
             </p>
             <p>
                 Like{" "}
