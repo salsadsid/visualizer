@@ -8,7 +8,7 @@ import ComplexityPlayground from "@/components/algorithms/ComplexityPlayground";
 import ComplexityLearn from "@/components/algorithms/ComplexityLearn";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
-import { TOOLS } from "@/lib/catalog";
+import { SECTIONS, TOOLS } from "@/lib/catalog";
 
 // Small numbered kicker that walks beginners through the page in order.
 function StepKicker({ n, children }) {
@@ -69,7 +69,7 @@ export default function ComplexityPage() {
     return (
         <PageShell>
             <JsonLd data={learningResourceJsonLd(TOOLS.complexity)} />
-            <Breadcrumbs items={[{ name: "Algorithms", path: "/algorithms" }, { name: "Big-O Playground" }]} />
+            <Breadcrumbs items={[SECTIONS[TOOLS.complexity.section], { name: TOOLS.complexity.name }]} />
 
             <header className="mb-8 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">

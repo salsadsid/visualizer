@@ -1,12 +1,7 @@
 import Link from "next/link";
 import TrackedLink from "@/components/analytics/TrackedLink";
-import { TOOLS } from "@/lib/catalog";
+import { SECTIONS, TOOLS } from "@/lib/catalog";
 import { siteConfig } from "@/lib/site";
-
-const SECTIONS = [
-    { path: "/data-structures", title: "Data Structures" },
-    { path: "/algorithms", title: "Algorithms" },
-];
 
 export default function Footer() {
     return (
@@ -15,13 +10,13 @@ export default function Footer() {
                 aria-label="Tools"
                 className="flex flex-wrap items-center justify-center sm:justify-start gap-x-5 gap-y-2 mb-5 text-sm"
             >
-                {[...Object.values(TOOLS), ...SECTIONS].map((item) => (
+                {[...Object.values(TOOLS), ...Object.values(SECTIONS)].map((item) => (
                     <Link
                         key={item.path}
                         href={item.path}
                         className="text-muted hover:text-text transition-colors"
                     >
-                        {item.title}
+                        {item.name}
                     </Link>
                 ))}
             </nav>

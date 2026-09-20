@@ -7,13 +7,13 @@ import LearningPanel from "@/components/array/LearningPanel";
 import ArraysExplainer from "@/components/array/ArraysExplainer";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
-import { TOOLS } from "@/lib/catalog";
+import { SECTIONS, TOOLS } from "@/lib/catalog";
 
 export default function ArraysPage() {
     return (
         <PageShell>
             <JsonLd data={learningResourceJsonLd(TOOLS.arrays)} />
-            <Breadcrumbs items={[{ name: "Data Structures", path: "/data-structures" }, { name: "2D Array Visualizer" }]} />
+            <Breadcrumbs items={[SECTIONS[TOOLS.arrays.section], { name: TOOLS.arrays.name }]} />
 
             <header className="mb-8 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">

@@ -6,13 +6,13 @@ import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
 import SortingExplainer from "@/components/algorithms/SortingExplainer";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
-import { TOOLS } from "@/lib/catalog";
+import { SECTIONS, TOOLS } from "@/lib/catalog";
 
 export default function SortingPage() {
     return (
         <PageShell>
             <JsonLd data={learningResourceJsonLd(TOOLS.sorting)} />
-            <Breadcrumbs items={[{ name: "Algorithms", path: "/algorithms" }, { name: "Sorting Visualizer" }]} />
+            <Breadcrumbs items={[SECTIONS[TOOLS.sorting.section], { name: TOOLS.sorting.name }]} />
 
             <header className="mb-7 text-center">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full surface-muted">

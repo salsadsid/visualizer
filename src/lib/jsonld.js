@@ -22,11 +22,11 @@ export function websiteJsonLd() {
     };
 }
 
-export function learningResourceJsonLd({ title, description, path, teaches }) {
+export function learningResourceJsonLd({ name, title, description, path, teaches }) {
     return {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: title,
+        name: name ?? title,
         description,
         url: `${siteConfig.url}${path}`,
         learningResourceType: "interactive simulation",
