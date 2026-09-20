@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 import LearningTabs, { CodeTabs } from "./LearningTabs";
 import { LANGUAGES, SORT_CODE } from "@/lib/algorithms/snippets";
 import { SORTER_LIST } from "@/lib/algorithms/sorting";
+import { useSortingInput } from "./SortingInputProvider";
 
 function Concept() {
     return (
@@ -152,6 +153,7 @@ function Complexity({ algo }) {
 }
 
 function SortingLearn({ algo }) {
+    const { learnTab, setLearnTab, codeLang, setCodeLang } = useSortingInput();
     const tabs = [
         { id: "concept", label: "Concept", content: <Concept /> },
         { id: "uses", label: "Use cases", content: <Uses /> },
@@ -159,10 +161,25 @@ function SortingLearn({ algo }) {
         {
             id: "code",
             label: "Code",
-            content: <CodeTabs languages={LANGUAGES} groups={SORT_CODE[algo]} />,
+            content: (
+                <CodeTabs
+                    languages={LANGUAGES}
+                    groups={SORT_CODE[algo]}
+                    value={codeLang}
+                    onChange={setCodeLang}
+                />
+            ),
         },
     ];
-    return <LearningTabs heading="Learn sorting" tabs={tabs} tool="sorting" />;
+    return (
+        <LearningTabs
+            heading="Learn sorting"
+            tabs={tabs}
+            tool="sorting"
+            value={learnTab}
+            onChange={setLearnTab}
+        />
+    );
 }
 
 export default memo(SortingLearn);

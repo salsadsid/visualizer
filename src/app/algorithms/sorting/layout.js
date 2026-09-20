@@ -1,3 +1,4 @@
+import SortingInputProvider from "@/components/algorithms/SortingInputProvider";
 import { buildMetadata } from "@/lib/seo";
 import { TOOLS } from "@/lib/catalog";
 
@@ -7,5 +8,5 @@ export const metadata = buildMetadata({
 });
 
 export default function Layout({ children }) {
-    return children;
+    return <SortingInputProvider>{children}</SortingInputProvider>;
 }

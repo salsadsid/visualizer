@@ -4,8 +4,13 @@ import { cn } from "@/lib/cn";
 import { track } from "@/lib/analytics";
 
 // Reusable language-tabbed code viewer. `groups` is { langId: [{ title, code }] }.
-export function CodeTabs({ languages, groups }) {
-    const [lang, setLang] = useState(languages[0].id);
+export function CodeTabs({ languages, groups, value, onChange }) {
+    const [own, setOwn] = useState(languages[0].id);
+    const lang = languages.some((l) => l.id === value) ? value : own;
+    const setLang = (id) => {
+        setOwn(id);
+        onChange?.(id);
+    };
     const snippets = groups[lang] || [];
 
     return (
@@ -51,15 +56,24 @@ export function CodeTabs({ languages, groups }) {
 }
 
 // Generic tabbed learning panel. `tabs` is [{ id, label, content }].
-export default function LearningTabs({ heading = "Learn", headingLevel = "h2", tabs, tool }) {
+export default function LearningTabs({
+    heading = "Learn",
+    headingLevel = "h2",
+    tabs,
+    tool,
+    value,
+    onChange,
+}) {
     const Heading = headingLevel;
     const baseId = useId();
-    const [active, setActive] = useState(tabs[0].id);
+    const [own, setOwn] = useState(tabs[0].id);
+    const active = value ?? own;
     const activeId = tabs.some((tab) => tab.id === active) ? active : tabs[0].id;
 
     const selectTab = (id) => {
         track("learn_tab", { tool, tab: id });
-        setActive(id);
+        setOwn(id);
+        onChange?.(id);
     };
 
     const onKeyDown = (event) => {
