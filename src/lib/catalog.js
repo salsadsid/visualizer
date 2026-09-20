@@ -19,7 +19,7 @@ export const TOOLS = {
         path: "/data-structures/arrays",
         section: "data-structures",
         name: "2D Array Visualizer",
-        title: "2D Array Visualizer",
+        title: "2D Array Visualizer — Matrix to Grid",
         description:
             "Paste any 2D array or matrix and see it as a grid. Color cells by value, show row and column indices, and learn with C++, Python, JS & TS code. Free.",
         teaches: ["2D arrays", "matrix indexing with rows and columns", "row-major order"],
@@ -37,15 +37,15 @@ export const TOOLS = {
         path: "/algorithms/sorting",
         section: "algorithms",
         name: "Sorting Visualizer",
-        title: "Sorting Visualizer",
+        title: "Sorting Algorithm Visualizer",
         description:
-            "Step through Bubble, Selection and Insertion sort: animated bars, live i/j pointers, synced pseudocode, swap counters, and code in C++, Python, JS & TS.",
+            "Compare Bubble, Selection and Insertion sort side by side. Pick one and step through it with animated bars, live variables and synced pseudocode.",
         teaches: ["bubble sort", "selection sort", "insertion sort", "comparing sorting algorithms"],
-        updatedAt: "2026-09-19",
+        updatedAt: "2026-09-20",
         group: "Sorting & techniques",
         pathOrder: 2,
         card: {
-            body: "Watch Bubble, Selection & Insertion sort run one step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
+            body: "Compare Bubble, Selection & Insertion sort, then watch each one run a step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
             short: "Step through Bubble, Selection and Insertion sort.",
             tags: ["Bubble", "Selection", "Insertion"],
         },
@@ -55,7 +55,7 @@ export const TOOLS = {
         path: "/algorithms/complexity",
         section: "algorithms",
         name: "Big-O Playground",
-        title: "Big-O Playground",
+        title: "Big-O Playground — See Time Complexity",
         description:
             "Learn Big-O by measuring it: count steps with the computer, then watch O(1), O(log n), O(n), O(n log n) and O(n²) growth curves fan out. Beginner friendly.",
         teaches: ["Big-O notation", "time complexity", "how algorithms scale"],
