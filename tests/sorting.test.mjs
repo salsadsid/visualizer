@@ -118,6 +118,38 @@ test("insertion: never swaps, and writes once per shift plus once per key", () =
     assert.equal(sorted.comparisons, 7);
 });
 
+const taggedDuplicates = () =>
+    [4, 4, 1].map((value, originalIndex) => ({
+        value,
+        originalIndex,
+        valueOf() {
+            return value;
+        },
+        toString() {
+            return String(value);
+        },
+    }));
+
+const taggedResult = (sorter) => sorter.run(taggedDuplicates()).steps.at(-1).array;
+
+const equalValueOrder = (sorter) =>
+    taggedResult(sorter)
+        .filter((item) => item.value === 4)
+        .map((item) => item.originalIndex);
+
+test("bubble and insertion preserve the order of equal values", () => {
+    for (const sorter of [SORTERS.bubble, SORTERS.insertion]) {
+        assert.deepEqual(taggedResult(sorter).map((item) => item.value), [1, 4, 4]);
+    }
+    assert.deepEqual(equalValueOrder(SORTERS.bubble), [0, 1]);
+    assert.deepEqual(equalValueOrder(SORTERS.insertion), [0, 1]);
+});
+
+test("selection can reverse equal values when it swaps a later minimum forward", () => {
+    assert.deepEqual(taggedResult(SORTERS.selection).map((item) => item.value), [1, 4, 4]);
+    assert.deepEqual(equalValueOrder(SORTERS.selection), [1, 0]);
+});
+
 test("every sorter ships with everything its page needs", async () => {
     const { readFile } = await import("node:fs/promises");
     const { LANGUAGES, SORT_CODE } = await import("../src/lib/algorithms/snippets.js");
