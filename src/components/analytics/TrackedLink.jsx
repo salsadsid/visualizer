@@ -2,19 +2,29 @@
 import Link from "next/link";
 import { track } from "@/lib/analytics";
 
-export default function TrackedLink({ event, params, external = false, children, ...props }) {
-    const onClick = () => track(event, params);
+export default function TrackedLink({
+    event,
+    params,
+    external = false,
+    onClick,
+    children,
+    ...props
+}) {
+    const handleClick = (e) => {
+        track(event, params);
+        onClick?.(e);
+    };
 
     if (external) {
         return (
-            <a {...props} onClick={onClick}>
+            <a {...props} onClick={handleClick}>
                 {children}
             </a>
         );
     }
 
     return (
-        <Link {...props} onClick={onClick}>
+        <Link {...props} onClick={handleClick}>
             {children}
         </Link>
     );
