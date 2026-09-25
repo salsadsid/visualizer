@@ -75,7 +75,7 @@ export default function DataStructuresHome() {
                                     key={t}
                                     className="text-[11px] font-medium px-2 py-0.5 rounded surface-muted text-subtle"
                                 >
-                                    {t.name}
+                                    {t}
                                 </span>
                             ))}
                         </div>
