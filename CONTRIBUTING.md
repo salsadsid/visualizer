@@ -74,6 +74,18 @@ Traversals live next to the 2D Array Visualizer and share its grid. The checklis
 
 The route, share card, sitemap entry, switcher button, "Traverse this grid" link and the Learn panel are generated from steps 1 to 3.
 
+## Adding a grid algorithm
+
+Grid algorithms (flood fill, islands, BFS shortest path) share the traversal engine and the clickable grid:
+
+1. **`src/lib/array/gridAlgorithms.js`**: write the function with `makeGridRecorder` from `gridRecorder.js` (`r.visit` for a cell being processed, `r.frontier` for the queue or call stack, `r.marks` for persistent roles such as walls, `r.mark` for a badge without a visit, `r.extra` for extra counters) and add a `GRID_ALGORITHMS` entry with `key`, `label`, `blurb`, `lead`, `roles` (from `gridRoles.js`), `pseudocode`, `strip`, `click` (`"start"`, `"toggle"` or `"wall"`), `defaultGrid` and `run(grid, options)`.
+2. **`tests/gridAlgorithms.test.mjs`**: compare the result with a plain reference implementation on seeded random grids.
+3. **`src/lib/array/gridCode.js`**: the four languages.
+4. **`src/lib/catalog.js`**: a `GRID_PAGES` entry and the previous page's `next`.
+5. **`src/components/array/grid/`**: the explainer, registered in the `EXPLAINERS` map in `src/app/algorithms/grid/[slug]/page.jsx`; a row in the overview table in `src/app/algorithms/grid/page.jsx`.
+
+The route, share card, sitemap entry, switcher button, "Run on this grid" link, counters and the Learn panel follow from steps 1, 3 and 4.
+
 ### Writing the explainer
 
 The explainers are what teachers and search engines read, so please follow the house style:
@@ -118,6 +130,7 @@ src/
 │   ├── algorithms/
 │   │   ├── page.jsx                 # Algorithms hub
 │   │   ├── complexity/              # Big-O Playground
+│   │   ├── grid/                    # Grid algorithms overview + [slug] pages
 │   │   └── sorting/
 │   │       ├── layout.js            # Keeps your array while you switch sorts
 │   │       ├── page.jsx             # Overview: compare the three sorts
@@ -130,7 +143,8 @@ src/
 │   ├── algorithms/                  # BarChart, PlayerControls, Pseudocode, usePlayer,
 │   │   └── explainers/              #   and one written explainer per sort
 │   ├── array/                       # InputPanel, ArrayGrid, TraversalVisualizer, explainers
-│   │   └── traversals/              #   one explainer per traversal order
+│   │   ├── traversals/              #   one explainer per traversal order
+│   │   └── grid/                    #   one explainer per grid algorithm
 │   ├── analytics/, engagement/, seo/
 │   ├── learn/                       # Explainer building blocks (sections, FAQ, code)
 │   └── layout/                      # PageShell, SiteHeader, Breadcrumbs, NextStep, Footer
