@@ -39,6 +39,31 @@ export const GRID_ROLES = {
         swatch: "bg-violet-400",
         label: "Shortest path",
     },
+    reading: {
+        cell: "bg-amber-400 text-slate-900 border-2 border-amber-500 scale-105 z-10",
+        swatch: "bg-amber-400",
+        label: "Reading",
+    },
+    writing: {
+        cell: "bg-fuchsia-400 text-slate-900 border-2 border-fuchsia-600 scale-105 z-10",
+        swatch: "bg-fuchsia-400",
+        label: "Writing",
+    },
+    written: {
+        cell: "bg-emerald-500 text-slate-900 border border-emerald-600",
+        swatch: "bg-emerald-500",
+        label: "Written",
+    },
+    row: {
+        cell: "bg-sky-300 text-slate-900 border border-sky-500",
+        swatch: "bg-sky-300",
+        label: "Current row",
+    },
+    column: {
+        cell: "bg-violet-400 text-slate-900 border border-violet-600",
+        swatch: "bg-violet-400",
+        label: "Current column",
+    },
     land: {
         cell: "bg-lime-200 text-slate-900 border border-lime-500",
         swatch: "bg-lime-200",
