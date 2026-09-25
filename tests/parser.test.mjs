@@ -77,6 +77,34 @@ test("a single line of values is a single row with a note", () => {
     assert.match(result.note, /single row/);
 });
 
+test("Python literals and single quotes are read as JSON", () => {
+    const result = parseInput("[[1, 'a'], [True, None]]");
+    assert.deepEqual(result.matrix, [[1, "a"], [true, null]]);
+    assert.equal(result.format, "python");
+    assert.match(result.note, /Python-style/);
+    assert.deepEqual(parseInput(`[['a"b', 'don\\'t']]`).matrix, [['a"b', "don't"]]);
+    assert.deepEqual(parseInput("['x', \"it's\"]").matrix, [["x", "it's"]]);
+    const flat = parseInput("[True, False]");
+    assert.deepEqual(flat.matrix, [[true, false]]);
+    assert.match(flat.note, /1D array/);
+});
+
+test("trailing commas are ignored", () => {
+    const result = parseInput("[[1, 2], [3, 4],]");
+    assert.deepEqual(result.matrix, [[1, 2], [3, 4]]);
+    assert.equal(result.format, "json");
+    assert.match(result.note, /trailing comma/);
+    assert.deepEqual(parseInput("[[1, 2,], [3, 4,],]").matrix, [[1, 2], [3, 4]]);
+});
+
+test("braces and nested arrays still fail clearly", () => {
+    for (const raw of ["{{1,2},{3,4}}", "{1, 2, 3}", "[1, [2, 3]]", "[[1, 'a']", "[['a', 'b'], [1, 2]"]) {
+        const result = parseInput(raw);
+        assert.deepEqual(result.matrix, [], raw);
+        assert.equal(typeof result.error, "string", raw);
+    }
+});
+
 test("every preset survives a format and parse round trip", () => {
     for (const [key, preset] of Object.entries(PRESETS)) {
         const matrix = preset.build();

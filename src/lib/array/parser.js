@@ -41,6 +41,57 @@ function parseRows(text) {
     return { rows, header, separator };
 }
 
+const LITERALS = new Map([
+    ["True", "true"],
+    ["False", "false"],
+    ["None", "null"],
+]);
+
+function loosen(text) {
+    let out = "";
+    let quote = null;
+    const changed = { quotes: false, literals: false, commas: false };
+    for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (quote) {
+            if (ch === "\\") {
+                const next = text[i + 1] ?? "";
+                out += next === "'" ? "'" : ch + next;
+                i++;
+            } else if (ch === quote) {
+                out += '"';
+                quote = null;
+            } else {
+                out += ch === '"' ? '\\"' : ch;
+            }
+            continue;
+        }
+        if (ch === "'" || ch === '"') {
+            if (ch === "'") changed.quotes = true;
+            quote = ch;
+            out += '"';
+        } else if (/[A-Za-z_]/.test(ch)) {
+            let end = i + 1;
+            while (end < text.length && /\w/.test(text[end])) end++;
+            const word = text.slice(i, end);
+            if (LITERALS.has(word)) changed.literals = true;
+            out += LITERALS.get(word) ?? word;
+            i = end - 1;
+        } else if (ch === "," && /^\s*[\]}]/.test(text.slice(i + 1))) {
+            changed.commas = true;
+        } else {
+            out += ch;
+        }
+    }
+    return { text: out, changed };
+}
+
+function describeLoose({ quotes, literals, commas }) {
+    if (quotes || literals) return "Read Python-style input (single quotes, True/False/None).";
+    if (commas) return "Ignored a trailing comma.";
+    return null;
+}
+
 function describeRows({ rows, header, separator }, maxLen) {
     if (rows.length === 1) {
         return `Read as a single row of ${maxLen} values. Add more lines to build a grid.`;
@@ -57,14 +108,25 @@ export function parseInput(raw) {
     let format = "json";
     let note = null;
     let rows = null;
+    let looseNote = null;
     try {
         parsed = JSON.parse(text);
     } catch (_) {
-        if (/[[{]/.test(text)) return fail(JSON_ERROR);
-        rows = parseRows(text);
-        if (!rows) return fail(JSON_ERROR);
-        parsed = rows.rows;
-        format = "rows";
+        if (/[[{]/.test(text)) {
+            const loose = loosen(text);
+            try {
+                parsed = JSON.parse(loose.text);
+            } catch (__) {
+                return fail(JSON_ERROR);
+            }
+            if (loose.changed.quotes || loose.changed.literals) format = "python";
+            looseNote = describeLoose(loose.changed);
+        } else {
+            rows = parseRows(text);
+            if (!rows) return fail(JSON_ERROR);
+            parsed = rows.rows;
+            format = "rows";
+        }
     }
 
     if (!Array.isArray(parsed)) {
@@ -91,6 +153,7 @@ export function parseInput(raw) {
         row.length === maxLen ? [...row] : [...row, ...Array(maxLen - row.length).fill(PAD_TOKEN)]
     );
     if (rows) note = describeRows(rows, maxLen);
+    else if (looseNote) note = [looseNote, note].filter(Boolean).join(" ");
 
     return { matrix, maxLen, error: null, note, format };
 }
