@@ -4,7 +4,17 @@ import { cn } from "@/lib/cn";
 
 const FORMAT_LABELS = { json: "JSON", rows: "Rows", python: "Python" };
 
-export default function InputPanel({ value, error, note, format, onChange, onPreset }) {
+export default function InputPanel({
+    value,
+    error,
+    note,
+    format,
+    onChange,
+    onPreset,
+    onShare,
+    shareTitle,
+    copied,
+}) {
     return (
         <div className="surface rounded-2xl p-5 flex flex-col h-full shadow-sm">
             <div className="flex items-center justify-between mb-4">
@@ -12,9 +22,34 @@ export default function InputPanel({ value, error, note, format, onChange, onPre
                     <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                     Input
                 </h2>
-                <span className="font-mono text-[11px] px-2 py-0.5 rounded surface-muted text-subtle">
-                    {FORMAT_LABELS[format] || "JSON"}
-                </span>
+                <div className="flex items-center gap-2">
+                    <span className="font-mono text-[11px] px-2 py-0.5 rounded surface-muted text-subtle">
+                        {FORMAT_LABELS[format] || "JSON"}
+                    </span>
+                    <button
+                        type="button"
+                        onClick={onShare ?? undefined}
+                        disabled={!onShare}
+                        title={shareTitle}
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
+                    >
+                        <svg
+                            className="w-3.5 h-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            aria-hidden="true"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M13.5 10.5a4 4 0 010 5.66l-2.34 2.34a4 4 0 01-5.66-5.66l1.17-1.17M10.5 13.5a4 4 0 010-5.66l2.34-2.34a4 4 0 015.66 5.66l-1.17 1.17"
+                            />
+                        </svg>
+                        <span aria-live="polite">{copied ? "Copied" : "Copy link"}</span>
+                    </button>
+                </div>
             </div>
 
             <div className="flex flex-wrap gap-1.5 mb-4">
