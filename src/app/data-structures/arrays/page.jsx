@@ -46,13 +46,13 @@ export default function ArraysPage() {
             <ArraysExplainer />
 
             <NextStep
-                href="/algorithms/complexity"
-                label="Open the Big-O Playground"
-                tool="complexity"
+                href={TOOLS.traversals.path}
+                label="Open the traversal visualizers"
+                tool="traversals"
                 from="arrays_next"
             >
-                Visiting every cell took rows × columns steps. Curious how that kind of
-                growth compares with other algorithms? Measure it for real.
+                You can see the grid. Next, watch a loop walk through it: six traversal
+                orders, from row by row to spiral, one step at a time.
             </NextStep>
 
             <Footer />

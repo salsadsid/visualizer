@@ -86,7 +86,15 @@ matrix[1][2] → 9`}</CodeBlock>
                     visiting everything takes <InlineCode>r × c</InlineCode> steps, which is
                     written <InlineCode>O(r · c)</InlineCode>. Reading or changing a single
                     cell is different: you jump straight to its address, one step, no matter
-                    how big the grid is. New to this notation?{" "}
+                    how big the grid is. Watch the loops run on the{" "}
+                    <Link
+                        href="/data-structures/arrays/traversal"
+                        className="text-accent hover:text-accent-hover font-medium"
+                    >
+                        traversal pages
+                    </Link>
+                    : row by row, down the columns, in a spiral or along the diagonals. New to
+                    this notation?{" "}
                     <Link
                         href="/algorithms/complexity"
                         className="text-accent hover:text-accent-hover font-medium"
