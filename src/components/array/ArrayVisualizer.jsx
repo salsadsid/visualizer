@@ -17,7 +17,7 @@ export default function ArrayVisualizer() {
     const [showIndices, setShowIndices] = useState(false);
     const editedRef = useRef(false);
 
-    const { matrix, maxLen, error, note } = useMemo(
+    const { matrix, maxLen, error, note, format } = useMemo(
         () => parseInput(inputValue),
         [inputValue]
     );
@@ -50,6 +50,7 @@ export default function ArrayVisualizer() {
                     value={inputValue}
                     error={error}
                     note={note}
+                    format={format}
                     onChange={handleInput}
                     onPreset={applyPreset}
                 />

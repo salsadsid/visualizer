@@ -2,7 +2,9 @@
 import { PRESETS, ACCENT_CLASSES } from "@/lib/array/presets";
 import { cn } from "@/lib/cn";
 
-export default function InputPanel({ value, error, note, onChange, onPreset }) {
+const FORMAT_LABELS = { json: "JSON", rows: "Rows", python: "Python" };
+
+export default function InputPanel({ value, error, note, format, onChange, onPreset }) {
     return (
         <div className="surface rounded-2xl p-5 flex flex-col h-full shadow-sm">
             <div className="flex items-center justify-between mb-4">
@@ -11,7 +13,7 @@ export default function InputPanel({ value, error, note, onChange, onPreset }) {
                     Input
                 </h2>
                 <span className="font-mono text-[11px] px-2 py-0.5 rounded surface-muted text-subtle">
-                    JSON
+                    {FORMAT_LABELS[format] || "JSON"}
                 </span>
             </div>
 
