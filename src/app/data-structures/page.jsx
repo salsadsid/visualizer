@@ -29,7 +29,13 @@ const PathIcon = (
     </svg>
 );
 
-const ICONS = { arrays: GridIcon, traversals: PathIcon };
+const RowIcon = (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 9h18v6H3zM8 9v6M13 9v6M18 9v6" />
+    </svg>
+);
+
+const ICONS = { arrays1d: RowIcon, arrays: GridIcon, traversals: PathIcon };
 
 const SHIPPED = toolsIn("data-structures");
 const COMING = plannedIn("data-structures");

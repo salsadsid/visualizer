@@ -23,6 +23,7 @@ export const siteConfig = {
     feedbackUrl: `https://github.com/salsadsid/visualizer/issues/new?${feedbackParams}`,
     keywords: [
         "DSA visualizer",
+        "array visualizer",
         "sorting visualizer",
         "sorting algorithm visualizer",
         "big o notation",

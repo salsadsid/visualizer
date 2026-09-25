@@ -45,10 +45,24 @@ const MazeIcon = (
     </svg>
 );
 
-const ICONS = { complexity: CurveIcon, sorting: BarsIcon, arrays: GridIcon, traversals: PathIcon, grid: MazeIcon };
+const RowIcon = (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 9h18v6H3zM8 9v6M13 9v6M18 9v6" />
+    </svg>
+);
+
+const ICONS = {
+    complexity: CurveIcon,
+    arrays1d: RowIcon,
+    sorting: BarsIcon,
+    arrays: GridIcon,
+    traversals: PathIcon,
+    grid: MazeIcon,
+};
 
 const POPULAR = [
     { tool: "arrays", href: "/data-structures/arrays", label: "2D Array Visualizer" },
+    { tool: "arrays1d", href: "/data-structures/arrays/1d", label: "Array Visualizer" },
     { tool: "sorting", href: "/algorithms/sorting/bubble-sort", label: "Bubble Sort" },
     { tool: "complexity", href: "/algorithms/complexity", label: "Big-O Playground" },
 ];
