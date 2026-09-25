@@ -128,6 +128,7 @@ export default function TraversalVisualizer({ kind }) {
                     <ArrayGrid
                         matrix={matrix}
                         maxLen={cols}
+                        fill={false}
                         showIndices
                         cells={step.cells}
                         order={step.order}

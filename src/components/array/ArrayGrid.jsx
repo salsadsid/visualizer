@@ -45,6 +45,7 @@ export default function ArrayGrid({
     cells,
     order,
     pointers,
+    fill = true,
 }) {
     const hasData = matrix.length > 0 && matrix.some((r) => r.length > 0);
     const gap = maxLen > 8 ? "gap-1 mb-1" : "gap-2 mb-2";
@@ -53,10 +54,20 @@ export default function ArrayGrid({
         : `repeat(${maxLen}, minmax(0, 1fr))`;
 
     return (
-        <div className="surface rounded-2xl p-6 md:p-8 h-full grid place-items-center relative overflow-hidden shadow-sm">
+        <div
+            className={cn(
+                "surface rounded-2xl p-6 md:p-8 grid place-items-center relative overflow-hidden shadow-sm",
+                fill ? "h-full" : "min-h-56"
+            )}
+        >
             <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
 
-            <div className="relative w-full h-full overflow-auto grid place-items-center custom-scrollbar">
+            <div
+                className={cn(
+                    "relative w-full overflow-auto grid place-items-center custom-scrollbar",
+                    fill && "h-full"
+                )}
+            >
                 {!hasData ? (
                     <EmptyState />
                 ) : (
