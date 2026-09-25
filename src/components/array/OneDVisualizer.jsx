@@ -181,9 +181,7 @@ export default function OneDVisualizer({ path }) {
                         ].map(([label, cost]) => (
                             <div key={label} className="surface-muted rounded-lg px-2 py-1.5 min-w-0">
                                 <dt className="text-[10px] uppercase tracking-wide text-subtle">{label}</dt>
-                                <dd className="font-mono text-xs text-text truncate" title={cost}>
-                                    {cost}
-                                </dd>
+                                <dd className="font-mono text-[11px] leading-snug text-text">{cost}</dd>
                             </div>
                         ))}
                     </dl>
