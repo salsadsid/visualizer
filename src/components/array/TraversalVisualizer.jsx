@@ -15,17 +15,15 @@ import RunCompleteNudge from "@/components/engagement/RunCompleteNudge";
 import { useCopyLink } from "@/components/engagement/useCopyLink";
 import { useLocationHash } from "@/components/engagement/useLocationHash";
 import { TRAVERSALS, TRAVERSAL_LIST, numberedGrid } from "@/lib/array/traversals";
-import { displayValue, parseInput } from "@/lib/array/parser";
-import { formatMatrix } from "@/lib/array/presets";
+import { displayValue } from "@/lib/array/parser";
+import { MAX_COLS, MAX_ROWS, gridFromHash } from "@/lib/array/gridFromHash";
 import { traversalPageFor } from "@/lib/catalog";
-import { decodeGrid, encodeGrid, readStep } from "@/lib/share";
+import { encodeGrid, readStep } from "@/lib/share";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
 import { GRID_ROLES } from "@/lib/array/gridRoles";
 
-const MAX_ROWS = 8;
-const MAX_COLS = 10;
 const DEFAULT_GRID = numberedGrid(3, 4);
 
 const Kbd = ({ children }) => (
@@ -33,14 +31,6 @@ const Kbd = ({ children }) => (
         {children}
     </kbd>
 );
-
-function gridFromHash(hash) {
-    const shared = decodeGrid(hash);
-    if (!shared) return null;
-    const trimmed = shared.matrix.slice(0, MAX_ROWS).map((row) => row.slice(0, MAX_COLS));
-    const { matrix, maxLen } = parseInput(formatMatrix(trimmed));
-    return maxLen > 0 ? matrix : null;
-}
 
 export default function TraversalVisualizer({ kind }) {
     const hash = useLocationHash();
