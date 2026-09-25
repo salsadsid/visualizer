@@ -30,7 +30,13 @@ const CurveIcon = (
     </svg>
 );
 
-const ICONS = { complexity: CurveIcon, sorting: BarsIcon };
+const MazeIcon = (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v16H4zM4 10h6v4M14 4v6h6M10 20v-4h4v-2" />
+    </svg>
+);
+
+const ICONS = { complexity: CurveIcon, sorting: BarsIcon, grid: MazeIcon };
 
 const SHIPPED = toolsIn("algorithms");
 const COMING = plannedIn("algorithms");

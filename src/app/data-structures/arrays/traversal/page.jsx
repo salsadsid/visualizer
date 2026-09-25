@@ -168,7 +168,15 @@ export default function TraversalOverviewPage() {
                     </p>
                     <p>
                         Each page keeps your grid when you switch, so try one grid in all six
-                        orders and compare the visit numbers.
+                        orders and compare the visit numbers. When the orders feel familiar,
+                        the same grid is waiting on the{" "}
+                        <Link
+                            href={TOOLS.grid.path}
+                            className="text-accent hover:text-accent-hover font-medium"
+                        >
+                            grid algorithm pages
+                        </Link>
+                        : flood fill, number of islands and BFS shortest path.
                     </p>
                 </ExplainerSection>
 
