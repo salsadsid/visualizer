@@ -7,10 +7,15 @@ import {
     SECTIONS,
     SORT_PAGES,
     SORT_PAGE_LIST,
+    TRAVERSAL_PAGES,
+    TRAVERSAL_PAGE_LIST,
     TOOLS,
     sitemapEntries,
 } from "../src/lib/catalog.js";
 import { SORTERS } from "../src/lib/algorithms/sorting.js";
+import { TRAVERSALS } from "../src/lib/array/traversals.js";
+import { TRAVERSAL_CODE } from "../src/lib/array/traversalCode.js";
+import { LANGUAGES } from "../src/lib/array/snippets.js";
 import { buildMetadata } from "../src/lib/seo.js";
 import { siteConfig } from "../src/lib/site.js";
 
@@ -104,5 +109,28 @@ test("buildMetadata sets every field a child route would otherwise inherit", () 
         assert.equal(meta.openGraph.images[0].url, image);
         assert.equal(meta.twitter.images[0].url, image);
         assert.equal(meta.description, page.description);
+    }
+});
+
+test("every traversal has exactly one page with fitting copy and code", () => {
+    assert.deepEqual(Object.keys(TRAVERSAL_PAGES).sort(), Object.keys(TRAVERSALS).sort());
+    const seen = new Set();
+    for (const page of TRAVERSAL_PAGE_LIST) {
+        const full = `${page.title}${TITLE_SUFFIX}`;
+        assert.ok(full.length <= 60, `${page.id}: "${full}" is ${full.length} characters`);
+        assert.ok(page.description.length >= 70 && page.description.length <= 155, `${page.id}: description is ${page.description.length} characters`);
+        assert.equal(page.path, `/data-structures/arrays/traversal/${page.id}`);
+        assert.ok(page.name && page.h1 && page.intro && page.teaches.length > 0 && page.share.accent && page.share.subtitle, page.id);
+        for (const field of ["path", "name", "title", "description"]) {
+            assert.ok(!seen.has(page[field]), `${page.id}: duplicate ${field}`);
+            seen.add(page[field]);
+        }
+        for (const language of LANGUAGES) {
+            assert.ok(TRAVERSAL_CODE[page.key]?.[language.id]?.length > 0, `${page.id}: no ${language.label} code`);
+        }
+        assert.ok(
+            [...pages, ...TRAVERSAL_PAGE_LIST].some((target) => target.path === page.next.path),
+            `${page.id}: next step leads nowhere`
+        );
     }
 });
