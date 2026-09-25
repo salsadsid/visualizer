@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/cn";
 import { PAD_TOKEN, cellKey, displayValue } from "@/lib/array/parser";
-import { roleCell } from "@/lib/array/gridRoles";
+import { roleCell, roleLabel } from "@/lib/array/gridRoles";
 
 const cellSize = (cols) => Math.min(48, Math.max(28, Math.floor(320 / cols)));
 
@@ -41,6 +41,9 @@ export default function ArrayGrid({
     order,
     pointers,
     fill = true,
+    onCellClick,
+    orderLabel = "visited #",
+    groupLabel = "Grid cells",
 }) {
     const hasData = matrix.length > 0 && matrix.some((r) => r.length > 0);
     const gap = maxLen > 8 ? "gap-1 mb-1" : "gap-2 mb-2";
@@ -58,8 +61,10 @@ export default function ArrayGrid({
             <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
 
             <div
+                role={onCellClick ? "group" : undefined}
+                aria-label={onCellClick ? groupLabel : undefined}
                 className={cn(
-                    "relative w-full overflow-auto grid place-items-center custom-scrollbar",
+                    "relative w-full overflow-auto grid place-items-center custom-scrollbar p-1",
                     fill && "h-full"
                 )}
             >
@@ -103,16 +108,28 @@ export default function ArrayGrid({
                                 {row.map((cell, j) => {
                                     const key = cellKey(cell);
                                     const isPad = cell === PAD_TOKEN;
-                                    const roleClass = roleCell(cells?.[`${i},${j}`]);
+                                    const role = cells?.[`${i},${j}`];
+                                    const roleClass = roleCell(role);
                                     const rank = order?.[`${i},${j}`];
                                     const bg = !isPad && !roleClass ? colors[key] : undefined;
                                     const customText = colors.__text;
+                                    const title = `[${i}][${j}] = ${displayValue(cell)}${rank != null ? ` · ${orderLabel}${rank}` : ""}`;
+                                    const Cell = onCellClick ? "button" : "div";
 
                                     return (
-                                        <div
+                                        <Cell
                                             key={`${i}-${j}`}
+                                            type={onCellClick ? "button" : undefined}
+                                            onClick={onCellClick ? () => onCellClick(i, j) : undefined}
+                                            disabled={onCellClick && isPad ? true : undefined}
+                                            aria-label={
+                                                onCellClick
+                                                    ? `${title}${role ? ` · ${roleLabel(role)}` : ""}`
+                                                    : undefined
+                                            }
                                             className={cn(
-                                                "relative w-(--cell) h-(--cell) md:w-16 md:h-16 grid place-items-center font-semibold rounded-xl shadow-sm transition-all duration-200 hover:scale-105 hover:z-10 cursor-default",
+                                                "relative w-(--cell) h-(--cell) md:w-16 md:h-16 grid place-items-center font-semibold rounded-xl shadow-sm transition-all duration-200 hover:scale-105 hover:z-10",
+                                                onCellClick ? "cursor-pointer focus-ring" : "cursor-default",
                                                 fontClass(maxLen),
                                                 roleClass,
                                                 !roleClass && !bg && !isPad && "bg-bg-muted text-text border border-token",
@@ -130,10 +147,10 @@ export default function ArrayGrid({
                                                           boxShadow: bg ? `0 6px 16px -6px ${bg}` : undefined,
                                                       }
                                             }
-                                            title={`[${i}][${j}] = ${displayValue(cell)}${rank ? ` · visited #${rank}` : ""}`}
+                                            title={title}
                                         >
                                             {displayValue(cell)}
-                                            {rank && (
+                                            {rank != null && (
                                                 <span
                                                     aria-hidden="true"
                                                     className="absolute -top-1.5 -left-1.5 min-w-4 h-4 px-1 rounded-full bg-bg-elevated border border-token text-[10px] font-mono font-medium leading-4 text-text shadow-sm"
@@ -141,7 +158,7 @@ export default function ArrayGrid({
                                                     {rank}
                                                 </span>
                                             )}
-                                        </div>
+                                        </Cell>
                                     );
                                 })}
                             </div>
