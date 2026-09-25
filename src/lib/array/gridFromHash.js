@@ -5,8 +5,8 @@ import { decodeGrid } from "../share.js";
 export const MAX_ROWS = 8;
 export const MAX_COLS = 10;
 
-export function gridFromHash(hash) {
-    const shared = decodeGrid(hash);
+export function gridFromHash(hash, name = "g") {
+    const shared = decodeGrid(hash, name);
     if (!shared) return null;
     const trimmed = shared.matrix.slice(0, MAX_ROWS).map((row) => row.slice(0, MAX_COLS));
     const { matrix, maxLen } = parseInput(formatMatrix(trimmed));

@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { decodeGrid, decodeSort, encodeGrid, encodeOneD, encodeSort, readParam, readPoint, readStep, readVariant } from "../src/lib/share.js";
+import { decodeGrid, decodeSort, encodeGrid, encodeOneD, encodeSort, gridParam, readParam, readPoint, readStep, readVariant } from "../src/lib/share.js";
+import { gridFromHash } from "../src/lib/array/gridFromHash.js";
 import { PAD_TOKEN, parseInput } from "../src/lib/array/parser.js";
 import { formatMatrix } from "../src/lib/array/presets.js";
 
@@ -105,4 +106,22 @@ test("1D array runs encode their operation and options", () => {
     assert.equal(readParam("#op=", "op"), null);
     assert.equal(readParam("", "op"), null);
     assert.equal(readVariant("#v=dfs"), "dfs");
+});
+
+test("a second grid rides along under its own param", () => {
+    const a = [[1, 2, 3], [4, 5, 6]];
+    const b = [[7, 8], [9, 10], [11, 12]];
+    const hash = `${encodeGrid({ matrix: a })}&${gridParam({ matrix: b }, "b")}&s=5&v=cw`;
+    assert.match(hash, /^#g=[A-Za-z0-9_-]+&b=[A-Za-z0-9_-]+&s=5&v=cw$/);
+    assert.equal(`#${gridParam({ matrix: a })}`, encodeGrid({ matrix: a }));
+    assert.deepEqual(decodeGrid(hash).matrix, a);
+    assert.deepEqual(decodeGrid(hash, "g").matrix, a);
+    assert.deepEqual(decodeGrid(hash, "b").matrix, b);
+    assert.deepEqual(gridFromHash(hash, "b"), b);
+    assert.equal(decodeGrid(`${encodeGrid({ matrix: a })}&s=2`, "b"), null);
+    assert.equal(gridFromHash(`${encodeGrid({ matrix: a })}&s=2`, "b"), null);
+    assert.equal(readStep(hash), 5);
+    assert.equal(readVariant(hash), "cw");
+    const big = Array.from({ length: 40 }, () => Array.from({ length: 40 }, (_, j) => j));
+    assert.equal(gridParam({ matrix: big }, "b"), null);
 });

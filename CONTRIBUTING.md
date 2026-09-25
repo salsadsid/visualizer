@@ -86,6 +86,16 @@ Grid algorithms (flood fill, islands, BFS shortest path) share the traversal eng
 
 The route, share card, sitemap entry, switcher button, "Run on this grid" link, counters and the Learn panel follow from steps 1, 3 and 4.
 
+## Adding a matrix operation
+
+1. **`src/lib/array/matrixOps.js`**: add a `MATRIX_OPS` entry with `key`, `label`, `blurb`, `lead`, `roles` (from `gridRoles.js`), `counters` (three; `remaining` is derived from the result size), `shape(rows, cols, options)`, `resultLabel` and either `pseudocode` or `variants` (each with `label`, `resultLabel`, `pseudocode`, `target` and `describe`, plus a `defaultVariant`). Operations that only move cells go through `copyOperation`; anything else writes its own `run(a, options)` returning `{ steps, result }`, where every step has `panels.a`, an optional `panels.b` and `panels.out` (its `matrix` plus `cells` and `pointers` for each panel) and `stats` with `reads`, `writes` and `mults`. Unwritten result cells hold `PAD_TOKEN`. Never mutate the inputs.
+2. **`src/lib/array/matrixCode.js`**: the four languages.
+3. **`tests/matrix.test.mjs`**: the result against a reference implementation on seeded random grids, plus the step and counter totals.
+4. **`src/lib/catalog.js`**: a `MATRIX_PAGES` entry (`name`, `title`, `h1`, `description`, `intro`, `teaches`, `share`, `next`).
+5. **`src/components/array/matrix/<Name>Explainer.jsx`**, registered in `src/app/data-structures/arrays/matrix/[op]/page.jsx`.
+
+The switcher, sliders, variant toggle, counters, share link, Learn panel and share card follow from steps 1 and 4.
+
 ## Adding a 1D array operation
 
 1. **`src/lib/array/oneD.js`**: write the function with `makeTrace` (`t.push(line, message, highlights)` records a step; keep `t.stats` to `reads`, `writes` and `compares` and put operation words such as `shifts` in `t.vars`) and add an `OPERATIONS` entry with `key`, `label`, `blurb`, `lead`, `roles` (from `boxRoles.js`), `pseudocode`, `complexity`, `inputs` (`"index"`, `"value"`, `"target"`) and `run(values, options)`. Never mutate `values`.

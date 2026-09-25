@@ -16,7 +16,7 @@ const FAQS = [
     },
     {
         question: "Is a matrix the same thing as a 2D array?",
-        answer: "In programming, almost always yes. Matrix is the math word for a rectangular grid of numbers, and a 2D array is how you store one in code. A 2D array is a little more relaxed: it can hold text or true and false values, and its rows do not have to be the same length.",
+        answer: "In programming, almost always yes. Matrix is the math word for a rectangular grid of numbers, and a 2D array is how you store one in code. A 2D array is a little more relaxed: it can hold text or true and false values, and its rows do not have to be the same length. To transform one, the matrix operation pages transpose, rotate, flip and multiply a matrix one cell at a time.",
     },
     {
         question: "Why do the row and column numbers start at 0?",

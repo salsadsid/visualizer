@@ -11,6 +11,8 @@ import {
     TRAVERSAL_PAGE_LIST,
     GRID_PAGES,
     GRID_PAGE_LIST,
+    MATRIX_PAGES,
+    MATRIX_PAGE_LIST,
     TOOLS,
     sitemapEntries,
 } from "../src/lib/catalog.js";
@@ -19,12 +21,14 @@ import { TRAVERSALS } from "../src/lib/array/traversals.js";
 import { TRAVERSAL_CODE } from "../src/lib/array/traversalCode.js";
 import { GRID_ALGORITHMS } from "../src/lib/array/gridAlgorithms.js";
 import { GRID_CODE } from "../src/lib/array/gridCode.js";
+import { MATRIX_OPS } from "../src/lib/array/matrixOps.js";
+import { MATRIX_CODE } from "../src/lib/array/matrixCode.js";
 import { LANGUAGES } from "../src/lib/array/snippets.js";
 import { buildMetadata } from "../src/lib/seo.js";
 import { siteConfig } from "../src/lib/site.js";
 
 const TITLE_SUFFIX = ` · ${siteConfig.shortName}`;
-const pages = [...Object.values(TOOLS), ...SORT_PAGE_LIST, ...TRAVERSAL_PAGE_LIST, ...GRID_PAGE_LIST];
+const pages = [...Object.values(TOOLS), ...SORT_PAGE_LIST, ...TRAVERSAL_PAGE_LIST, ...MATRIX_PAGE_LIST, ...GRID_PAGE_LIST];
 
 test("every page has a title that fits in a search result", () => {
     for (const page of pages) {
@@ -165,6 +169,23 @@ test("every grid algorithm has exactly one page with code and an explainer", asy
             assert.ok(GRID_CODE[page.key]?.[language.id]?.length > 0, `${page.id}: no ${language.label} code`);
         }
         assert.match(explainers, new RegExp(`"${page.key}":`), `${page.id}: no explainer registered`);
+        assert.ok(pages.some((target) => target.path === page.next.path), `${page.id}: next step leads nowhere`);
+    }
+});
+
+test("every matrix operation has exactly one page with code and an explainer", async () => {
+    assert.deepEqual(Object.keys(MATRIX_PAGES), Object.keys(MATRIX_OPS));
+    const { readFile } = await import("node:fs/promises");
+    const route = await readFile(new URL("../src/app/data-structures/arrays/matrix/[op]/page.jsx", import.meta.url), "utf8");
+    const start = route.indexOf("const EXPLAINERS");
+    const explainers = route.slice(start, route.indexOf("};", start));
+    for (const page of MATRIX_PAGE_LIST) {
+        assert.equal(page.path, `/data-structures/arrays/matrix/${page.id}`);
+        assert.ok(page.h1 && page.intro && page.teaches.length > 0 && page.share.accent && page.share.subtitle, page.id);
+        for (const language of LANGUAGES) {
+            assert.ok(MATRIX_CODE[page.key]?.[language.id]?.length > 0, `${page.id}: no ${language.label} code`);
+        }
+        assert.match(explainers, new RegExp(`(^|[\\s{])"?${page.key}"?:`, "m"), `${page.id}: no explainer registered`);
         assert.ok(pages.some((target) => target.path === page.next.path), `${page.id}: next step leads nowhere`);
     }
 });
