@@ -33,7 +33,7 @@ function trimPadding(matrix) {
     });
 }
 
-export function encodeGrid({ matrix, colors = {}, showIndices = false }) {
+export function gridParam({ matrix, colors = {}, showIndices = false }, name = "g") {
     const payload = { v: 1, m: trimPadding(matrix) };
     const c = Object.fromEntries(
         Object.entries(colors).filter(([, value]) => typeof value === "string" && COLOR.test(value))
@@ -41,11 +41,16 @@ export function encodeGrid({ matrix, colors = {}, showIndices = false }) {
     if (Object.keys(c).length > 0) payload.c = c;
     if (showIndices) payload.i = true;
     const encoded = toBase64Url(JSON.stringify(payload));
-    return encoded.length > MAX_LENGTH ? null : `#g=${encoded}`;
+    return encoded.length > MAX_LENGTH ? null : `${name}=${encoded}`;
 }
 
-export function decodeGrid(hash) {
-    const encoded = readHash(hash)?.get("g");
+export function encodeGrid(grid) {
+    const param = gridParam(grid);
+    return param ? `#${param}` : null;
+}
+
+export function decodeGrid(hash, name = "g") {
+    const encoded = readHash(hash)?.get(name);
     if (!encoded || encoded.length > MAX_LENGTH) return null;
     let payload;
     try {
