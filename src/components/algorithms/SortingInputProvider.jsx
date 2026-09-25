@@ -65,10 +65,12 @@ export default function SortingInputProvider({ children, tool = "sorting" }) {
             setSize(vals.length);
             setValues(vals);
         };
+        const clearSharedStep = () => setSharedStep(null);
         return {
             size,
             values,
             sharedStep,
+            clearSharedStep,
             learnTab,
             codeLang,
             setLearnTab,
