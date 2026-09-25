@@ -11,8 +11,9 @@ import { parseInput } from "@/lib/array/parser";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import { TRAVERSAL_LIST } from "@/lib/array/traversals";
 import { GRID_ALGORITHM_LIST } from "@/lib/array/gridAlgorithms";
+import { MATRIX_OP_LIST } from "@/lib/array/matrixOps";
 import { decodeGrid, encodeGrid, encodeSort } from "@/lib/share";
-import { TOOLS, gridPageFor, traversalPageFor } from "@/lib/catalog";
+import { TOOLS, gridPageFor, matrixPageFor, traversalPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 
@@ -159,6 +160,28 @@ export default function ArrayVisualizer() {
                             className="px-2.5 py-1 rounded-full bg-accent-soft border border-accent/20 font-medium text-accent hover:bg-accent/15 transition-colors focus-ring"
                         >
                             {a.label}
+                        </TrackedLink>
+                    ))}
+                </nav>
+            )}
+
+            {hasData && (
+                <nav
+                    aria-label="Transform this grid"
+                    className="mt-2 flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-2 text-sm"
+                >
+                    <span className="text-subtle mr-1">Transform this grid:</span>
+                    {MATRIX_OP_LIST.map((op) => (
+                        <TrackedLink
+                            key={op.key}
+                            href={`${matrixPageFor(op.key).path}${gridHash}`}
+                            scroll={false}
+                            onClick={() => window.scrollTo(0, 0)}
+                            event="tool_open"
+                            params={{ tool: "matrix", algo: op.key, from: "arrays" }}
+                            className="px-2.5 py-1 rounded-full bg-accent-soft border border-accent/20 font-medium text-accent hover:bg-accent/15 transition-colors focus-ring"
+                        >
+                            {op.label}
                         </TrackedLink>
                     ))}
                 </nav>
