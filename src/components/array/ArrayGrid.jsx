@@ -2,6 +2,17 @@
 import { cn } from "@/lib/cn";
 import { PAD_TOKEN, cellKey, displayValue } from "@/lib/array/parser";
 
+const ROLE_CLASSES = {
+    current: "bg-amber-400 text-slate-900 border-2 border-amber-500 scale-105 z-10",
+    turn: "bg-rose-500 text-white border-2 border-rose-600 scale-105 z-10",
+    visited: "bg-emerald-500 text-white border border-emerald-600",
+};
+
+const cellSize = (cols) => Math.min(48, Math.max(28, Math.floor(320 / cols)));
+
+const fontClass = (cols) =>
+    cols > 8 ? "text-xs md:text-lg" : cols > 6 ? "text-sm md:text-lg" : "text-base md:text-lg";
+
 const EmptyState = () => (
     <div className="text-center space-y-3 max-w-xs">
         <div className="mx-auto w-14 h-14 rounded-xl grid place-items-center bg-accent-soft border border-accent/20">
@@ -26,8 +37,20 @@ const EmptyState = () => (
     </div>
 );
 
-export default function ArrayGrid({ matrix, maxLen, colors, showIndices }) {
+export default function ArrayGrid({
+    matrix,
+    maxLen,
+    colors = {},
+    showIndices = false,
+    cells,
+    order,
+    pointers,
+}) {
     const hasData = matrix.length > 0 && matrix.some((r) => r.length > 0);
+    const gap = maxLen > 8 ? "gap-1 mb-1" : "gap-2 mb-2";
+    const columns = showIndices
+        ? `2rem repeat(${maxLen}, minmax(0, 1fr))`
+        : `repeat(${maxLen}, minmax(0, 1fr))`;
 
     return (
         <div className="surface rounded-2xl p-6 md:p-8 h-full grid place-items-center relative overflow-hidden shadow-sm">
@@ -37,19 +60,17 @@ export default function ArrayGrid({ matrix, maxLen, colors, showIndices }) {
                 {!hasData ? (
                     <EmptyState />
                 ) : (
-                    <div className="animate-fade-in-up">
+                    <div className="animate-fade-in-up" style={{ "--cell": `${cellSize(maxLen)}px` }}>
                         {showIndices && (
-                            <div
-                                className="grid gap-2 mb-2"
-                                style={{
-                                    gridTemplateColumns: `2rem repeat(${maxLen}, minmax(0, 1fr))`,
-                                }}
-                            >
+                            <div className={cn("grid", gap)} style={{ gridTemplateColumns: columns }}>
                                 <div />
                                 {Array.from({ length: maxLen }).map((_, j) => (
                                     <div
                                         key={j}
-                                        className="w-12 md:w-16 text-center text-xs font-mono text-subtle"
+                                        className={cn(
+                                            "w-(--cell) md:w-16 text-center text-xs font-mono transition-colors",
+                                            pointers?.j === j ? "text-accent font-bold" : "text-subtle"
+                                        )}
                                     >
                                         {j}
                                     </div>
@@ -60,43 +81,60 @@ export default function ArrayGrid({ matrix, maxLen, colors, showIndices }) {
                         {matrix.map((row, i) => (
                             <div
                                 key={i}
-                                className="grid gap-2 mb-2 last:mb-0"
-                                style={{
-                                    gridTemplateColumns: showIndices
-                                        ? `2rem repeat(${maxLen}, minmax(0, 1fr))`
-                                        : `repeat(${maxLen}, minmax(0, 1fr))`,
-                                }}
+                                className={cn("grid last:mb-0", gap)}
+                                style={{ gridTemplateColumns: columns }}
                             >
                                 {showIndices && (
-                                    <div className="w-8 grid place-items-center text-xs font-mono text-subtle">
+                                    <div
+                                        className={cn(
+                                            "w-8 grid place-items-center text-xs font-mono transition-colors",
+                                            pointers?.i === i ? "text-accent font-bold" : "text-subtle"
+                                        )}
+                                    >
                                         {i}
                                     </div>
                                 )}
                                 {row.map((cell, j) => {
                                     const key = cellKey(cell);
                                     const isPad = cell === PAD_TOKEN;
-                                    const bg = !isPad ? colors[key] : undefined;
+                                    const roleClass = ROLE_CLASSES[cells?.[`${i},${j}`]];
+                                    const rank = order?.[`${i},${j}`];
+                                    const bg = !isPad && !roleClass ? colors[key] : undefined;
                                     const customText = colors.__text;
 
                                     return (
                                         <div
                                             key={`${i}-${j}`}
                                             className={cn(
-                                                "w-12 h-12 md:w-16 md:h-16 grid place-items-center text-base md:text-lg font-semibold rounded-xl shadow-sm transition-all duration-200 hover:scale-105 hover:z-10 cursor-default",
-                                                !bg && !isPad && "bg-bg-muted text-text border border-token",
+                                                "relative w-(--cell) h-(--cell) md:w-16 md:h-16 grid place-items-center font-semibold rounded-xl shadow-sm transition-all duration-200 hover:scale-105 hover:z-10 cursor-default",
+                                                fontClass(maxLen),
+                                                roleClass,
+                                                !roleClass && !bg && !isPad && "bg-bg-muted text-text border border-token",
                                                 isPad && "bg-transparent text-subtle/40 border border-dashed border-token"
                                             )}
-                                            style={{
-                                                backgroundColor: bg,
-                                                borderColor: !isPad && colors.__border ? colors.__border : undefined,
-                                                borderWidth: !isPad && colors.__border ? "2px" : undefined,
-                                                color: !isPad ? (customText || (bg ? "#fff" : undefined)) : undefined,
-                                                textShadow: bg ? "0 1px 2px rgba(0,0,0,0.25)" : "none",
-                                                boxShadow: bg ? `0 6px 16px -6px ${bg}` : undefined,
-                                            }}
-                                            title={`[${i}][${j}] = ${displayValue(cell)}`}
+                                            style={
+                                                roleClass
+                                                    ? undefined
+                                                    : {
+                                                          backgroundColor: bg,
+                                                          borderColor: !isPad && colors.__border ? colors.__border : undefined,
+                                                          borderWidth: !isPad && colors.__border ? "2px" : undefined,
+                                                          color: !isPad ? (customText || (bg ? "#fff" : undefined)) : undefined,
+                                                          textShadow: bg ? "0 1px 2px rgba(0,0,0,0.25)" : "none",
+                                                          boxShadow: bg ? `0 6px 16px -6px ${bg}` : undefined,
+                                                      }
+                                            }
+                                            title={`[${i}][${j}] = ${displayValue(cell)}${rank ? ` · visited #${rank}` : ""}`}
                                         >
                                             {displayValue(cell)}
+                                            {rank && (
+                                                <span
+                                                    aria-hidden="true"
+                                                    className="absolute -top-1.5 -left-1.5 min-w-4 h-4 px-1 rounded-full bg-bg-elevated border border-token text-[10px] font-mono font-medium leading-4 text-text shadow-sm"
+                                                >
+                                                    {rank}
+                                                </span>
+                                            )}
                                         </div>
                                     );
                                 })}
