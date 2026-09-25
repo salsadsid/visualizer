@@ -1,25 +1,19 @@
 "use client";
-import { useState } from "react";
 import TrackedLink from "@/components/analytics/TrackedLink";
+import { useCopyLink } from "@/components/engagement/useCopyLink";
 import { useSessionFlag } from "@/components/engagement/useSessionFlag";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 
-export default function RunCompleteNudge({ show, tool, algo, path }) {
+export default function RunCompleteNudge({ show, tool, algo, url }) {
     const [dismissed, dismiss] = useSessionFlag("run-nudge-dismissed");
-    const [copied, setCopied] = useState(false);
+    const [copied, copy] = useCopyLink();
 
     if (!show || dismissed) return null;
 
-    const copyLink = async () => {
-        const url = `${siteConfig.url}${path}`;
-        track("share_click", { tool, algo });
-        try {
-            await navigator.clipboard.writeText(url);
-            setCopied(true);
-        } catch {
-            window.prompt("Copy this link", url);
-        }
+    const copyLink = () => {
+        track("share_click", { tool, algo, from: "run_complete" });
+        copy(url);
     };
 
     return (

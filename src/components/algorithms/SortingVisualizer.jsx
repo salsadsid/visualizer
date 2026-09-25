@@ -16,6 +16,7 @@ import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
 import { ROLE_STYLES } from "@/lib/algorithms/roles";
 import { sortPageFor } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
+import { siteConfig } from "@/lib/site";
 
 const SPACE_TARGETS = "button, a, input, textarea, select, summary, [role=tab]";
 const ARROW_TARGETS = "input, textarea, select, [role=tab]";
@@ -115,7 +116,7 @@ export default function SortingVisualizer({ algo: algoKey }) {
                             show={player.atEnd && player.total > 1}
                             tool="sorting"
                             algo={algoKey}
-                            path={sortPageFor(algoKey).path}
+                            url={`${siteConfig.url}${sortPageFor(algoKey).path}`}
                         />
                     </div>
                 </div>
