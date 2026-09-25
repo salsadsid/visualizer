@@ -33,6 +33,7 @@ If this helps you learn or teach, a ⭐ helps other students find it.
 | **Big-O Playground** | Start from zero: a short story, count steps together with the computer, then watch O(1) … O(2ⁿ) curves pull apart on a live chart | [Open](https://visualizer-gold.vercel.app/algorithms/complexity) |
 | **Sorting Visualizer** | Compare Bubble, Selection and Insertion sort, then step through each on its own page. Your list travels with you when you switch | [Overview](https://visualizer-gold.vercel.app/algorithms/sorting) · [Bubble](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) · [Selection](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) · [Insertion](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) |
 | **2D Array Visualizer** | Paste any 2D array or matrix (JSON, a Python list, or plain rows of numbers) and see it as a grid. Colour cells by value, show row and column indices, and share the result as a link | [Open](https://visualizer-gold.vercel.app/data-structures/arrays) |
+| **Grid Traversals** | Six ways to walk a 2D array, row-major, column-major, snake, diagonal, boundary and spiral, each with live indices, a visit number on every cell, the output sequence and code | [Overview](https://visualizer-gold.vercel.app/data-structures/arrays/traversal) · [Spiral](https://visualizer-gold.vercel.app/data-structures/arrays/traversal/spiral) |
 
 Every sorting page has:
 

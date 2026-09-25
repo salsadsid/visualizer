@@ -62,6 +62,18 @@ This is the full checklist. `npm test` fails if you miss one of the first four.
 
 The route, share card, sitemap entry, footer link, comparison table and the Learn panel are generated from steps 1 to 3.
 
+## Adding a grid traversal
+
+Traversals live next to the 2D Array Visualizer and share its grid. The checklist is shorter than for a sort:
+
+1. **`src/lib/array/traversals.js`**: write the function with `makeGridRecorder` (call `r.visit(i, j, line, message, role)` for every cell and `r.push` for narration between visits) and add a `TRAVERSALS` entry with `key`, `label`, `blurb`, `lead`, `roles`, `pseudocode`, `count(rows, cols)` and `run`. `count` is how many cells the order visits; the tests check that the visit order is a permutation of exactly that many cells.
+2. **`src/lib/array/traversalCode.js`**: add the C++, Python and JavaScript bodies (TypeScript is generated from JavaScript).
+3. **`src/lib/catalog.js`**: add a `TRAVERSAL_PAGES` entry and point the previous page's `next` at it.
+4. **`src/components/array/traversals/`**: write `YourOrderExplainer.jsx` (copy an existing one; `WorkedExample` and `Sequence` read their numbers from the engine) and register it in the `EXPLAINERS` map in `src/app/data-structures/arrays/traversal/[kind]/page.jsx`.
+5. **`src/app/data-structures/arrays/traversal/page.jsx`**: add a row to the comparison table.
+
+The route, share card, sitemap entry, switcher button, "Traverse this grid" link and the Learn panel are generated from steps 1 to 3.
+
 ### Writing the explainer
 
 The explainers are what teachers and search engines read, so please follow the house style:
@@ -113,10 +125,12 @@ src/
 │   └── data-structures/
 │       ├── page.jsx                 # Data structures hub
 │       └── arrays/                  # 2D Array Visualizer
+│           └── traversal/           # Overview + [kind] pages for the six orders
 ├── components/
 │   ├── algorithms/                  # BarChart, PlayerControls, Pseudocode, usePlayer,
 │   │   └── explainers/              #   and one written explainer per sort
-│   ├── array/                       # InputPanel, ArrayGrid, ColorSettings, explainer
+│   ├── array/                       # InputPanel, ArrayGrid, TraversalVisualizer, explainers
+│   │   └── traversals/              #   one explainer per traversal order
 │   ├── analytics/, engagement/, seo/
 │   ├── learn/                       # Explainer building blocks (sections, FAQ, code)
 │   └── layout/                      # PageShell, SiteHeader, Breadcrumbs, NextStep, Footer
