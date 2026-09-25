@@ -12,10 +12,14 @@ import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
 import { useSortingInput } from "@/components/algorithms/SortingInputProvider";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import RunCompleteNudge from "@/components/engagement/RunCompleteNudge";
+import { useCopyLink } from "@/components/engagement/useCopyLink";
 import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
 import { ROLE_STYLES } from "@/lib/algorithms/roles";
 import { sortPageFor } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
+import { siteConfig } from "@/lib/site";
+import { encodeSort } from "@/lib/share";
+import { track } from "@/lib/analytics";
 
 const SPACE_TARGETS = "button, a, input, textarea, select, summary, [role=tab]";
 const ARROW_TARGETS = "input, textarea, select, [role=tab]";
@@ -27,13 +31,23 @@ const Kbd = ({ children }) => (
 );
 
 export default function SortingVisualizer({ algo: algoKey }) {
-    const { size, values, applyPreset, shuffle, changeSize, applyCustom } = useSortingInput();
+    const { size, values, sharedStep, applyPreset, shuffle, changeSize, applyCustom } =
+        useSortingInput();
+    const page = sortPageFor(algoKey);
 
     const sorter = SORTERS[algoKey];
     const steps = useMemo(() => sorter.run(values).steps, [sorter, values]);
-    const basePlayer = usePlayer(steps);
+    const startIndex = sharedStep?.path === page.path ? sharedStep.index : 0;
+    const basePlayer = usePlayer(steps, startIndex);
+    const [copied, copy] = useCopyLink();
     const player = usePlayerAnalytics(basePlayer, "sorting", algoKey);
     const step = player.step;
+    const pageUrl = `${siteConfig.url}${page.path}`;
+
+    const shareStep = () => {
+        track("share_click", { tool: "sorting", algo: algoKey, from: "player" });
+        copy(`${pageUrl}${encodeSort({ values, step: player.index })}`);
+    };
 
     // Keyboard shortcuts: space = play/pause, arrows = step. Bound once via a ref so
     // it always sees the latest player without re-subscribing each render.
@@ -110,12 +124,16 @@ export default function SortingVisualizer({ algo: algoKey }) {
                         />
                         <VarChips vars={step.vars} />
                         <StatsRow stats={step.stats} message={step.message} />
-                        <PlayerControls player={player} />
+                        <PlayerControls
+                            player={player}
+                            onShare={shareStep}
+                            shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                        />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}
                             tool="sorting"
                             algo={algoKey}
-                            path={sortPageFor(algoKey).path}
+                            url={`${pageUrl}${encodeSort({ values })}`}
                         />
                     </div>
                 </div>

@@ -32,7 +32,7 @@ If this helps you learn or teach, a ⭐ helps other students find it.
 | --- | --- | --- |
 | **Big-O Playground** | Start from zero: a short story, count steps together with the computer, then watch O(1) … O(2ⁿ) curves pull apart on a live chart | [Open](https://visualizer-gold.vercel.app/algorithms/complexity) |
 | **Sorting Visualizer** | Compare Bubble, Selection and Insertion sort, then step through each on its own page. Your list travels with you when you switch | [Overview](https://visualizer-gold.vercel.app/algorithms/sorting) · [Bubble](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) · [Selection](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) · [Insertion](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) |
-| **2D Array Visualizer** | Paste any 2D array or matrix and see it as a grid. Colour cells by value, show row and column indices, mix numbers, strings, booleans and `null` | [Open](https://visualizer-gold.vercel.app/data-structures/arrays) |
+| **2D Array Visualizer** | Paste any 2D array or matrix (JSON, a Python list, or plain rows of numbers) and see it as a grid. Colour cells by value, show row and column indices, and share the result as a link | [Open](https://visualizer-gold.vercel.app/data-structures/arrays) |
 
 Every sorting page has:
 
@@ -41,6 +41,7 @@ Every sorting page has:
 - **Live variables on the board**: pointer markers (`i`, `j`, `min`) under the bars and value chips (`key`, `swapped`)
 - A plain-English **narration** line and live **comparison / swap / write** counters
 - Presets (random, reversed, nearly sorted, few unique, sorted), a size slider, shuffle and custom input
+- **Copy link to this step**: a URL that reopens the same array at the same moment, handy for classes and bug reports
 - A written explainer with a worked example, common beginner mistakes and an FAQ
 - Code in **C++, Python, JavaScript and TypeScript**
 
