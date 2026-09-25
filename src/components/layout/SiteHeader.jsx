@@ -38,7 +38,7 @@ function LogoMark({ className }) {
 
 export default function SiteHeader() {
     return (
-        <header className="sticky top-0 z-40 border-b border-token bg-bg/80 backdrop-blur-md">
+        <header className="embed-hide sticky top-0 z-40 border-b border-token bg-bg/80 backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-2 sm:gap-4">
                 <Link
                     href="/"

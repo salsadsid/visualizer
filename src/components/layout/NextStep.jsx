@@ -2,7 +2,7 @@ import TrackedLink from "@/components/analytics/TrackedLink";
 
 export default function NextStep({ href, label, tool, from, children }) {
     return (
-        <aside className="mt-8 max-w-3xl mx-auto surface-muted rounded-2xl p-5 md:p-6 text-center">
+        <aside className="embed-hide mt-8 max-w-3xl mx-auto surface-muted rounded-2xl p-5 md:p-6 text-center">
             <p className="text-xs font-semibold uppercase tracking-wider text-subtle">
                 Next step
             </p>

@@ -2,7 +2,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import { faqJsonLd } from "@/lib/jsonld";
 
 export function Explainer({ children }) {
-    return <article className="mt-8 max-w-3xl mx-auto space-y-5">{children}</article>;
+    return <article className="embed-hide mt-8 max-w-3xl mx-auto space-y-5">{children}</article>;
 }
 
 export function ExplainerSection({ title, children }) {

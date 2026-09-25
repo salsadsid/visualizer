@@ -16,7 +16,7 @@ const GROUPS = [
 
 export default function Footer() {
     return (
-        <footer className="mt-12 border-t border-token pt-6 pb-2">
+        <footer className="embed-hide mt-12 border-t border-token pt-6 pb-2">
             <nav aria-label="Tools" className="grid sm:grid-cols-2 gap-x-8 gap-y-5 mb-6 text-sm">
                 {GROUPS.map((group) => (
                     <div key={group.section.id} className="text-center sm:text-left">

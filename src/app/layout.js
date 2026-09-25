@@ -102,6 +102,11 @@ export default function RootLayout({ children }) {
                   document.documentElement.classList.add('dark');
                 }
               } catch (_) {}
+              try {
+                if (new URLSearchParams(location.search).get('embed') === '1') {
+                  document.documentElement.dataset.embed = '1';
+                }
+              } catch (_) {}
             `,
           }}
         />
