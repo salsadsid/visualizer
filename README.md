@@ -51,6 +51,18 @@ Every sorting page has:
 
 Light and dark themes, works on a 320 px phone, and honours `prefers-reduced-motion`.
 
+## Embed it in your page
+
+Every tool works inside an `<iframe>`. Open the tool, set up the grid or array you want to show, and click **Embed** (next to **Copy link**) to copy a snippet like this one:
+
+```html
+<iframe src="https://visualizer-gold.vercel.app/data-structures/arrays/matrix/transpose?embed=1" width="100%" height="720" style="border:0;border-radius:12px" loading="lazy" title="Matrix Transpose · DSA Visualizer"></iframe>
+```
+
+The embedded page hides the site header and footer, keeps the visualizer, the controls and the Learn tabs, and shows a small "Open in DSA Visualizer" link. Adding `?embed=1` to any tool URL gives the same view by hand, and the `#…` part of a share link (the grid, the step, the direction) works in the snippet too.
+
+**Export a PNG.** The grid pages (2D arrays, traversals, grid algorithms, matrix operations and the 1D array) have an **Export as PNG** button that downloads the current grid at 2× resolution with a small caption, ready for notes, slides and blog posts.
+
 ## Why it's built this way
 
 - **One tiny step-trace engine, no chart or animation library.** An algorithm is a plain function that records a list of snapshots. One `usePlayer` hook plays, pauses, steps and scrubs through that list, and shared components draw it. The bars are `div`s.

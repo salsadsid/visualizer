@@ -134,7 +134,9 @@ Two layout habits save a lot of pain:
 - Every page's title, description and path live in `src/lib/catalog.js`. Build route metadata with `buildMetadata()` from `src/lib/seo.js`. Hand-written `openGraph` objects silently drop the share image.
 - If a route has child routes, export `metadata` from its `page.jsx`, not its `layout.js`. A layout with a plain string title removes the site-wide title suffix from its children.
 - Structured data comes from `src/lib/jsonld.js`. Use `LearningResource` for tools.
-- Use `TrackedLink` or `track()` from `src/lib/analytics.js` for analytics events. They do nothing unless `NEXT_PUBLIC_GA_ID` is set, so local development sends no data.
+- Use `TrackedLink` or `track()` from `src/lib/analytics.js` for analytics events. They do nothing unless `NEXT_PUBLIC_GA_ID` is set, so local development sends no data. Events in use: `tool_open`, `play`, `run_complete`, `algo_select`, `preset_select`, `custom_input`, `learn_tab`, `share_click`, `embed_click`, `embed_view`, `export_click`, `github_click` and `feedback_click`, with the params `tool`, `algo`, `from`, `tab`, `preset` and `variant`.
+- `?embed=1` puts a page in embed mode. An inline script in `src/app/layout.js` sets `data-embed` on `<html>` before hydration, the rules at the bottom of `globals.css` hide everything with the `embed-hide` class and show `embed-only`, and `EmbedFrame` (rendered by `PageShell`) keeps in-page links inside the embed and shows the link back to the site. Give any new shell piece that should disappear inside an iframe the `embed-hide` class. Do not read `searchParams` in a page for this; it would make the page dynamic.
+- Export as PNG (`exportNodeAsPng` in `src/lib/exportPng.js`) draws whatever element the ref points at from computed styles: solid backgrounds, borders, rounded corners and text. Gradient backgrounds are not drawn, so only point it at solid-coloured grids and boxes.
 
 ## Project structure
 
