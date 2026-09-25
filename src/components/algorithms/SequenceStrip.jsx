@@ -26,7 +26,7 @@ export default function SequenceStrip({ label, items, render = String, placehold
                             className={cn(
                                 "shrink-0 min-w-7 px-2 py-1 rounded-md text-xs font-mono text-center transition-colors",
                                 index === items.length - 1
-                                    ? "bg-emerald-500 text-white font-semibold"
+                                    ? "bg-emerald-500 text-slate-900 font-semibold"
                                     : "surface-muted text-text"
                             )}
                         >

@@ -24,7 +24,7 @@ export function OrderPreview({ kind, rows = 3, cols = 4, compact = false }) {
                             className={cn(
                                 "relative grid place-items-center rounded-md font-mono font-semibold",
                                 compact ? "h-7 w-7 text-[11px]" : "h-9 w-9 text-sm",
-                                rank ? "bg-emerald-500 text-white" : "bg-bg-muted text-subtle border border-dashed border-token"
+                                rank ? "bg-emerald-500 text-slate-900" : "bg-bg-muted text-subtle border border-dashed border-token"
                             )}
                         >
                             {value}

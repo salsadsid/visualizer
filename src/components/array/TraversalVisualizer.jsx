@@ -29,7 +29,7 @@ const DEFAULT_GRID = numberedGrid(3, 4);
 
 const LEGEND = [
     { role: "current", swatch: "bg-amber-400", label: "Visiting now" },
-    { role: "turn", swatch: "bg-rose-500", label: "New direction" },
+    { role: "turn", swatch: "bg-rose-400", label: "New direction" },
     { role: "visited", swatch: "bg-emerald-500", label: "Visited" },
 ];
 

@@ -4,8 +4,8 @@ import { PAD_TOKEN, cellKey, displayValue } from "@/lib/array/parser";
 
 const ROLE_CLASSES = {
     current: "bg-amber-400 text-slate-900 border-2 border-amber-500 scale-105 z-10",
-    turn: "bg-rose-500 text-white border-2 border-rose-600 scale-105 z-10",
-    visited: "bg-emerald-500 text-white border border-emerald-600",
+    turn: "bg-rose-400 text-slate-900 border-2 border-rose-500 scale-105 z-10",
+    visited: "bg-emerald-500 text-slate-900 border border-emerald-600",
 };
 
 const cellSize = (cols) => Math.min(48, Math.max(28, Math.floor(320 / cols)));
