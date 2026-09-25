@@ -7,7 +7,13 @@ import LearningPanel from "@/components/array/LearningPanel";
 import ArraysExplainer from "@/components/array/ArraysExplainer";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
+import { buildMetadata } from "@/lib/seo";
 import { SECTIONS, TOOLS } from "@/lib/catalog";
+
+export const metadata = buildMetadata({
+    ...TOOLS.arrays,
+    image: `${TOOLS.arrays.path}/opengraph-image`,
+});
 
 export default function ArraysPage() {
     return (
