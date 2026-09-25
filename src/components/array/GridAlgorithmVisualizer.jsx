@@ -6,6 +6,7 @@ import PlayerControls from "@/components/algorithms/PlayerControls";
 import Pseudocode from "@/components/algorithms/Pseudocode";
 import SequenceStrip from "@/components/algorithms/SequenceStrip";
 import StatsRow from "@/components/algorithms/StatsRow";
+import ToggleGroup from "@/components/algorithms/ToggleGroup";
 import VarChips from "@/components/algorithms/VarChips";
 import { usePlayer } from "@/components/algorithms/usePlayer";
 import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
@@ -62,29 +63,6 @@ function randomGrid(kind, rows, cols) {
     if (kind === "flood-fill") return Array.from({ length: rows }, () => Array.from({ length: cols }, () => Math.floor(roll() * 3)));
     if (kind === "number-of-islands") return Array.from({ length: rows }, () => Array.from({ length: cols }, () => (roll() < 0.45 ? 1 : 0)));
     return Array.from({ length: rows }, () => Array.from({ length: cols }, () => (roll() < 0.28 ? 1 : 0)));
-}
-
-function ToggleGroup({ label, options, value, onChange }) {
-    return (
-        <div className="inline-flex flex-wrap gap-1 p-1 rounded-lg surface-muted" role="group" aria-label={label}>
-            {options.map((option) => (
-                <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => onChange(option.id)}
-                    aria-pressed={value === option.id}
-                    className={cn(
-                        "px-2.5 py-1 text-xs font-medium rounded-md transition-colors focus-ring",
-                        value === option.id
-                            ? "bg-bg-elevated text-text shadow-sm border border-token"
-                            : "text-muted hover:text-text"
-                    )}
-                >
-                    {option.label}
-                </button>
-            ))}
-        </div>
-    );
 }
 
 export default function GridAlgorithmVisualizer({ kind, basePath }) {
