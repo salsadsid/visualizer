@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { decodeGrid, decodeSort, encodeGrid, encodeSort, readPoint, readStep, readVariant } from "../src/lib/share.js";
+import { decodeGrid, decodeSort, encodeGrid, encodeOneD, encodeSort, readParam, readPoint, readStep, readVariant } from "../src/lib/share.js";
 import { PAD_TOKEN, parseInput } from "../src/lib/array/parser.js";
 import { formatMatrix } from "../src/lib/array/presets.js";
 
@@ -89,4 +89,20 @@ test("start, target and variant ride along with a grid hash", () => {
     assert.deepEqual(readPoint("#st=2%2C3", "st"), [2, 3]);
     for (const bad of ["#v=", "#v=DFS", "#v=x y", "#g=abc", ""]) assert.equal(readVariant(bad), null, bad);
     assert.equal(readVariant("#v=bfs"), "bfs");
+});
+
+test("1D array runs encode their operation and options", () => {
+    const hash = encodeOneD({ values: [5, 2, 4], step: 3, op: "insert", index: 1, value: 42 });
+    assert.equal(hash, "#a=5,2,4&s=3&op=insert&at=1&val=42");
+    assert.deepEqual(decodeSort(hash), { values: [5, 2, 4], step: 3 });
+    assert.equal(readParam(hash, "op"), "insert");
+    assert.equal(readParam(hash, "at", /^\d+$/), "1");
+    assert.equal(readParam(hash, "val", /^\d+$/), "42");
+    assert.equal(readParam(hash, "q", /^\d+$/), null);
+    assert.equal(encodeOneD({ values: [1, 2, 3], op: "reverse" }), "#a=1,2,3&s=0&op=reverse");
+    assert.equal(encodeOneD({ values: [1, 2, 3], step: -2, op: "search", target: 2 }), "#a=1,2,3&s=0&op=search&q=2");
+    assert.equal(readParam("#op=in sert", "op"), null);
+    assert.equal(readParam("#op=", "op"), null);
+    assert.equal(readParam("", "op"), null);
+    assert.equal(readVariant("#v=dfs"), "dfs");
 });

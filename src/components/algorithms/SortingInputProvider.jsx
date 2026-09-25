@@ -12,7 +12,7 @@ export function useSortingInput() {
     return useContext(SortingInputContext);
 }
 
-export default function SortingInputProvider({ children }) {
+export default function SortingInputProvider({ children, tool = "sorting" }) {
     const hash = useLocationHash();
     const pathname = usePathname();
     const shared = useMemo(() => decodeSort(hash), [hash]);
@@ -40,13 +40,13 @@ export default function SortingInputProvider({ children }) {
 
     const input = useMemo(() => {
         const applyPreset = (key) => {
-            track("preset_select", { tool: "sorting", preset: key });
+            track("preset_select", { tool, preset: key });
             setPresetKey(key);
             setSharedStep(null);
             setValues(ARRAY_PRESETS[key].build(size));
         };
         const shuffle = () => {
-            track("preset_select", { tool: "sorting", preset: "shuffle" });
+            track("preset_select", { tool, preset: "shuffle" });
             setPresetKey("random");
             setSharedStep(null);
             setValues(ARRAY_PRESETS.random.build(size));
@@ -59,16 +59,18 @@ export default function SortingInputProvider({ children }) {
             setValues(ARRAY_PRESETS[key].build(n));
         };
         const applyCustom = (vals) => {
-            track("custom_input", { tool: "sorting", size: vals.length });
+            track("custom_input", { tool, size: vals.length });
             setPresetKey(null);
             setSharedStep(null);
             setSize(vals.length);
             setValues(vals);
         };
+        const clearSharedStep = () => setSharedStep(null);
         return {
             size,
             values,
             sharedStep,
+            clearSharedStep,
             learnTab,
             codeLang,
             setLearnTab,
@@ -78,7 +80,7 @@ export default function SortingInputProvider({ children }) {
             changeSize,
             applyCustom,
         };
-    }, [size, presetKey, values, sharedStep, learnTab, codeLang]);
+    }, [size, presetKey, values, sharedStep, learnTab, codeLang, tool]);
 
     return <SortingInputContext.Provider value={input}>{children}</SortingInputContext.Provider>;
 }

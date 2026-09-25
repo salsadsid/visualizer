@@ -86,6 +86,15 @@ Grid algorithms (flood fill, islands, BFS shortest path) share the traversal eng
 
 The route, share card, sitemap entry, switcher button, "Run on this grid" link, counters and the Learn panel follow from steps 1, 3 and 4.
 
+## Adding a 1D array operation
+
+1. **`src/lib/array/oneD.js`**: write the function with `makeTrace` (`t.push(line, message, highlights)` records a step; keep `t.stats` to `reads`, `writes` and `compares` and put operation words such as `shifts` in `t.vars`) and add an `OPERATIONS` entry with `key`, `label`, `blurb`, `lead`, `roles` (from `boxRoles.js`), `pseudocode`, `complexity`, `inputs` (`"index"`, `"value"`, `"target"`) and `run(values, options)`. Never mutate `values`.
+2. **`src/lib/array/oneDCode.js`**: the four languages.
+3. **`tests/oneD.test.mjs`**: the expected result and counts on seeded random arrays, plus the boundary cases.
+4. **`src/components/array/ArrayOperationsExplainer.jsx`**: an H2 section for the operation.
+
+The switcher button, option controls, counters, share link and Learn panel follow from step 1.
+
 ### Writing the explainer
 
 The explainers are what teachers and search engines read, so please follow the house style:

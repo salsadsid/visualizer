@@ -10,7 +10,7 @@ const GROUPS = [
     },
     {
         section: SECTIONS["data-structures"],
-        links: [TOOLS.arrays, TOOLS.traversals],
+        links: [TOOLS.arrays1d, TOOLS.arrays, TOOLS.traversals],
     },
 ];
 

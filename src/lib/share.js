@@ -80,9 +80,22 @@ export function readPoint(hash, name) {
     return raw.split(",").map(Number);
 }
 
+export function readParam(hash, name, pattern = /^[A-Za-z0-9_-]+$/) {
+    const raw = readHash(hash)?.get(name);
+    return raw && pattern.test(raw) ? raw : null;
+}
+
 export function readVariant(hash) {
-    const raw = readHash(hash)?.get("v");
-    return raw && /^[a-z][a-z0-9-]*$/.test(raw) ? raw : null;
+    return readParam(hash, "v", /^[a-z][a-z0-9-]*$/);
+}
+
+export function encodeOneD({ values, step = 0, op, index, value, target }) {
+    const parts = [`a=${values.join(",")}`, `s=${Number.isFinite(step) && step > 0 ? Math.floor(step) : 0}`];
+    if (op) parts.push(`op=${op}`);
+    if (index != null) parts.push(`at=${index}`);
+    if (value != null) parts.push(`val=${value}`);
+    if (target != null) parts.push(`q=${target}`);
+    return `#${parts.join("&")}`;
 }
 
 export function decodeSort(hash) {

@@ -177,6 +177,17 @@ matrix[1][2] → 9`}</CodeBlock>
                         board.
                     </li>
                     <li>Rows of different lengths are padded so you can see where they end.</li>
+                    <li>
+                        Working with a single list? The{" "}
+                        <Link
+                            href="/data-structures/arrays/1d"
+                            className="text-accent hover:text-accent-hover font-medium"
+                        >
+                            1D Array Visualizer
+                        </Link>{" "}
+                        animates insert, delete, search and reverse on it, one read and write
+                        at a time.
+                    </li>
                 </ul>
                 <p>
                     <strong className="text-text">Share a grid with your class.</strong> Press{" "}

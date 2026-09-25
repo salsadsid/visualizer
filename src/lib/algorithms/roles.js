@@ -24,6 +24,8 @@ export const POINTER_STYLES = {
     mid: "text-sky-600 dark:text-sky-400",
     left: "text-sky-600 dark:text-sky-400",
     right: "text-amber-600 dark:text-amber-400",
+    lo: "text-sky-600 dark:text-sky-400",
+    hi: "text-amber-600 dark:text-amber-400",
 };
 
 export function pointerClass(name) {

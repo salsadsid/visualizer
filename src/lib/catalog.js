@@ -3,7 +3,7 @@ export const SECTIONS = {
         id: "data-structures",
         path: "/data-structures",
         name: "Data Structures",
-        updatedAt: "2026-09-19",
+        updatedAt: "2026-09-25",
     },
     algorithms: {
         id: "algorithms",
@@ -14,6 +14,24 @@ export const SECTIONS = {
 };
 
 export const TOOLS = {
+    arrays1d: {
+        id: "arrays1d",
+        path: "/data-structures/arrays/1d",
+        section: "data-structures",
+        name: "1D Array Visualizer",
+        title: "Array Visualizer — Insert, Delete, Search",
+        description:
+            "Watch an array insert, delete, search and reverse one step at a time: every read, write and shift counted, live indices, and code in C++, Python, JS & TS.",
+        teaches: ["arrays in memory", "insert and delete with shifting", "linear search", "reversing with two pointers"],
+        updatedAt: "2026-09-25",
+        group: "Data Structures",
+        pathOrder: 2,
+        card: {
+            body: "Read a slot in one step, shift values to insert or delete, search box by box and reverse with two pointers, with every read and write counted.",
+            short: "Insert, delete, search and reverse, one step at a time.",
+            tags: ["Insert", "Delete", "Linear search", "Reverse"],
+        },
+    },
     arrays: {
         id: "arrays",
         path: "/data-structures/arrays",
@@ -25,7 +43,7 @@ export const TOOLS = {
         teaches: ["2D arrays", "matrix indexing with rows and columns", "row-major order"],
         updatedAt: "2026-09-19",
         group: "Data Structures",
-        pathOrder: 3,
+        pathOrder: 4,
         card: {
             body: "Paste any 2D array or matrix and see it as a grid. Color cells by value, show row and column indices, and learn how rows and columns map to memory.",
             short: "Paste a 2D array or matrix and see it as a grid.",
@@ -43,7 +61,7 @@ export const TOOLS = {
         teaches: ["matrix traversal orders", "nested loops over a grid", "spiral, snake and diagonal traversal"],
         updatedAt: "2026-09-25",
         group: "Data Structures",
-        pathOrder: 4,
+        pathOrder: 5,
         card: {
             body: "Six ways to walk a grid, one step at a time: row-major, column-major, snake, diagonal, boundary and spiral, with live indices and a visit number on every cell.",
             short: "Six ways to walk a grid, one step at a time.",
@@ -61,7 +79,7 @@ export const TOOLS = {
         teaches: ["breadth-first search on a grid", "depth-first search and recursion", "shortest paths in a maze"],
         updatedAt: "2026-09-25",
         group: "Algorithms",
-        pathOrder: 5,
+        pathOrder: 6,
         card: {
             body: "BFS and DFS on a 2D array, one step at a time: flood fill a region, count the islands, and find the shortest path through a maze. Click cells to change the grid.",
             short: "Flood fill, islands and BFS shortest path, step by step.",
@@ -79,7 +97,7 @@ export const TOOLS = {
         teaches: ["bubble sort", "selection sort", "insertion sort", "comparing sorting algorithms"],
         updatedAt: "2026-09-20",
         group: "Sorting & techniques",
-        pathOrder: 2,
+        pathOrder: 3,
         card: {
             body: "Compare Bubble, Selection & Insertion sort, then watch each one run a step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
             short: "Step through Bubble, Selection and Insertion sort.",

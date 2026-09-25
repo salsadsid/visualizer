@@ -6,11 +6,12 @@ import ColorSettings from "@/components/array/ColorSettings";
 import { useCopyLink } from "@/components/engagement/useCopyLink";
 import { useLocationHash } from "@/components/engagement/useLocationHash";
 import { PRESETS, formatMatrix } from "@/lib/array/presets";
+import { parseArrayInput } from "@/lib/algorithms/presets";
 import { parseInput } from "@/lib/array/parser";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import { TRAVERSAL_LIST } from "@/lib/array/traversals";
 import { GRID_ALGORITHM_LIST } from "@/lib/array/gridAlgorithms";
-import { decodeGrid, encodeGrid } from "@/lib/share";
+import { decodeGrid, encodeGrid, encodeSort } from "@/lib/share";
 import { TOOLS, gridPageFor, traversalPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
@@ -79,6 +80,17 @@ export default function ArrayVisualizer() {
         copy(shareUrl);
     };
 
+    const oneDLink = useMemo(() => {
+        if (matrix.length !== 1) return null;
+        const { values } = parseArrayInput(matrix[0].join(","));
+        if (!values) return null;
+        return {
+            href: `${TOOLS.arrays1d.path}${encodeSort({ values })}`,
+            label: "Open it in the 1D Array Visualizer →",
+            params: { tool: "arrays1d", from: "arrays_note" },
+        };
+    }, [matrix]);
+
     const shareTitle = !hasData
         ? "Type or pick a grid first"
         : shareUrl
@@ -92,6 +104,7 @@ export default function ArrayVisualizer() {
                     value={inputValue}
                     error={error}
                     note={note}
+                    noteLink={oneDLink}
                     format={format}
                     onChange={handleInput}
                     onPreset={applyPreset}

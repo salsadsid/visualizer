@@ -6,50 +6,11 @@ import { usePlayerAnalytics } from "./usePlayerAnalytics";
 import PlayerControls from "./PlayerControls";
 import Pseudocode from "./Pseudocode";
 import Confetti from "./Confetti";
+import BoxRow from "./BoxRow";
 import { LOOP_DEMOS } from "@/lib/algorithms/loopDemos";
 import { CLASS_BY_ID } from "@/lib/algorithms/complexity";
-import { barClass, pointerClass } from "@/lib/algorithms/roles";
+import { barClass } from "@/lib/algorithms/roles";
 import { track } from "@/lib/analytics";
-
-// A row of numbered boxes the current demo walks over. Roles reuse the sorting
-// color language: amber = "the computer is here now", emerald = already counted,
-// violet = the outer partner in a pair.
-function BoxRow({ count, cells, pointers }) {
-    const marks = {};
-    for (const [name, idx] of Object.entries(pointers || {})) {
-        (marks[idx] ||= []).push(name);
-    }
-    return (
-        <div className="overflow-x-auto custom-scrollbar">
-            <div className="flex justify-center gap-1.5 sm:gap-2 min-w-max px-1 py-1">
-                {Array.from({ length: count }, (_, idx) => {
-                    const role = cells?.[idx];
-                    return (
-                        <div key={idx} className="flex flex-col items-center gap-1">
-                            <div
-                                className={cn(
-                                    "grid place-items-center h-9 w-9 sm:h-11 sm:w-11 rounded-lg text-sm font-mono font-semibold transition-all duration-200",
-                                    role
-                                        ? cn(barClass(role), "text-white shadow-sm scale-105")
-                                        : "surface-muted text-subtle"
-                                )}
-                            >
-                                {idx + 1}
-                            </div>
-                            <div className="h-4 text-[11px] font-mono font-bold leading-none">
-                                {marks[idx] ? (
-                                    <span className={pointerClass(marks[idx][0])}>
-                                        ▲{marks[idx].join(",")}
-                                    </span>
-                                ) : null}
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
-    );
-}
 
 export default function LoopLab() {
     const [demoKey, setDemoKey] = useState("scan");
@@ -135,9 +96,10 @@ export default function LoopLab() {
                 <div className="relative rounded-xl border border-token bg-bg-subtle/50 p-4 sm:p-5 space-y-4 overflow-hidden min-w-0">
                     <Confetti active={player.atEnd} count={30} />
                     <BoxRow
-                        count={demo.cellCount}
+                        values={Array.from({ length: demo.cellCount }, (_, i) => String(i + 1))}
                         cells={step.cells}
                         pointers={step.pointers}
+                        roleClass={(role) => cn(barClass(role), "text-white shadow-sm scale-105")}
                     />
                     <p className="text-sm text-subtle text-center leading-relaxed">
                         🟨 where the computer is now · 🟩 already visited · 🟪 the box doing
