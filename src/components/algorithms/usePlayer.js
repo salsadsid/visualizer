@@ -6,8 +6,9 @@ export const SPEEDS = [0.5, 1, 2, 4];
 
 // Drives playback over a list of algorithm steps. Resets whenever the step list
 // identity changes (new algorithm or new input array).
-export function usePlayer(steps) {
-    const [index, setIndex] = useState(0);
+export function usePlayer(steps, startIndex = 0) {
+    const startAt = Math.max(0, Math.min(startIndex, steps.length - 1));
+    const [index, setIndex] = useState(startAt);
     const [playing, setPlaying] = useState(false);
     const [speed, setSpeed] = useState(1);
     const [prevSteps, setPrevSteps] = useState(steps);
@@ -18,7 +19,7 @@ export function usePlayer(steps) {
     // when a brand-new step list arrives, jump back to the start and stop.
     if (steps !== prevSteps) {
         setPrevSteps(steps);
-        setIndex(0);
+        setIndex(startAt);
         setPlaying(false);
     }
 

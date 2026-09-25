@@ -28,11 +28,14 @@ const Kbd = ({ children }) => (
 );
 
 export default function SortingVisualizer({ algo: algoKey }) {
-    const { size, values, applyPreset, shuffle, changeSize, applyCustom } = useSortingInput();
+    const { size, values, sharedStep, applyPreset, shuffle, changeSize, applyCustom } =
+        useSortingInput();
+    const page = sortPageFor(algoKey);
 
     const sorter = SORTERS[algoKey];
     const steps = useMemo(() => sorter.run(values).steps, [sorter, values]);
-    const basePlayer = usePlayer(steps);
+    const startIndex = sharedStep?.path === page.path ? sharedStep.index : 0;
+    const basePlayer = usePlayer(steps, startIndex);
     const player = usePlayerAnalytics(basePlayer, "sorting", algoKey);
     const step = player.step;
 
@@ -116,7 +119,7 @@ export default function SortingVisualizer({ algo: algoKey }) {
                             show={player.atEnd && player.total > 1}
                             tool="sorting"
                             algo={algoKey}
-                            url={`${siteConfig.url}${sortPageFor(algoKey).path}`}
+                            url={`${siteConfig.url}${page.path}`}
                         />
                     </div>
                 </div>
