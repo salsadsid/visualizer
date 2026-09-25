@@ -1,12 +1,7 @@
 "use client";
 import { cn } from "@/lib/cn";
 import { PAD_TOKEN, cellKey, displayValue } from "@/lib/array/parser";
-
-const ROLE_CLASSES = {
-    current: "bg-amber-400 text-slate-900 border-2 border-amber-500 scale-105 z-10",
-    turn: "bg-rose-400 text-slate-900 border-2 border-rose-500 scale-105 z-10",
-    visited: "bg-emerald-500 text-slate-900 border border-emerald-600",
-};
+import { roleCell } from "@/lib/array/gridRoles";
 
 const cellSize = (cols) => Math.min(48, Math.max(28, Math.floor(320 / cols)));
 
@@ -108,7 +103,7 @@ export default function ArrayGrid({
                                 {row.map((cell, j) => {
                                     const key = cellKey(cell);
                                     const isPad = cell === PAD_TOKEN;
-                                    const roleClass = ROLE_CLASSES[cells?.[`${i},${j}`]];
+                                    const roleClass = roleCell(cells?.[`${i},${j}`]);
                                     const rank = order?.[`${i},${j}`];
                                     const bg = !isPad && !roleClass ? colors[key] : undefined;
                                     const customText = colors.__text;

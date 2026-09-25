@@ -22,16 +22,11 @@ import { decodeGrid, encodeGrid, readStep } from "@/lib/share";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
+import { GRID_ROLES } from "@/lib/array/gridRoles";
 
 const MAX_ROWS = 8;
 const MAX_COLS = 10;
 const DEFAULT_GRID = numberedGrid(3, 4);
-
-const LEGEND = [
-    { role: "current", swatch: "bg-amber-400", label: "Visiting now" },
-    { role: "turn", swatch: "bg-rose-400", label: "New direction" },
-    { role: "visited", swatch: "bg-emerald-500", label: "Visited" },
-];
 
 const Kbd = ({ children }) => (
     <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
@@ -163,10 +158,10 @@ export default function TraversalVisualizer({ kind }) {
                     <div className="pt-3 border-t border-token">
                         <h3 className="text-[11px] uppercase tracking-wide text-subtle mb-2">Legend</h3>
                         <div className="flex flex-wrap gap-x-4 gap-y-1.5">
-                            {LEGEND.filter((entry) => traversal.roles.includes(entry.role)).map((entry) => (
-                                <span key={entry.role} className="inline-flex items-center gap-1.5 text-xs text-muted">
-                                    <span className={cn("h-3 w-3 rounded-sm", entry.swatch)} />
-                                    {entry.label}
+                            {traversal.roles.map((role) => (
+                                <span key={role} className="inline-flex items-center gap-1.5 text-xs text-muted">
+                                    <span className={cn("h-3 w-3 rounded-sm", GRID_ROLES[role].swatch)} />
+                                    {GRID_ROLES[role].label}
                                 </span>
                             ))}
                         </div>
