@@ -288,10 +288,10 @@ export const TRAVERSAL_PAGES = {
         teaches: ["spiral matrix traversal", "shrinking top, bottom, left and right bounds", "why the two extra guards are needed"],
         share: { accent: "Peel it like an onion.", subtitle: "Clockwise ring by ring, with the four bounds live, visit numbers and the output sequence." },
         next: {
-            path: "/algorithms/complexity",
-            label: "Open the Big-O Playground",
-            tool: "complexity",
-            text: "Every full traversal took rows × columns steps. Next, see how that kind of growth compares with other algorithms.",
+            path: "/algorithms/grid",
+            label: "Open the grid algorithms",
+            tool: "grid",
+            text: "Spiral visits every cell in a fixed order. Next, let the grid decide the path: flood fill, count the islands, and find the shortest way through a maze.",
         },
     }),
 };
