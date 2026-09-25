@@ -110,13 +110,13 @@ export default function ComplexityPage() {
             </div>
 
             <NextStep
-                href="/algorithms/sorting"
-                label="Open the Sorting Visualizer"
-                tool="sorting"
+                href={TOOLS.arrays1d.path}
+                label="Open the 1D Array Visualizer"
+                tool="arrays1d"
                 from="complexity_next"
             >
-                Want to see an O(n²) algorithm actually move? Step through a sort one
-                comparison at a time and watch the counters climb.
+                You have counted steps. Next, see where they come from: the reads, writes
+                and shifts inside a plain array.
             </NextStep>
 
             <Footer />

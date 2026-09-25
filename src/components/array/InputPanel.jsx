@@ -1,5 +1,6 @@
 "use client";
 import { PRESETS, ACCENT_CLASSES } from "@/lib/array/presets";
+import TrackedLink from "@/components/analytics/TrackedLink";
 import { cn } from "@/lib/cn";
 
 const FORMAT_LABELS = { json: "JSON", rows: "Rows", python: "Python" };
@@ -8,6 +9,7 @@ export default function InputPanel({
     value,
     error,
     note,
+    noteLink,
     format,
     onChange,
     onPreset,
@@ -119,7 +121,24 @@ export default function InputPanel({
                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                     </svg>
-                    <span>{note}</span>
+                    <span>
+                        {note}
+                        {noteLink && (
+                            <>
+                                {" "}
+                                <TrackedLink
+                                    href={noteLink.href}
+                                    scroll={false}
+                                    onClick={() => window.scrollTo(0, 0)}
+                                    event="tool_open"
+                                    params={noteLink.params}
+                                    className="font-medium underline underline-offset-2 hover:text-accent-hover"
+                                >
+                                    {noteLink.label}
+                                </TrackedLink>
+                            </>
+                        )}
+                    </span>
                 </div>
             )}
         </div>
