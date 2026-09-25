@@ -19,6 +19,7 @@ import { displayValue } from "@/lib/array/parser";
 import { MAX_COLS, MAX_ROWS, gridFromHash } from "@/lib/array/gridFromHash";
 import { traversalPageFor } from "@/lib/catalog";
 import { encodeGrid, readStep } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -56,6 +57,7 @@ export default function TraversalVisualizer({ kind }) {
     const player = usePlayerAnalytics(basePlayer, "traversals", kind);
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
     const step = player.step;
     const rows = matrix.length;
     const cols = matrix[0].length;
@@ -72,6 +74,11 @@ export default function TraversalVisualizer({ kind }) {
         track("share_click", { tool: "traversals", algo: kind, from: "player" });
         copy(`${pageUrl}${gridHash}&s=${player.index}`);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "traversals", algo: kind, from: "player" });
+        copyEmbed(embedSnippet({ url: pageUrl, hash: `${gridHash}&s=${player.index}`, title: `${page.name} · ${siteConfig.shortName}` }));
+    };
+
 
     const counters = [
         { label: "Visited", value: step.stats.visited, hint: "Cells visited so far" },
@@ -127,6 +134,8 @@ export default function TraversalVisualizer({ kind }) {
                             player={player}
                             onShare={gridHash ? shareStep : undefined}
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            onEmbed={embedCode}
+                            embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

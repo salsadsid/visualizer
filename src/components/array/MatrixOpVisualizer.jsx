@@ -30,6 +30,8 @@ import { numberedGrid } from "@/lib/array/traversals";
 import { MAX_COLS, MAX_ROWS, gridFromHash } from "@/lib/array/gridFromHash";
 import { GRID_ROLES } from "@/lib/array/gridRoles";
 import { encodeGrid, gridParam, readStep, readVariant } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
+import { matrixPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -117,6 +119,7 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
     const player = usePlayerAnalytics(basePlayer, TOOL, kind);
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
     const step = player.step;
     const result = steps[steps.length - 1].panels.out.matrix;
     const outRows = result.length;
@@ -163,6 +166,11 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
         track("share_click", { tool: TOOL, algo: kind, from: "player" });
         copy(`${pageUrl}${shareHash ? `#${shareHash.replace(/^#/, "")}` : ""}&s=${player.index}`);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "matrix", algo: kind, from: "player" });
+        copyEmbed(embedSnippet({ url: pageUrl, hash: `#${shareHash.replace(/^#/, "")}&s=${player.index}`, title: `${matrixPageFor(kind).name} · ${siteConfig.shortName}` }));
+    };
+
 
     const total = outRows * outCols;
     const counters = op.counters.map((counter) => ({
@@ -231,6 +239,8 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
                             player={player}
                             onShare={gridHash ? shareStep : undefined}
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            onEmbed={embedCode}
+                            embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

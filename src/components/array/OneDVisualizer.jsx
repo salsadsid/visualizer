@@ -18,6 +18,8 @@ import { OPERATIONS, OPERATION_LIST } from "@/lib/array/oneD";
 import { BOX_ROLES, boxClass, boxLabel } from "@/lib/array/boxRoles";
 import { MAX_VALUE, MIN_VALUE } from "@/lib/algorithms/presets";
 import { encodeOneD, readParam } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
+import { TOOLS } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -76,6 +78,7 @@ export default function OneDVisualizer({ path }) {
     const player = usePlayerAnalytics(basePlayer, "arrays1d", op);
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
     const step = player.step;
     const pageUrl = `${siteConfig.url}${path}`;
 
@@ -107,6 +110,11 @@ export default function OneDVisualizer({ path }) {
         track("share_click", { tool: "arrays1d", algo: op, from: "player" });
         copy(`${pageUrl}${encodeOneD({ values, step: player.index, ...options() })}`);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "arrays1d", algo: op, from: "player" });
+        copyEmbed(embedSnippet({ url: pageUrl, hash: encodeOneD({ values, step: player.index, ...options() }), title: `${TOOLS.arrays1d.name} · ${siteConfig.shortName}` }));
+    };
+
 
     const counters = [
         { label: "Reads", value: step.stats.reads, hint: "Times a slot was read" },
@@ -155,6 +163,8 @@ export default function OneDVisualizer({ path }) {
                             player={player}
                             onShare={shareStep}
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            onEmbed={embedCode}
+                            embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

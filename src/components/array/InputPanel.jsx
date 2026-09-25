@@ -16,6 +16,8 @@ export default function InputPanel({
     onShare,
     shareTitle,
     copied,
+    onEmbed,
+    embedCopied,
 }) {
     return (
         <div className="surface rounded-2xl p-5 flex flex-col h-full shadow-sm">
@@ -50,6 +52,25 @@ export default function InputPanel({
                             />
                         </svg>
                         <span aria-live="polite">{copied ? "Copied" : "Copy link"}</span>
+                    </button>
+                    <button
+                        type="button"
+                        onClick={onEmbed ?? undefined}
+                        disabled={!onEmbed}
+                        title={onEmbed ? "Copy an iframe snippet for this grid" : "Type or pick a grid first"}
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
+                    >
+                        <svg
+                            className="w-3.5 h-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            aria-hidden="true"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+                        </svg>
+                        <span aria-live="polite">{embedCopied ? "Embed copied" : "Embed"}</span>
                     </button>
                 </div>
             </div>

@@ -26,6 +26,8 @@ import {
 import { MAX_COLS, MAX_ROWS, gridFromHash } from "@/lib/array/gridFromHash";
 import { GRID_ROLES } from "@/lib/array/gridRoles";
 import { encodeGrid, readPoint, readStep, readVariant } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
+import { gridPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -104,6 +106,7 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
     const player = usePlayerAnalytics(basePlayer, "grid", kind);
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
     const step = player.step;
     const gridHash = useMemo(() => encodeGrid({ matrix }) ?? "", [matrix]);
     const pageUrl = `${siteConfig.url}${basePath}/${kind}`;
@@ -160,6 +163,11 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
         track("share_click", { tool: "grid", algo: kind, from: "player" });
         copy(`${pageUrl}${gridHash}&s=${player.index}&${shareParams()}`);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "grid", algo: kind, from: "player" });
+        copyEmbed(embedSnippet({ url: pageUrl, hash: `${gridHash}&s=${player.index}&${shareParams()}`, title: `${gridPageFor(kind).name} · ${siteConfig.shortName}` }));
+    };
+
 
     const counters =
         kind === "number-of-islands"
@@ -231,6 +239,8 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
                             player={player}
                             onShare={gridHash ? shareStep : undefined}
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            onEmbed={embedCode}
+                            embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

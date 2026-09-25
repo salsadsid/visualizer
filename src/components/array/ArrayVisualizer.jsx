@@ -13,6 +13,7 @@ import { TRAVERSAL_LIST } from "@/lib/array/traversals";
 import { GRID_ALGORITHM_LIST } from "@/lib/array/gridAlgorithms";
 import { MATRIX_OP_LIST } from "@/lib/array/matrixOps";
 import { decodeGrid, encodeGrid, encodeSort } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
 import { TOOLS, gridPageFor, matrixPageFor, traversalPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
@@ -31,6 +32,7 @@ export default function ArrayVisualizer() {
     const [colors, setColors] = useState(() => (shared ? shared.colors : {}));
     const [showIndices, setShowIndices] = useState(() => shared?.showIndices ?? false);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
     const editedRef = useRef(false);
 
     if (hash !== prevHash) {
@@ -80,6 +82,11 @@ export default function ArrayVisualizer() {
         track("share_click", { tool: "arrays", from: "input" });
         copy(shareUrl);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "arrays", algo: "grid", from: "input" });
+        copyEmbed(embedSnippet({ url: PAGE_URL, hash: encodeGrid({ matrix, colors, showIndices }) ?? "", title: `${TOOLS.arrays.name} · ${siteConfig.shortName}` }));
+    };
+
 
     const oneDLink = useMemo(() => {
         if (matrix.length !== 1) return null;
@@ -112,6 +119,8 @@ export default function ArrayVisualizer() {
                     onShare={shareUrl ? copyLink : null}
                     shareTitle={shareTitle}
                     copied={copied}
+                    onEmbed={hasData ? embedCode : null}
+                    embedCopied={embedCopied}
                 />
                 <ArrayGrid
                     matrix={matrix}
