@@ -12,7 +12,7 @@ function lastLine(r) {
 }
 
 function empty(kind) {
-    return { steps: [{ cells: {}, order: {}, pointers: {}, vars: {}, line: 0, message: `Nothing to ${kind}: the grid has no cells.`, stats: { visited: 0, total: 0 }, output: [] }] };
+    return { steps: [{ cells: {}, order: {}, frontier: [], pointers: {}, vars: {}, line: 0, message: `Nothing to ${kind}: the grid has no cells.`, stats: { visited: 0, total: 0, frontier: 0 }, output: [] }] };
 }
 
 function rowMajor(matrix) {
