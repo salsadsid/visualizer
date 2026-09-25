@@ -7,8 +7,10 @@ import { useCopyLink } from "@/components/engagement/useCopyLink";
 import { useLocationHash } from "@/components/engagement/useLocationHash";
 import { PRESETS, formatMatrix } from "@/lib/array/presets";
 import { parseInput } from "@/lib/array/parser";
+import TrackedLink from "@/components/analytics/TrackedLink";
+import { TRAVERSAL_LIST } from "@/lib/array/traversals";
 import { decodeGrid, encodeGrid } from "@/lib/share";
-import { TOOLS } from "@/lib/catalog";
+import { TOOLS, traversalPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 
@@ -49,6 +51,8 @@ export default function ArrayVisualizer() {
         const encoded = encodeGrid({ matrix, colors, showIndices });
         return encoded ? `${PAGE_URL}${encoded}` : null;
     }, [matrix, colors, showIndices]);
+
+    const gridHash = useMemo(() => encodeGrid({ matrix }) ?? "", [matrix]);
 
     const applyPreset = (key) => {
         const preset = PRESETS[key];
@@ -101,6 +105,28 @@ export default function ArrayVisualizer() {
                     showIndices={showIndices}
                 />
             </div>
+
+            {hasData && (
+                <nav
+                    aria-label="Traverse this grid"
+                    className="mt-4 flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-2 text-sm"
+                >
+                    <span className="text-subtle mr-1">Traverse this grid:</span>
+                    {TRAVERSAL_LIST.map((t) => (
+                        <TrackedLink
+                            key={t.key}
+                            href={`${traversalPageFor(t.key).path}${gridHash}`}
+                            scroll={false}
+                            onClick={() => window.scrollTo(0, 0)}
+                            event="tool_open"
+                            params={{ tool: "traversals", algo: t.key, from: "arrays" }}
+                            className="px-2.5 py-1 rounded-full bg-accent-soft border border-accent/20 font-medium text-accent hover:bg-accent/15 transition-colors focus-ring"
+                        >
+                            {t.label}
+                        </TrackedLink>
+                    ))}
+                </nav>
+            )}
 
             {hasData && (
                 <div className="mt-5">

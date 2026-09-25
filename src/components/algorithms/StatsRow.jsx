@@ -1,24 +1,26 @@
 "use client";
 
-export default function StatsRow({ stats, message }) {
-    const items = [
-        {
-            label: "Comparisons",
-            short: "Compares",
-            value: stats.comparisons,
-            hint: "Times two values were compared",
-        },
-        {
-            label: "Swaps",
-            value: stats.swaps,
-            hint: "Times two values traded places",
-        },
-        {
-            label: "Writes",
-            value: stats.writes,
-            hint: "Times a value was written into a slot",
-        },
-    ];
+const sortingItems = (stats) => [
+    {
+        label: "Comparisons",
+        short: "Compares",
+        value: stats.comparisons,
+        hint: "Times two values were compared",
+    },
+    {
+        label: "Swaps",
+        value: stats.swaps,
+        hint: "Times two values traded places",
+    },
+    {
+        label: "Writes",
+        value: stats.writes,
+        hint: "Times a value was written into a slot",
+    },
+];
+
+export default function StatsRow({ stats, message, items }) {
+    const shown = items || sortingItems(stats);
     return (
         <div className="space-y-3">
             <div
@@ -28,7 +30,7 @@ export default function StatsRow({ stats, message }) {
                 {message}
             </div>
             <div className="grid grid-cols-3 gap-2">
-                {items.map((it) => (
+                {shown.map((it) => (
                     <div
                         key={it.label}
                         title={it.hint}

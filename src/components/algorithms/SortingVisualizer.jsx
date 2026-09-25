@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import BarChart from "@/components/algorithms/BarChart";
 import VarChips from "@/components/algorithms/VarChips";
 import StatsRow from "@/components/algorithms/StatsRow";
@@ -9,6 +9,7 @@ import ArrayControls from "@/components/algorithms/ArrayControls";
 import SortingLearn from "@/components/algorithms/SortingLearn";
 import { usePlayer } from "@/components/algorithms/usePlayer";
 import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
+import { useStepShortcuts } from "@/components/algorithms/useStepShortcuts";
 import { useSortingInput } from "@/components/algorithms/SortingInputProvider";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import RunCompleteNudge from "@/components/engagement/RunCompleteNudge";
@@ -20,9 +21,6 @@ import { cn } from "@/lib/cn";
 import { siteConfig } from "@/lib/site";
 import { encodeSort } from "@/lib/share";
 import { track } from "@/lib/analytics";
-
-const SPACE_TARGETS = "button, a, input, textarea, select, summary, [role=tab]";
-const ARROW_TARGETS = "input, textarea, select, [role=tab]";
 
 const Kbd = ({ children }) => (
     <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
@@ -49,32 +47,7 @@ export default function SortingVisualizer({ algo: algoKey }) {
         copy(`${pageUrl}${encodeSort({ values, step: player.index })}`);
     };
 
-    // Keyboard shortcuts: space = play/pause, arrows = step. Bound once via a ref so
-    // it always sees the latest player without re-subscribing each render.
-    const playerRef = useRef(player);
-    const stageRef = useRef(null);
-    useEffect(() => {
-        playerRef.current = player;
-    });
-    useEffect(() => {
-        const onKey = (e) => {
-            const isSpace = e.code === "Space";
-            const isArrow = e.key === "ArrowRight" || e.key === "ArrowLeft";
-            if (!isSpace && !isArrow) return;
-            if (e.target?.closest?.(isSpace ? SPACE_TARGETS : ARROW_TARGETS)) return;
-
-            const stage = stageRef.current?.getBoundingClientRect();
-            if (!stage || stage.bottom < 0 || stage.top > window.innerHeight) return;
-
-            const p = playerRef.current;
-            e.preventDefault();
-            if (isSpace) p.toggle();
-            else if (e.key === "ArrowRight") p.stepF();
-            else p.stepB();
-        };
-        window.addEventListener("keydown", onKey);
-        return () => window.removeEventListener("keydown", onKey);
-    }, []);
+    const stageRef = useStepShortcuts(player);
 
     return (
         <>

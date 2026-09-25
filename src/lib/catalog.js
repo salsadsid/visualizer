@@ -32,6 +32,24 @@ export const TOOLS = {
             tags: ["Matrix", "Grid", "1D arrays too"],
         },
     },
+    traversals: {
+        id: "traversals",
+        path: "/data-structures/arrays/traversal",
+        section: "data-structures",
+        name: "Grid Traversals",
+        title: "2D Array Traversal Visualizer — 6 Orders",
+        description:
+            "Step through six ways to visit a 2D array: row-major, column-major, snake, diagonal, boundary and spiral, with live indices, visit numbers and code.",
+        teaches: ["matrix traversal orders", "nested loops over a grid", "spiral, snake and diagonal traversal"],
+        updatedAt: "2026-09-25",
+        group: "Data Structures",
+        pathOrder: 4,
+        card: {
+            body: "Six ways to walk a grid, one step at a time: row-major, column-major, snake, diagonal, boundary and spiral, with live indices and a visit number on every cell.",
+            short: "Six ways to walk a grid, one step at a time.",
+            tags: ["Spiral", "Snake", "Diagonal"],
+        },
+    },
     sorting: {
         id: "sorting",
         path: "/algorithms/sorting",
@@ -150,6 +168,120 @@ export const SORT_PAGE_LIST = Object.values(SORT_PAGES);
 
 export const sortPageFor = (key) => SORT_PAGE_LIST.find((page) => page.key === key);
 
+const TRAVERSAL_BASE = "/data-structures/arrays/traversal";
+
+const traversalPage = (id, page) => ({
+    id,
+    key: id,
+    path: `${TRAVERSAL_BASE}/${id}`,
+    section: "data-structures",
+    updatedAt: "2026-09-25",
+    ...page,
+});
+
+export const TRAVERSAL_PAGES = {
+    "row-major": traversalPage("row-major", {
+        name: "Row-Major Traversal",
+        title: "Row-Major Traversal Visualizer",
+        h1: "Row-Major Traversal",
+        description:
+            "Watch row-major order visit a 2D array row by row, left to right: live i and j, a visit number on every cell, the output sequence and code in 4 languages.",
+        intro: "The order you read a page in: across the first row, then the next. Press play and watch i and j move.",
+        teaches: ["row-major order", "nested loops over a 2D array", "how 2D arrays sit in memory"],
+        share: { accent: "Row by row, left to right.", subtitle: "Live i and j, a visit number on every cell, and the output sequence as it grows." },
+        next: {
+            path: `${TRAVERSAL_BASE}/column-major`,
+            label: "Open Column-Major Traversal",
+            tool: "traversals",
+            text: "Same two loops, swapped. Next, see what changes when you walk down the columns instead.",
+        },
+    }),
+    "column-major": traversalPage("column-major", {
+        name: "Column-Major Traversal",
+        title: "Column-Major Traversal Visualizer",
+        h1: "Column-Major Traversal",
+        description:
+            "Watch column-major order walk down each column of a 2D array before moving right: live i and j, visit numbers, the output sequence and code in 4 languages.",
+        intro: "The same two loops as row-major, swapped. Walk down a whole column, then move to the next one.",
+        teaches: ["column-major order", "swapping nested loops", "Fortran and NumPy order=\"F\" layouts"],
+        share: { accent: "Down each column first.", subtitle: "The row-major loops swapped, with live i and j, visit numbers and the output sequence." },
+        next: {
+            path: `${TRAVERSAL_BASE}/snake`,
+            label: "Open Snake Traversal",
+            tool: "traversals",
+            text: "Both orders jump back to the start of every row or column. Next, a path that never jumps.",
+        },
+    }),
+    snake: traversalPage("snake", {
+        name: "Snake Traversal",
+        title: "Snake Traversal Visualizer — Zigzag Rows",
+        h1: "Snake (Zigzag) Traversal",
+        description:
+            "Watch snake traversal zigzag through a 2D array, left to right then right to left: every turn marked, visit numbers, the output sequence and code.",
+        intro: "Left to right, then right to left, like mowing a lawn. The path turns at the end of each row instead of jumping back.",
+        teaches: ["snake or zigzag traversal", "reversing a loop on odd rows", "boustrophedon order"],
+        share: { accent: "Mow the lawn.", subtitle: "Left to right, then right to left, with every turn marked and the output sequence as it grows." },
+        next: {
+            path: `${TRAVERSAL_BASE}/diagonal`,
+            label: "Open Diagonal Traversal",
+            tool: "traversals",
+            text: "Rows and columns are not the only lines through a grid. Next, walk the diagonals.",
+        },
+    }),
+    diagonal: traversalPage("diagonal", {
+        name: "Diagonal Traversal",
+        title: "Diagonal Matrix Traversal Visualizer",
+        h1: "Diagonal Traversal",
+        description:
+            "Watch diagonal traversal group a 2D array's cells by i + j and visit one anti-diagonal at a time: live bounds, visit numbers, the output sequence and code.",
+        intro: "Every cell where i + j is the same sits on one anti-diagonal. Visit the diagonals one by one, corner to corner.",
+        teaches: ["diagonal traversal of a matrix", "anti-diagonals where i + j is constant", "loop bounds from max and min"],
+        share: { accent: "Corner to corner.", subtitle: "Cells grouped by i + j, one anti-diagonal at a time, with visit numbers and the output sequence." },
+        next: {
+            path: `${TRAVERSAL_BASE}/boundary`,
+            label: "Open Boundary Traversal",
+            tool: "traversals",
+            text: "So far every order visited every cell. Next, one that only walks the outer ring.",
+        },
+    }),
+    boundary: traversalPage("boundary", {
+        name: "Boundary Traversal",
+        title: "Matrix Boundary Traversal Visualizer",
+        h1: "Boundary Traversal",
+        description:
+            "Watch boundary traversal walk the outer ring of a 2D array clockwise, top row to left column: each edge marked, visit numbers, output sequence and code.",
+        intro: "Top row, right column, bottom row backwards, left column upwards. The cells inside the ring are never touched.",
+        teaches: ["boundary traversal of a matrix", "handling corners once", "single-row and single-column edge cases"],
+        share: { accent: "Just the outer ring.", subtitle: "Top, right, bottom and left edges in turn, corners counted once, inner cells untouched." },
+        next: {
+            path: `${TRAVERSAL_BASE}/spiral`,
+            label: "Open Spiral Traversal",
+            tool: "traversals",
+            text: "The boundary is the first ring of a spiral. Next, keep going inwards until nothing is left.",
+        },
+    }),
+    spiral: traversalPage("spiral", {
+        name: "Spiral Traversal",
+        title: "Spiral Matrix Traversal Visualizer",
+        h1: "Spiral Traversal",
+        description:
+            "Watch spiral matrix traversal peel a 2D array ring by ring, clockwise: live top, bottom, left and right bounds, visit numbers, output sequence and code.",
+        intro: "Around the outside and inwards, clockwise, while four bounds close in. The classic interview question, one step at a time.",
+        teaches: ["spiral matrix traversal", "shrinking top, bottom, left and right bounds", "why the two extra guards are needed"],
+        share: { accent: "Peel it like an onion.", subtitle: "Clockwise ring by ring, with the four bounds live, visit numbers and the output sequence." },
+        next: {
+            path: "/algorithms/complexity",
+            label: "Open the Big-O Playground",
+            tool: "complexity",
+            text: "Every full traversal took rows × columns steps. Next, see how that kind of growth compares with other algorithms.",
+        },
+    }),
+};
+
+export const TRAVERSAL_PAGE_LIST = Object.values(TRAVERSAL_PAGES);
+
+export const traversalPageFor = (key) => TRAVERSAL_PAGES[key];
+
 export const LEARNING_PATH = Object.values(TOOLS).sort((a, b) => a.pathOrder - b.pathOrder);
 
 export const toolsIn = (section) =>
@@ -199,7 +331,12 @@ export function sitemapEntries() {
         changeFrequency: "weekly",
         priority: 0.9,
     }));
-    return [...STATIC_PAGES, ...sections, ...tools, ...sorts].map(
+    const traversals = TRAVERSAL_PAGE_LIST.map((page) => ({
+        ...page,
+        changeFrequency: "weekly",
+        priority: 0.8,
+    }));
+    return [...STATIC_PAGES, ...sections, ...tools, ...sorts, ...traversals].map(
         ({ path, updatedAt, changeFrequency, priority }) => ({
             path,
             lastModified: updatedAt,

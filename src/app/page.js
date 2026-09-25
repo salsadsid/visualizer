@@ -33,7 +33,13 @@ const CurveIcon = (
     </svg>
 );
 
-const ICONS = { complexity: CurveIcon, sorting: BarsIcon, arrays: GridIcon };
+const PathIcon = (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M20 6v6H4M4 12v6h16" />
+    </svg>
+);
+
+const ICONS = { complexity: CurveIcon, sorting: BarsIcon, arrays: GridIcon, traversals: PathIcon };
 
 const POPULAR = [
     { tool: "arrays", href: "/data-structures/arrays", label: "2D Array Visualizer" },
@@ -157,7 +163,7 @@ export default function HomePage() {
                         Roadmap →
                     </Link>
                 </div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {LEARNING_PATH.map((v) => (
                         <TrackedLink
                             key={v.id}
