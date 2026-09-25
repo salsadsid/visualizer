@@ -10,6 +10,7 @@ export default function BoxRow({
     showIndices = false,
     label,
     roleLabel,
+    ref,
 }) {
     const marks = {};
     for (const [name, idx] of Object.entries(pointers || {})) {
@@ -19,6 +20,7 @@ export default function BoxRow({
     return (
         <div className="overflow-x-auto custom-scrollbar">
             <div
+                ref={ref}
                 role={showIndices ? "group" : undefined}
                 aria-label={showIndices ? label : undefined}
                 className={cn("flex justify-center min-w-max px-1 py-1", compact ? "gap-1" : "gap-1.5 sm:gap-2")}

@@ -14,6 +14,7 @@ import { GRID_ALGORITHM_LIST } from "@/lib/array/gridAlgorithms";
 import { MATRIX_OP_LIST } from "@/lib/array/matrixOps";
 import { decodeGrid, encodeGrid, encodeSort } from "@/lib/share";
 import { embedSnippet } from "@/lib/embed";
+import { captionFor, exportNodeAsPng, snapshotFilename } from "@/lib/exportPng";
 import { TOOLS, gridPageFor, matrixPageFor, traversalPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
@@ -33,6 +34,7 @@ export default function ArrayVisualizer() {
     const [showIndices, setShowIndices] = useState(() => shared?.showIndices ?? false);
     const [copied, copy] = useCopyLink();
     const [embedCopied, copyEmbed] = useCopyLink();
+    const exportRef = useRef(null);
     const editedRef = useRef(false);
 
     if (hash !== prevHash) {
@@ -87,6 +89,15 @@ export default function ArrayVisualizer() {
         copyEmbed(embedSnippet({ url: PAGE_URL, hash: encodeGrid({ matrix, colors, showIndices }) ?? "", title: `${TOOLS.arrays.name} · ${siteConfig.shortName}` }));
     };
 
+    const exportPng = () => {
+        if (!exportRef.current) return;
+        track("export_click", { tool: "arrays", algo: "grid", from: "input" });
+        exportNodeAsPng(exportRef.current, {
+            caption: captionFor({ name: TOOLS.arrays.name }),
+            filename: snapshotFilename({ page: "2d-array" }),
+        });
+    };
+
 
     const oneDLink = useMemo(() => {
         if (matrix.length !== 1) return null;
@@ -121,8 +132,10 @@ export default function ArrayVisualizer() {
                     copied={copied}
                     onEmbed={hasData ? embedCode : null}
                     embedCopied={embedCopied}
+                    onExport={hasData ? exportPng : null}
                 />
                 <ArrayGrid
+                    ref={exportRef}
                     matrix={matrix}
                     maxLen={maxLen}
                     colors={colors}

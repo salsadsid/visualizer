@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import ArrayGrid from "@/components/array/ArrayGrid";
 import TraversalLearn from "@/components/array/TraversalLearn";
 import PlayerControls from "@/components/algorithms/PlayerControls";
@@ -20,6 +20,7 @@ import { MAX_COLS, MAX_ROWS, gridFromHash } from "@/lib/array/gridFromHash";
 import { traversalPageFor } from "@/lib/catalog";
 import { encodeGrid, readStep } from "@/lib/share";
 import { embedSnippet } from "@/lib/embed";
+import { captionFor, exportNodeAsPng, snapshotFilename } from "@/lib/exportPng";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -58,6 +59,7 @@ export default function TraversalVisualizer({ kind }) {
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
     const [embedCopied, copyEmbed] = useCopyLink();
+    const exportRef = useRef(null);
     const step = player.step;
     const rows = matrix.length;
     const cols = matrix[0].length;
@@ -77,6 +79,15 @@ export default function TraversalVisualizer({ kind }) {
     const embedCode = () => {
         track("embed_click", { tool: "traversals", algo: kind, from: "player" });
         copyEmbed(embedSnippet({ url: pageUrl, hash: `${gridHash}&s=${player.index}`, title: `${page.name} · ${siteConfig.shortName}` }));
+    };
+
+    const exportPng = () => {
+        if (!exportRef.current) return;
+        track("export_click", { tool: "traversals", algo: kind, from: "player" });
+        exportNodeAsPng(exportRef.current, {
+            caption: captionFor({ name: page.name, step: player.index + 1, total: player.total }),
+            filename: snapshotFilename({ page: `traversal-${kind}`, step: player.index + 1 }),
+        });
     };
 
 
@@ -118,6 +129,7 @@ export default function TraversalVisualizer({ kind }) {
             <div ref={stageRef} className="grid lg:grid-cols-[1fr_360px] gap-5">
                 <div className="space-y-4 min-w-0">
                     <ArrayGrid
+                        ref={exportRef}
                         matrix={matrix}
                         maxLen={cols}
                         fill={false}
@@ -136,6 +148,7 @@ export default function TraversalVisualizer({ kind }) {
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
+                            onExport={exportPng}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

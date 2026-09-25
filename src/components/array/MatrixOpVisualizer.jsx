@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import MatrixLearn from "@/components/array/MatrixLearn";
 import MatrixPanel from "@/components/array/MatrixPanel";
 import PlayerControls from "@/components/algorithms/PlayerControls";
@@ -31,6 +31,7 @@ import { MAX_COLS, MAX_ROWS, gridFromHash } from "@/lib/array/gridFromHash";
 import { GRID_ROLES } from "@/lib/array/gridRoles";
 import { encodeGrid, gridParam, readStep, readVariant } from "@/lib/share";
 import { embedSnippet } from "@/lib/embed";
+import { captionFor, exportNodeAsPng, snapshotFilename } from "@/lib/exportPng";
 import { matrixPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
@@ -120,6 +121,7 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
     const [embedCopied, copyEmbed] = useCopyLink();
+    const exportRef = useRef(null);
     const step = player.step;
     const result = steps[steps.length - 1].panels.out.matrix;
     const outRows = result.length;
@@ -171,6 +173,15 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
         copyEmbed(embedSnippet({ url: pageUrl, hash: `#${shareHash.replace(/^#/, "")}&s=${player.index}`, title: `${matrixPageFor(kind).name} · ${siteConfig.shortName}` }));
     };
 
+    const exportPng = () => {
+        if (!exportRef.current) return;
+        track("export_click", { tool: "matrix", algo: kind, from: "player" });
+        exportNodeAsPng(exportRef.current, {
+            caption: captionFor({ name: matrixPageFor(kind).name, step: player.index + 1, total: player.total }),
+            filename: snapshotFilename({ page: `matrix-${kind}`, step: player.index + 1 }),
+        });
+    };
+
 
     const total = outRows * outCols;
     const counters = op.counters.map((counter) => ({
@@ -208,7 +219,7 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
                 <div className="space-y-4 min-w-0">
                     <div className="surface rounded-2xl p-4 md:p-6 shadow-sm min-w-0 relative overflow-hidden">
                         <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
-                        <div className="relative flex flex-wrap items-start justify-center gap-4 md:gap-6">
+                        <div ref={exportRef} className="relative flex flex-wrap items-start justify-center gap-4 md:gap-6">
                             <MatrixPanel label="A" matrix={a} panel={step.panels.a} sizeCols={sizeCols} />
                             {isMultiply && (
                                 <>
@@ -241,6 +252,7 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
+                            onExport={exportPng}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

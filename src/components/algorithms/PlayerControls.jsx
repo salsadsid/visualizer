@@ -42,6 +42,7 @@ const PATHS = {
         "M12 5V2L7 7l5 5V8a6 6 0 11-6 6H4a8 8 0 108-9z",
     link: "M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z",
     code: "M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6 1.4 1.4z",
+    download: "M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z",
 };
 
 export default function PlayerControls({
@@ -50,6 +51,8 @@ export default function PlayerControls({
     shareLabel = "Copy link",
     onEmbed,
     embedLabel = "Copy embed code",
+    onExport,
+    exportLabel = "Export as PNG",
 }) {
     const {
         index,
@@ -84,28 +87,39 @@ export default function PlayerControls({
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-                <div className="flex items-center gap-1.5">
-                    <ControlButton onClick={reset} label="Reset" disabled={atStart && !playing}>
-                        <Icon d={PATHS.reset} />
-                    </ControlButton>
-                    <ControlButton onClick={stepB} label="Step back" disabled={atStart}>
-                        <Icon d={PATHS.stepB} />
-                    </ControlButton>
-                    <ControlButton onClick={toggle} label={playing ? "Pause" : "Play"} primary>
-                        <Icon d={playing ? PATHS.pause : PATHS.play} className="w-6 h-6" />
-                    </ControlButton>
-                    <ControlButton onClick={stepF} label="Step forward" disabled={atEnd}>
-                        <Icon d={PATHS.stepF} />
-                    </ControlButton>
-                    {onShare && (
-                        <ControlButton onClick={onShare} label={shareLabel}>
-                            <Icon d={PATHS.link} />
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                    <div className="flex items-center gap-1.5">
+                        <ControlButton onClick={reset} label="Reset" disabled={atStart && !playing}>
+                            <Icon d={PATHS.reset} />
                         </ControlButton>
-                    )}
-                    {onEmbed && (
-                        <ControlButton onClick={onEmbed} label={embedLabel}>
-                            <Icon d={PATHS.code} />
+                        <ControlButton onClick={stepB} label="Step back" disabled={atStart}>
+                            <Icon d={PATHS.stepB} />
                         </ControlButton>
+                        <ControlButton onClick={toggle} label={playing ? "Pause" : "Play"} primary>
+                            <Icon d={playing ? PATHS.pause : PATHS.play} className="w-6 h-6" />
+                        </ControlButton>
+                        <ControlButton onClick={stepF} label="Step forward" disabled={atEnd}>
+                            <Icon d={PATHS.stepF} />
+                        </ControlButton>
+                    </div>
+                    {(onShare || onEmbed || onExport) && (
+                        <div className="flex items-center gap-1.5">
+                            {onShare && (
+                                <ControlButton onClick={onShare} label={shareLabel}>
+                                    <Icon d={PATHS.link} />
+                                </ControlButton>
+                            )}
+                            {onEmbed && (
+                                <ControlButton onClick={onEmbed} label={embedLabel}>
+                                    <Icon d={PATHS.code} />
+                                </ControlButton>
+                            )}
+                            {onExport && (
+                                <ControlButton onClick={onExport} label={exportLabel}>
+                                    <Icon d={PATHS.download} />
+                                </ControlButton>
+                            )}
+                        </div>
                     )}
                 </div>
 

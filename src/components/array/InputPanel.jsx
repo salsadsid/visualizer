@@ -18,10 +18,11 @@ export default function InputPanel({
     copied,
     onEmbed,
     embedCopied,
+    onExport,
 }) {
     return (
         <div className="surface rounded-2xl p-5 flex flex-col h-full shadow-sm">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-y-2 mb-4">
                 <h2 className="text-sm font-semibold flex items-center gap-2">
                     <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                     Input
@@ -35,6 +36,7 @@ export default function InputPanel({
                         onClick={onShare ?? undefined}
                         disabled={!onShare}
                         title={shareTitle}
+                        aria-label={copied ? "Link copied" : "Copy link"}
                         className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
                     >
                         <svg
@@ -51,13 +53,14 @@ export default function InputPanel({
                                 d="M13.5 10.5a4 4 0 010 5.66l-2.34 2.34a4 4 0 01-5.66-5.66l1.17-1.17M10.5 13.5a4 4 0 010-5.66l2.34-2.34a4 4 0 015.66 5.66l-1.17 1.17"
                             />
                         </svg>
-                        <span aria-live="polite">{copied ? "Copied" : "Copy link"}</span>
+                        <span aria-live="polite" className="max-sm:sr-only">{copied ? "Copied" : "Copy link"}</span>
                     </button>
                     <button
                         type="button"
                         onClick={onEmbed ?? undefined}
                         disabled={!onEmbed}
                         title={onEmbed ? "Copy an iframe snippet for this grid" : "Type or pick a grid first"}
+                        aria-label={embedCopied ? "Embed code copied" : "Copy embed code"}
                         className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
                     >
                         <svg
@@ -70,7 +73,27 @@ export default function InputPanel({
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
                         </svg>
-                        <span aria-live="polite">{embedCopied ? "Embed copied" : "Embed"}</span>
+                        <span aria-live="polite" className="max-sm:sr-only">{embedCopied ? "Embed copied" : "Embed"}</span>
+                    </button>
+                    <button
+                        type="button"
+                        onClick={onExport ?? undefined}
+                        disabled={!onExport}
+                        title={onExport ? "Download this grid as a PNG image" : "Type or pick a grid first"}
+                        aria-label="Export as PNG"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
+                    >
+                        <svg
+                            className="w-3.5 h-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            aria-hidden="true"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+                        </svg>
+                        <span className="max-sm:sr-only">PNG</span>
                     </button>
                 </div>
             </div>
