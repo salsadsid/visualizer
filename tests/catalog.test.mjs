@@ -20,7 +20,7 @@ import { buildMetadata } from "../src/lib/seo.js";
 import { siteConfig } from "../src/lib/site.js";
 
 const TITLE_SUFFIX = ` · ${siteConfig.shortName}`;
-const pages = [...Object.values(TOOLS), ...SORT_PAGE_LIST];
+const pages = [...Object.values(TOOLS), ...SORT_PAGE_LIST, ...TRAVERSAL_PAGE_LIST];
 
 test("every page has a title that fits in a search result", () => {
     for (const page of pages) {
@@ -129,8 +129,21 @@ test("every traversal has exactly one page with fitting copy and code", () => {
             assert.ok(TRAVERSAL_CODE[page.key]?.[language.id]?.length > 0, `${page.id}: no ${language.label} code`);
         }
         assert.ok(
-            [...pages, ...TRAVERSAL_PAGE_LIST].some((target) => target.path === page.next.path),
+            pages.some((target) => target.path === page.next.path),
             `${page.id}: next step leads nowhere`
         );
+    }
+});
+
+test("every traversal page has an explainer registered in its route", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const route = await readFile(
+        new URL("../src/app/data-structures/arrays/traversal/[kind]/page.jsx", import.meta.url),
+        "utf8"
+    );
+    const start = route.indexOf("const EXPLAINERS");
+    const explainers = route.slice(start, route.indexOf("};", start));
+    for (const page of TRAVERSAL_PAGE_LIST) {
+        assert.match(explainers, new RegExp(`(^|[\\s{])"?${page.key}"?:`, "m"), `${page.id}: no explainer registered`);
     }
 });

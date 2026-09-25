@@ -32,6 +32,24 @@ export const TOOLS = {
             tags: ["Matrix", "Grid", "1D arrays too"],
         },
     },
+    traversals: {
+        id: "traversals",
+        path: "/data-structures/arrays/traversal",
+        section: "data-structures",
+        name: "Grid Traversals",
+        title: "2D Array Traversal Visualizer — 6 Orders",
+        description:
+            "Step through six ways to visit a 2D array: row-major, column-major, snake, diagonal, boundary and spiral, with live indices, visit numbers and code.",
+        teaches: ["matrix traversal orders", "nested loops over a grid", "spiral, snake and diagonal traversal"],
+        updatedAt: "2026-09-25",
+        group: "Data Structures",
+        pathOrder: 4,
+        card: {
+            body: "Six ways to walk a grid, one step at a time: row-major, column-major, snake, diagonal, boundary and spiral, with live indices and a visit number on every cell.",
+            short: "Six ways to walk a grid, one step at a time.",
+            tags: ["Spiral", "Snake", "Diagonal"],
+        },
+    },
     sorting: {
         id: "sorting",
         path: "/algorithms/sorting",
@@ -313,7 +331,12 @@ export function sitemapEntries() {
         changeFrequency: "weekly",
         priority: 0.9,
     }));
-    return [...STATIC_PAGES, ...sections, ...tools, ...sorts].map(
+    const traversals = TRAVERSAL_PAGE_LIST.map((page) => ({
+        ...page,
+        changeFrequency: "weekly",
+        priority: 0.8,
+    }));
+    return [...STATIC_PAGES, ...sections, ...tools, ...sorts, ...traversals].map(
         ({ path, updatedAt, changeFrequency, priority }) => ({
             path,
             lastModified: updatedAt,
