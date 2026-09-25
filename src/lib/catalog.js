@@ -50,6 +50,24 @@ export const TOOLS = {
             tags: ["Spiral", "Snake", "Diagonal"],
         },
     },
+    grid: {
+        id: "grid",
+        path: "/algorithms/grid",
+        section: "algorithms",
+        name: "Grid Algorithms",
+        title: "Grid Algorithm Visualizer — BFS & DFS",
+        description:
+            "Step through flood fill, number of islands and BFS shortest path on a 2D grid: the queue or call stack, live distances, clickable cells and code.",
+        teaches: ["breadth-first search on a grid", "depth-first search and recursion", "shortest paths in a maze"],
+        updatedAt: "2026-09-25",
+        group: "Algorithms",
+        pathOrder: 5,
+        card: {
+            body: "BFS and DFS on a 2D array, one step at a time: flood fill a region, count the islands, and find the shortest path through a maze. Click cells to change the grid.",
+            short: "Flood fill, islands and BFS shortest path, step by step.",
+            tags: ["Flood fill", "Islands", "BFS maze"],
+        },
+    },
     sorting: {
         id: "sorting",
         path: "/algorithms/sorting",
@@ -282,6 +300,72 @@ export const TRAVERSAL_PAGE_LIST = Object.values(TRAVERSAL_PAGES);
 
 export const traversalPageFor = (key) => TRAVERSAL_PAGES[key];
 
+const GRID_BASE = "/algorithms/grid";
+
+const gridPage = (id, page) => ({
+    id,
+    key: id,
+    path: `${GRID_BASE}/${id}`,
+    section: "algorithms",
+    updatedAt: "2026-09-25",
+    ...page,
+});
+
+export const GRID_PAGES = {
+    "flood-fill": gridPage("flood-fill", {
+        name: "Flood Fill",
+        title: "Flood Fill Visualizer — BFS and DFS",
+        h1: "Flood Fill",
+        description:
+            "Watch flood fill spread from one cell to every connected cell with the same value, by BFS with a queue or DFS with recursion, with live badges and code.",
+        intro: "The paint bucket, one step at a time. Click any cell to fill from there, and switch between the queue and the call stack.",
+        teaches: ["flood fill", "BFS with a queue on a grid", "DFS with recursion and the call stack"],
+        share: { accent: "The paint bucket, step by step.", subtitle: "BFS with a queue or DFS with recursion, live visit badges, and a clickable start cell." },
+        next: {
+            path: `${GRID_BASE}/number-of-islands`,
+            label: "Open Number of Islands",
+            tool: "grid",
+            text: "Flood fill colours one region. Next, run it from every patch of land and count them.",
+        },
+    }),
+    "number-of-islands": gridPage("number-of-islands", {
+        name: "Number of Islands",
+        title: "Number of Islands Visualizer",
+        h1: "Number of Islands",
+        description:
+            "Watch number of islands scan a grid of 1s and 0s and sink each island it finds: every island in its own colour, the count and call stack live, plus code.",
+        intro: "Count the patches of land in a grid of 1s and 0s. Click cells to redraw the map and watch each island get its own colour.",
+        teaches: ["number of islands", "connected components on a grid", "marking visited cells by sinking"],
+        share: { accent: "Count the islands.", subtitle: "Scan the grid, sink each island by DFS, and watch every island get its own colour and number." },
+        next: {
+            path: `${GRID_BASE}/shortest-path`,
+            label: "Open BFS Shortest Path",
+            tool: "grid",
+            text: "So far the search only asked what is connected. Next, ask how far: the fewest steps through a maze.",
+        },
+    }),
+    "shortest-path": gridPage("shortest-path", {
+        name: "BFS Shortest Path",
+        title: "BFS Shortest Path Visualizer — Grid Maze",
+        h1: "BFS Shortest Path",
+        description:
+            "Watch BFS find the fewest steps through a grid maze, ring by ring: the queue, a distance on every cell, the parent trail back to the start, and code.",
+        intro: "Find the fewest steps from start to target through walls. Click to toggle walls or move the ends, and watch the rings spread.",
+        teaches: ["BFS shortest path on a grid", "why BFS finds the fewest steps", "parent pointers and path reconstruction"],
+        share: { accent: "Ring by ring to the target.", subtitle: "A distance on every cell, the queue live, and the shortest path traced back through the parents." },
+        next: {
+            path: "/algorithms/complexity",
+            label: "Open the Big-O Playground",
+            tool: "complexity",
+            text: "Every grid search visited each cell at most once. Next, see how that kind of growth compares with other algorithms.",
+        },
+    }),
+};
+
+export const GRID_PAGE_LIST = Object.values(GRID_PAGES);
+
+export const gridPageFor = (key) => GRID_PAGES[key];
+
 export const LEARNING_PATH = Object.values(TOOLS).sort((a, b) => a.pathOrder - b.pathOrder);
 
 export const toolsIn = (section) =>
@@ -304,7 +388,7 @@ export const PLANNED = [
     { name: "Prefix sums", section: "algorithms", group: "Sorting & techniques", note: "Answer range-sum queries instantly after O(n) prep" },
     { name: "Two pointers", section: "algorithms", group: "Sorting & techniques", note: "Pair & subarray problems in a single O(n) pass" },
     { name: "Sliding window", section: "algorithms", group: "Sorting & techniques", note: "Running window for subarray sum / min / max" },
-    { name: "Graph algorithms", section: "algorithms", group: "Algorithms", note: "BFS, DFS, Dijkstra" },
+    { name: "Graph algorithms", section: "algorithms", group: "Algorithms", note: "BFS, DFS and Dijkstra on adjacency lists" },
     { name: "Dynamic programming", section: "algorithms", group: "Algorithms", note: "Classic DP tables (LCS, knapsack)" },
 ];
 
@@ -336,7 +420,12 @@ export function sitemapEntries() {
         changeFrequency: "weekly",
         priority: 0.8,
     }));
-    return [...STATIC_PAGES, ...sections, ...tools, ...sorts, ...traversals].map(
+    const grids = GRID_PAGE_LIST.map((page) => ({
+        ...page,
+        changeFrequency: "weekly",
+        priority: 0.8,
+    }));
+    return [...STATIC_PAGES, ...sections, ...tools, ...sorts, ...traversals, ...grids].map(
         ({ path, updatedAt, changeFrequency, priority }) => ({
             path,
             lastModified: updatedAt,

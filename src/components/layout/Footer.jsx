@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site";
 const GROUPS = [
     {
         section: SECTIONS.algorithms,
-        links: [TOOLS.complexity, TOOLS.sorting, ...SORT_PAGE_LIST],
+        links: [TOOLS.complexity, TOOLS.sorting, ...SORT_PAGE_LIST, TOOLS.grid],
     },
     {
         section: SECTIONS["data-structures"],
