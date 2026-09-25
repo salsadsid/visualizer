@@ -74,6 +74,17 @@ export function readStep(hash) {
     return Number.isFinite(step) && step > 0 ? step : 0;
 }
 
+export function readPoint(hash, name) {
+    const raw = readHash(hash)?.get(name);
+    if (!raw || !/^\d+,\d+$/.test(raw)) return null;
+    return raw.split(",").map(Number);
+}
+
+export function readVariant(hash) {
+    const raw = readHash(hash)?.get("v");
+    return raw && /^[a-z][a-z0-9-]*$/.test(raw) ? raw : null;
+}
+
 export function decodeSort(hash) {
     const a = readHash(hash)?.get("a");
     if (!a) return null;

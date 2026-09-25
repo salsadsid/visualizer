@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { decodeGrid, decodeSort, encodeGrid, encodeSort, readStep } from "../src/lib/share.js";
+import { decodeGrid, decodeSort, encodeGrid, encodeSort, readPoint, readStep, readVariant } from "../src/lib/share.js";
 import { PAD_TOKEN, parseInput } from "../src/lib/array/parser.js";
 import { formatMatrix } from "../src/lib/array/presets.js";
 
@@ -73,4 +73,20 @@ test("a step index can ride along with any hash", () => {
     const grid = encodeGrid({ matrix: [[1, 2]] });
     assert.deepEqual(decodeGrid(`${grid}&s=4`).matrix, [[1, 2]]);
     assert.equal(readStep(`${grid}&s=4`), 4);
+});
+
+test("start, target and variant ride along with a grid hash", () => {
+    const grid = encodeGrid({ matrix: [[0, 1], [1, 0]] });
+    const hash = `${grid}&st=0,1&tg=1,0&v=dfs&s=3`;
+    assert.deepEqual(decodeGrid(hash).matrix, [[0, 1], [1, 0]]);
+    assert.deepEqual(readPoint(hash, "st"), [0, 1]);
+    assert.deepEqual(readPoint(hash, "tg"), [1, 0]);
+    assert.equal(readVariant(hash), "dfs");
+    assert.equal(readStep(hash), 3);
+    for (const bad of ["#st=a,b", "#st=-1,2", "#st=1", "#st=1,2,3", "#st=", "#st=1.5,2", "", undefined]) {
+        assert.equal(readPoint(bad, "st"), null, String(bad));
+    }
+    assert.deepEqual(readPoint("#st=2%2C3", "st"), [2, 3]);
+    for (const bad of ["#v=", "#v=DFS", "#v=x y", "#g=abc", ""]) assert.equal(readVariant(bad), null, bad);
+    assert.equal(readVariant("#v=bfs"), "bfs");
 });
