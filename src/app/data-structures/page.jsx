@@ -35,7 +35,13 @@ const RowIcon = (
     </svg>
 );
 
-const ICONS = { arrays1d: RowIcon, arrays: GridIcon, traversals: PathIcon };
+const TurnIcon = (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4h9v9H4zM17 8a3 3 0 013 3v3a3 3 0 01-3 3h-4M15 14l-2 3 3 2" />
+    </svg>
+);
+
+const ICONS = { arrays1d: RowIcon, arrays: GridIcon, traversals: PathIcon, matrix: TurnIcon };
 
 const SHIPPED = toolsIn("data-structures");
 const COMING = plannedIn("data-structures");

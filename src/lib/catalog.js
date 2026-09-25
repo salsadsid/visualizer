@@ -3,7 +3,7 @@ export const SECTIONS = {
         id: "data-structures",
         path: "/data-structures",
         name: "Data Structures",
-        updatedAt: "2026-09-25",
+        updatedAt: "2026-09-26",
     },
     algorithms: {
         id: "algorithms",
@@ -68,6 +68,24 @@ export const TOOLS = {
             tags: ["Spiral", "Snake", "Diagonal"],
         },
     },
+    matrix: {
+        id: "matrix",
+        path: "/data-structures/arrays/matrix",
+        section: "data-structures",
+        name: "Matrix Operations",
+        title: "Matrix Operations Visualizer — Step by Step",
+        description:
+            "Transpose, rotate 90°, flip and multiply a matrix one cell at a time: source and result side by side, live indices, counters and code in four languages.",
+        teaches: ["matrix transpose, rotation and flips", "index formulas that move every cell", "matrix multiplication as row times column"],
+        updatedAt: "2026-09-26",
+        group: "Data Structures",
+        pathOrder: 6,
+        card: {
+            body: "Transpose, rotate, flip and multiply a matrix one cell at a time: the source and the result side by side, with live indices, counters and code in four languages.",
+            short: "Transpose, rotate, flip and multiply, one cell at a time.",
+            tags: ["Transpose", "Rotate 90°", "Multiply"],
+        },
+    },
     grid: {
         id: "grid",
         path: "/algorithms/grid",
@@ -79,7 +97,7 @@ export const TOOLS = {
         teaches: ["breadth-first search on a grid", "depth-first search and recursion", "shortest paths in a maze"],
         updatedAt: "2026-09-25",
         group: "Algorithms",
-        pathOrder: 6,
+        pathOrder: 7,
         card: {
             body: "BFS and DFS on a 2D array, one step at a time: flood fill a region, count the islands, and find the shortest path through a maze. Click cells to change the grid.",
             short: "Flood fill, islands and BFS shortest path, step by step.",
@@ -318,6 +336,88 @@ export const TRAVERSAL_PAGE_LIST = Object.values(TRAVERSAL_PAGES);
 
 export const traversalPageFor = (key) => TRAVERSAL_PAGES[key];
 
+const MATRIX_BASE = "/data-structures/arrays/matrix";
+
+const matrixPage = (id, page) => ({
+    id,
+    key: id,
+    path: `${MATRIX_BASE}/${id}`,
+    section: "data-structures",
+    updatedAt: "2026-09-26",
+    ...page,
+});
+
+export const MATRIX_PAGES = {
+    transpose: matrixPage("transpose", {
+        name: "Matrix Transpose",
+        title: "Matrix Transpose Visualizer — Step by Step",
+        h1: "Transpose a Matrix",
+        description:
+            "Watch a matrix transpose one cell at a time: rows become columns as every A[i][j] moves to B[j][i], with live indices, counters and code in four languages.",
+        intro: "Rows become columns. Every cell moves from [i][j] to [j][i], one read and one write at a time.",
+        teaches: ["matrix transpose", "the B[j][i] = A[i][j] rule", "in-place transpose of a square matrix"],
+        share: { accent: "Rows become columns.", subtitle: "Every A[i][j] moves to B[j][i], one read and one write at a time, with live indices and counters." },
+        next: {
+            path: `${MATRIX_BASE}/rotate`,
+            label: "Open Rotate 90°",
+            tool: "matrix",
+            text: "A transpose reflects the grid. Next, turn it: rotate the same matrix a quarter turn and see how the index formula changes.",
+        },
+    }),
+    rotate: matrixPage("rotate", {
+        name: "Rotate a Matrix 90°",
+        title: "Rotate a Matrix 90° Clockwise, Step by Step",
+        h1: "Rotate a Matrix 90°",
+        description:
+            "Rotate a matrix 90° clockwise or counter-clockwise one cell at a time: the first row becomes the last column, with live indices, counters and code.",
+        intro: "A quarter turn, clockwise or counter-clockwise. Watch the first row become the last column, one cell at a time.",
+        teaches: ["rotating a matrix 90 degrees", "clockwise and counter-clockwise index formulas", "rotating in place with transpose and reverse"],
+        share: { accent: "A quarter turn, cell by cell.", subtitle: "Clockwise or counter-clockwise: the first row becomes a column, with live indices, counters and code." },
+        next: {
+            path: `${MATRIX_BASE}/flip`,
+            label: "Open Flip",
+            tool: "matrix",
+            text: "Rotation turns the grid. Next, mirror it: flip the same matrix horizontally or vertically and compare the formulas.",
+        },
+    }),
+    flip: matrixPage("flip", {
+        name: "Flip a Matrix",
+        title: "Flip a Matrix Horizontally or Vertically",
+        h1: "Flip a Matrix",
+        description:
+            "Flip a matrix horizontally or vertically one cell at a time: every row reversed, or the rows in reverse order, with live indices, counters and code.",
+        intro: "Mirror the grid. Horizontal reverses every row; vertical reverses the order of the rows. Same shape, new positions.",
+        teaches: ["horizontal and vertical matrix flips", "mirroring an index with cols − 1 − j", "two-pointer reverse on every row"],
+        share: { accent: "A mirror image, cell by cell.", subtitle: "Horizontal or vertical: every cell moves to its mirror position, with live indices, counters and code." },
+        next: {
+            path: `${MATRIX_BASE}/multiply`,
+            label: "Open Matrix Multiplication",
+            tool: "matrix",
+            text: "Flips move cells. Next, make new ones: multiply two matrices and watch every row-times-column sum build up.",
+        },
+    }),
+    multiply: matrixPage("multiply", {
+        name: "Matrix Multiplication",
+        title: "Matrix Multiplication, Step by Step",
+        h1: "Multiply Two Matrices",
+        description:
+            "Multiply two matrices step by step: each cell of C = A × B built one row-times-column product at a time, with the running sum, counters and code.",
+        intro: "C = A × B, one multiply-add at a time. The current row of A and column of B are banded while the sum builds in the result.",
+        teaches: ["matrix multiplication", "the dimension rule n × m times m × p", "three nested loops and O(n³)"],
+        share: { accent: "Row times column, one product at a time.", subtitle: "Every cell of A × B built up from its row-times-column sum, with counters and code in four languages." },
+        next: {
+            path: "/algorithms/grid",
+            label: "Open the grid algorithms",
+            tool: "grid",
+            text: "Matrix operations move and combine values. Next, let the grid decide the path: flood fill, count the islands, and find the shortest way through a maze.",
+        },
+    }),
+};
+
+export const MATRIX_PAGE_LIST = Object.values(MATRIX_PAGES);
+
+export const matrixPageFor = (key) => MATRIX_PAGES[key];
+
 const GRID_BASE = "/algorithms/grid";
 
 const gridPage = (id, page) => ({
@@ -438,12 +538,17 @@ export function sitemapEntries() {
         changeFrequency: "weekly",
         priority: 0.8,
     }));
+    const matrices = MATRIX_PAGE_LIST.map((page) => ({
+        ...page,
+        changeFrequency: "weekly",
+        priority: 0.8,
+    }));
     const grids = GRID_PAGE_LIST.map((page) => ({
         ...page,
         changeFrequency: "weekly",
         priority: 0.8,
     }));
-    return [...STATIC_PAGES, ...sections, ...tools, ...sorts, ...traversals, ...grids].map(
+    return [...STATIC_PAGES, ...sections, ...tools, ...sorts, ...traversals, ...matrices, ...grids].map(
         ({ path, updatedAt, changeFrequency, priority }) => ({
             path,
             lastModified: updatedAt,
