@@ -7,7 +7,7 @@ export default function Breadcrumbs({ items, className }) {
     const trail = [{ name: "Home", path: "/" }, ...items];
 
     return (
-        <nav aria-label="Breadcrumb" className={cn("mb-6", className)}>
+        <nav aria-label="Breadcrumb" className={cn("embed-hide mb-6", className)}>
             <JsonLd data={breadcrumbJsonLd(trail)} />
             <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
                 {trail.map((item, index) => {

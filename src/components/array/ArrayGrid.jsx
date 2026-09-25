@@ -49,6 +49,7 @@ export default function ArrayGrid({
     bare = false,
     dense = false,
     sizeCols,
+    ref,
 }) {
     const hasData = matrix.length > 0 && matrix.some((r) => r.length > 0);
     const size = sizeCols ?? maxLen;
@@ -69,7 +70,7 @@ export default function ArrayGrid({
             {!hasData ? (
                 <EmptyState />
             ) : (
-                <div className="animate-fade-in-up" style={{ "--cell": `${cellSize(size)}px` }}>
+                <div ref={ref} className="animate-fade-in-up" style={{ "--cell": `${cellSize(size)}px` }}>
                     {showIndices && (
                         <div className={cn("grid", gap)} style={{ gridTemplateColumns: columns }}>
                             <div />

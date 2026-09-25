@@ -26,6 +26,9 @@ import {
 import { MAX_COLS, MAX_ROWS, gridFromHash } from "@/lib/array/gridFromHash";
 import { GRID_ROLES } from "@/lib/array/gridRoles";
 import { encodeGrid, readPoint, readStep, readVariant } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
+import { captionFor, exportNodeAsPng, snapshotFilename } from "@/lib/exportPng";
+import { gridPageFor } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -104,6 +107,8 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
     const player = usePlayerAnalytics(basePlayer, "grid", kind);
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
+    const exportRef = useRef(null);
     const step = player.step;
     const gridHash = useMemo(() => encodeGrid({ matrix }) ?? "", [matrix]);
     const pageUrl = `${siteConfig.url}${basePath}/${kind}`;
@@ -160,6 +165,20 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
         track("share_click", { tool: "grid", algo: kind, from: "player" });
         copy(`${pageUrl}${gridHash}&s=${player.index}&${shareParams()}`);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "grid", algo: kind, from: "player" });
+        copyEmbed(embedSnippet({ url: pageUrl, hash: `${gridHash}&s=${player.index}&${shareParams()}`, title: `${gridPageFor(kind).name} · ${siteConfig.shortName}` }));
+    };
+
+    const exportPng = () => {
+        if (!exportRef.current) return;
+        track("export_click", { tool: "grid", algo: kind, from: "player" });
+        exportNodeAsPng(exportRef.current, {
+            caption: captionFor({ name: gridPageFor(kind).name, step: player.index + 1, total: player.total }),
+            filename: snapshotFilename({ page: kind, step: player.index + 1 }),
+        });
+    };
+
 
     const counters =
         kind === "number-of-islands"
@@ -207,6 +226,7 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
             <div ref={stageRef} className="grid lg:grid-cols-[1fr_360px] gap-5">
                 <div className="space-y-4 min-w-0">
                     <ArrayGrid
+                        ref={exportRef}
                         matrix={matrix}
                         maxLen={cols}
                         fill={false}
@@ -231,6 +251,9 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
                             player={player}
                             onShare={gridHash ? shareStep : undefined}
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            onEmbed={embedCode}
+                            embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
+                            onExport={exportPng}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

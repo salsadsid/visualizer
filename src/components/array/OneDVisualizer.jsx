@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import ArrayControls from "@/components/algorithms/ArrayControls";
 import BoxRow from "@/components/algorithms/BoxRow";
 import PlayerControls from "@/components/algorithms/PlayerControls";
@@ -18,6 +18,9 @@ import { OPERATIONS, OPERATION_LIST } from "@/lib/array/oneD";
 import { BOX_ROLES, boxClass, boxLabel } from "@/lib/array/boxRoles";
 import { MAX_VALUE, MIN_VALUE } from "@/lib/algorithms/presets";
 import { encodeOneD, readParam } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
+import { captionFor, exportNodeAsPng, snapshotFilename } from "@/lib/exportPng";
+import { TOOLS } from "@/lib/catalog";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -76,6 +79,8 @@ export default function OneDVisualizer({ path }) {
     const player = usePlayerAnalytics(basePlayer, "arrays1d", op);
     const stageRef = useStepShortcuts(player);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
+    const exportRef = useRef(null);
     const step = player.step;
     const pageUrl = `${siteConfig.url}${path}`;
 
@@ -107,6 +112,20 @@ export default function OneDVisualizer({ path }) {
         track("share_click", { tool: "arrays1d", algo: op, from: "player" });
         copy(`${pageUrl}${encodeOneD({ values, step: player.index, ...options() })}`);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "arrays1d", algo: op, from: "player" });
+        copyEmbed(embedSnippet({ url: pageUrl, hash: encodeOneD({ values, step: player.index, ...options() }), title: `${TOOLS.arrays1d.name} · ${siteConfig.shortName}` }));
+    };
+
+    const exportPng = () => {
+        if (!exportRef.current) return;
+        track("export_click", { tool: "arrays1d", algo: op, from: "player" });
+        exportNodeAsPng(exportRef.current, {
+            caption: captionFor({ name: `${TOOLS.arrays1d.name} · ${operation.label}`, step: player.index + 1, total: player.total }),
+            filename: snapshotFilename({ page: `1d-array-${op}`, step: player.index + 1 }),
+        });
+    };
+
 
     const counters = [
         { label: "Reads", value: step.stats.reads, hint: "Times a slot was read" },
@@ -141,6 +160,7 @@ export default function OneDVisualizer({ path }) {
                     <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
                     <div className="relative space-y-5">
                         <BoxRow
+                            ref={exportRef}
                             values={step.array}
                             cells={step.highlights}
                             pointers={step.pointers}
@@ -155,6 +175,9 @@ export default function OneDVisualizer({ path }) {
                             player={player}
                             onShare={shareStep}
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            onEmbed={embedCode}
+                            embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
+                            onExport={exportPng}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}

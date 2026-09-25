@@ -34,6 +34,10 @@ const FAQS = [
         question: "Is the 2D array visualizer free?",
         answer: "Yes. It is free and open source under the MIT license, it needs no account, and it runs entirely in your browser, so the data you paste never leaves your computer.",
     },
+    {
+        question: "Can I embed the visualizer in my own page?",
+        answer: "Yes. On any tool, click Embed next to Copy link and paste the iframe snippet into your course page, blog or learning platform. The embedded page keeps the grid, the controls and the Learn tabs, hides the site header and footer, and carries a small link back to the full site.",
+    },
 ];
 
 export default function ArraysExplainer() {

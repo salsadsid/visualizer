@@ -20,6 +20,7 @@ import { sortPageFor } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { siteConfig } from "@/lib/site";
 import { encodeSort } from "@/lib/share";
+import { embedSnippet } from "@/lib/embed";
 import { track } from "@/lib/analytics";
 
 const Kbd = ({ children }) => (
@@ -38,6 +39,7 @@ export default function SortingVisualizer({ algo: algoKey }) {
     const startIndex = sharedStep?.path === page.path ? sharedStep.index : 0;
     const basePlayer = usePlayer(steps, startIndex);
     const [copied, copy] = useCopyLink();
+    const [embedCopied, copyEmbed] = useCopyLink();
     const player = usePlayerAnalytics(basePlayer, "sorting", algoKey);
     const step = player.step;
     const pageUrl = `${siteConfig.url}${page.path}`;
@@ -46,6 +48,11 @@ export default function SortingVisualizer({ algo: algoKey }) {
         track("share_click", { tool: "sorting", algo: algoKey, from: "player" });
         copy(`${pageUrl}${encodeSort({ values, step: player.index })}`);
     };
+    const embedCode = () => {
+        track("embed_click", { tool: "sorting", algo: algoKey, from: "player" });
+        copyEmbed(embedSnippet({ url: pageUrl, hash: encodeSort({ values, step: player.index }), title: `${page.name} · ${siteConfig.shortName}` }));
+    };
+
 
     const stageRef = useStepShortcuts(player);
 
@@ -101,6 +108,8 @@ export default function SortingVisualizer({ algo: algoKey }) {
                             player={player}
                             onShare={shareStep}
                             shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            onEmbed={embedCode}
+                            embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}
