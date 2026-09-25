@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { decodeGrid, decodeSort, encodeGrid, encodeSort } from "../src/lib/share.js";
+import { decodeGrid, decodeSort, encodeGrid, encodeSort, readStep } from "../src/lib/share.js";
 import { PAD_TOKEN, parseInput } from "../src/lib/array/parser.js";
 import { formatMatrix } from "../src/lib/array/presets.js";
 
@@ -61,4 +61,16 @@ test("sorting hashes are validated like typed input", () => {
     }
     assert.deepEqual(decodeSort("#a=3,2,1&s=-5"), { values: [3, 2, 1], step: 0 });
     assert.deepEqual(decodeSort("#a=3,2,1&s=abc"), { values: [3, 2, 1], step: 0 });
+});
+
+test("a step index can ride along with any hash", () => {
+    assert.equal(readStep("#g=abc&s=12"), 12);
+    assert.equal(readStep("#s=7"), 7);
+    assert.equal(readStep("#s=3&g=abc"), 3);
+    for (const hash of ["", "#", "#g=abc", "#s=", "#s=-1", "#s=x", "#s=2.9", undefined]) {
+        assert.equal(readStep(hash), hash === "#s=2.9" ? 2 : 0, String(hash));
+    }
+    const grid = encodeGrid({ matrix: [[1, 2]] });
+    assert.deepEqual(decodeGrid(`${grid}&s=4`).matrix, [[1, 2]]);
+    assert.equal(readStep(`${grid}&s=4`), 4);
 });

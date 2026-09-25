@@ -69,12 +69,15 @@ export function encodeSort({ values, step = 0 }) {
     return `#a=${values.join(",")}&s=${at}`;
 }
 
+export function readStep(hash) {
+    const step = Number.parseInt(readHash(hash)?.get("s") ?? "0", 10);
+    return Number.isFinite(step) && step > 0 ? step : 0;
+}
+
 export function decodeSort(hash) {
-    const params = readHash(hash);
-    const a = params?.get("a");
+    const a = readHash(hash)?.get("a");
     if (!a) return null;
     const { values } = parseArrayInput(a);
     if (!values) return null;
-    const step = Number.parseInt(params.get("s") ?? "0", 10);
-    return { values, step: Number.isFinite(step) && step > 0 ? step : 0 };
+    return { values, step: readStep(hash) };
 }
