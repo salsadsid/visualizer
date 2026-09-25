@@ -28,7 +28,7 @@ const FAQS = [
     },
     {
         question: "How do I visualize a 2D array from my C++ or Python program?",
-        answer: "Print the grid in square-bracket form, such as [[1, 2], [3, 4]], and paste it into the input box. Python prints lists that way already. In C++ or Java, swap the curly braces for square brackets before you paste.",
+        answer: "From Python, print the list and paste it as it is: single quotes and True, False and None are understood. From C++ or Java, either swap the curly braces for square brackets, or print the values with spaces between them, one row per line, which the input box reads directly. Judge-style input with a size line on top works too.",
     },
     {
         question: "Is the 2D array visualizer free?",
@@ -152,6 +152,14 @@ matrix[1][2] → 9`}</CodeBlock>
                         It is drawn as a single row.
                     </li>
                     <li>
+                        Other formats are read as well: rows of values separated by spaces,
+                        commas or tabs, one row per line (with an optional first line giving
+                        the size, the way judge input does), Python lists with single quotes
+                        and <InlineCode>True</InlineCode> / <InlineCode>False</InlineCode> /{" "}
+                        <InlineCode>None</InlineCode>, and a stray trailing comma. The badge
+                        above the input shows how your text was understood.
+                    </li>
+                    <li>
                         Cells can hold numbers, text in quotes, <InlineCode>true</InlineCode>,{" "}
                         <InlineCode>false</InlineCode> or <InlineCode>null</InlineCode>.
                     </li>
@@ -162,6 +170,14 @@ matrix[1][2] → 9`}</CodeBlock>
                     </li>
                     <li>Rows of different lengths are padded so you can see where they end.</li>
                 </ul>
+                <p>
+                    <strong className="text-text">Share a grid with your class.</strong> Press{" "}
+                    <strong className="text-text">Copy link</strong> above the input to get a
+                    link that opens this exact grid, with your colours and index labels. Put
+                    it in a slide, a worksheet or a group chat and everyone sees the same
+                    thing. The grid travels inside the link itself, so nothing is stored on a
+                    server.
+                </p>
                 <p>
                     Teaching with this tool?{" "}
                     <TrackedLink
