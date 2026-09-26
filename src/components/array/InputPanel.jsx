@@ -27,7 +27,7 @@ export default function InputPanel({
                     <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                     Input
                 </h2>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                     <span className="font-mono text-[11px] px-2 py-0.5 rounded surface-muted text-subtle">
                         {FORMAT_LABELS[format] || "JSON"}
                     </span>
@@ -37,7 +37,7 @@ export default function InputPanel({
                         disabled={!onShare}
                         title={shareTitle}
                         aria-label={copied ? "Link copied" : "Copy link"}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
+                        className="inline-flex items-center whitespace-nowrap gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
                     >
                         <svg
                             className="w-3.5 h-3.5"
@@ -61,7 +61,7 @@ export default function InputPanel({
                         disabled={!onEmbed}
                         title={onEmbed ? "Copy an iframe snippet for this grid" : "Type or pick a grid first"}
                         aria-label={embedCopied ? "Embed code copied" : "Copy embed code"}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
+                        className="inline-flex items-center whitespace-nowrap gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
                     >
                         <svg
                             className="w-3.5 h-3.5"
@@ -73,7 +73,7 @@ export default function InputPanel({
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
                         </svg>
-                        <span aria-live="polite" className="max-sm:sr-only">{embedCopied ? "Embed copied" : "Embed"}</span>
+                        <span aria-live="polite" className="max-sm:sr-only">{embedCopied ? "Copied" : "Embed"}</span>
                     </button>
                     <button
                         type="button"
@@ -81,7 +81,7 @@ export default function InputPanel({
                         disabled={!onExport}
                         title={onExport ? "Download this grid as a PNG image" : "Type or pick a grid first"}
                         aria-label="Export as PNG"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
+                        className="inline-flex items-center whitespace-nowrap gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md surface-muted text-muted hover:text-text transition-colors focus-ring disabled:opacity-50 disabled:hover:text-muted"
                     >
                         <svg
                             className="w-3.5 h-3.5"
