@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { decodeGrid, decodeSort, encodeGrid, encodeOneD, encodeSort, gridParam, readParam, readPoint, readStep, readVariant } from "../src/lib/share.js";
+import { decodeGrid, decodeSort, encodeGrid, encodeOneD, encodeSort, gridParam, readParam, readPoint, readPredict, readStep, readVariant } from "../src/lib/share.js";
 import { gridFromHash } from "../src/lib/array/gridFromHash.js";
 import { PAD_TOKEN, parseInput } from "../src/lib/array/parser.js";
 import { formatMatrix } from "../src/lib/array/presets.js";
@@ -90,6 +90,22 @@ test("start, target and variant ride along with a grid hash", () => {
     assert.deepEqual(readPoint("#st=2%2C3", "st"), [2, 3]);
     for (const bad of ["#v=", "#v=DFS", "#v=x y", "#g=abc", ""]) assert.equal(readVariant(bad), null, bad);
     assert.equal(readVariant("#v=bfs"), "bfs");
+});
+
+test("predict mode rides along and always starts a run from the first step", () => {
+    assert.equal(encodeSort({ values: [5, 2, 4], step: 9, predict: true }), "#a=5,2,4&s=0&p=1");
+    assert.equal(encodeSort({ values: [5, 2, 4], step: 9, predict: false }), "#a=5,2,4&s=9");
+    assert.equal(
+        encodeOneD({ values: [1, 2, 3], step: 4, op: "search", target: 2, predict: true }),
+        "#a=1,2,3&s=0&op=search&q=2&p=1"
+    );
+    assert.equal(encodeOneD({ values: [1, 2, 3], step: 4, op: "search", target: 2 }), "#a=1,2,3&s=4&op=search&q=2");
+    assert.deepEqual(decodeSort("#a=5,2,4&s=0&p=1"), decodeSort("#a=5,2,4&s=0"));
+    assert.equal(readPredict("#a=5,2,4&s=0&p=1"), true);
+    assert.equal(readPredict("#p=1&a=5,2,4"), true);
+    for (const hash of ["", "#", "#p=", "#p=0", "#p=true", "#p=11", "#a=5,2,4&s=3", undefined, null]) {
+        assert.equal(readPredict(hash), false, String(hash));
+    }
 });
 
 test("1D array runs encode their operation and options", () => {

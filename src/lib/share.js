@@ -69,9 +69,10 @@ export function decodeGrid(hash, name = "g") {
     return { matrix: payload.m, colors, showIndices: payload.i === true };
 }
 
-export function encodeSort({ values, step = 0 }) {
-    const at = Number.isFinite(step) && step > 0 ? Math.floor(step) : 0;
-    return `#a=${values.join(",")}&s=${at}`;
+const stepParam = (step, predict) => (!predict && Number.isFinite(step) && step > 0 ? Math.floor(step) : 0);
+
+export function encodeSort({ values, step = 0, predict = false }) {
+    return `#a=${values.join(",")}&s=${stepParam(step, predict)}${predict ? "&p=1" : ""}`;
 }
 
 export function readStep(hash) {
@@ -94,12 +95,17 @@ export function readVariant(hash) {
     return readParam(hash, "v", /^[a-z][a-z0-9-]*$/);
 }
 
-export function encodeOneD({ values, step = 0, op, index, value, target }) {
-    const parts = [`a=${values.join(",")}`, `s=${Number.isFinite(step) && step > 0 ? Math.floor(step) : 0}`];
+export function readPredict(hash) {
+    return readParam(hash, "p", /^1$/) === "1";
+}
+
+export function encodeOneD({ values, step = 0, op, index, value, target, predict = false }) {
+    const parts = [`a=${values.join(",")}`, `s=${stepParam(step, predict)}`];
     if (op) parts.push(`op=${op}`);
     if (index != null) parts.push(`at=${index}`);
     if (value != null) parts.push(`val=${value}`);
     if (target != null) parts.push(`q=${target}`);
+    if (predict) parts.push("p=1");
     return `#${parts.join("&")}`;
 }
 
