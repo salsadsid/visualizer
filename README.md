@@ -46,6 +46,8 @@ Every sorting page has:
 - A plain-English **narration** line and live **comparison / swap / write** counters
 - Presets (random, reversed, nearly sorted, few unique, sorted), a size slider, shuffle and custom input
 - **Copy link to this step**: a URL that reopens the same array at the same moment, handy for classes and bug reports
+- **Predict mode**: switch from Watch to Predict and the player stops at every comparison to ask what happens next (answer with the buttons or `Y` / `N`), keeps score and a streak, and ends with your accuracy and a challenge link that opens the same array in predict mode. The 1D linear search has it too
+- **Practice problems**: two or three free LeetCode, Codeforces or CSES problems that use the same idea, on every tool page
 - A written explainer with a worked example, common beginner mistakes and an FAQ
 - Code in **C++, Python, JavaScript and TypeScript**
 
@@ -60,6 +62,8 @@ Every tool works inside an `<iframe>`. Open the tool, set up the grid or array y
 ```
 
 The embedded page hides the site header and footer, keeps the visualizer, the controls and the Learn tabs, and shows a small "Open in DSA Visualizer" link. Adding `?embed=1` to any tool URL gives the same view by hand, and the `#…` part of a share link (the grid, the step, the direction) works in the snippet too.
+
+Switch a sorting page (or the 1D linear search) to **Predict** before copying the snippet and the embed opens in predict mode, with `p=1` in the link, so a class can answer every comparison themselves.
 
 **Export a PNG.** The grid pages (2D arrays, traversals, grid algorithms, matrix operations and the 1D array) have an **Export as PNG** button that downloads the current grid at 2× resolution with a small caption, ready for notes, slides and blog posts.
 

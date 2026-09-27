@@ -2,6 +2,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import NextStep from "@/components/layout/NextStep";
+import PracticeLinks from "@/components/learn/PracticeLinks";
 import SortingInputProvider from "@/components/algorithms/SortingInputProvider";
 import OneDVisualizer from "@/components/array/OneDVisualizer";
 import ArrayOperationsExplainer from "@/components/array/ArrayOperationsExplainer";
@@ -47,6 +48,8 @@ export default function OneDArrayPage() {
             </SortingInputProvider>
 
             <ArrayOperationsExplainer />
+
+            <PracticeLinks path={TOOLS.arrays1d.path} tool="arrays1d" />
 
             <NextStep
                 href={TOOLS.sorting.path}

@@ -2,6 +2,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import NextStep from "@/components/layout/NextStep";
+import PracticeLinks from "@/components/learn/PracticeLinks";
 import LoopLab from "@/components/algorithms/LoopLab";
 import PhoneBookRace from "@/components/algorithms/PhoneBookRace";
 import ComplexityPlayground from "@/components/algorithms/ComplexityPlayground";
@@ -108,6 +109,8 @@ export default function ComplexityPage() {
                     <ComplexityPlayground />
                 </div>
             </div>
+
+            <PracticeLinks path={TOOLS.complexity.path} tool="complexity" />
 
             <NextStep
                 href={TOOLS.arrays1d.path}

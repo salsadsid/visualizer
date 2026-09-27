@@ -19,7 +19,7 @@ const sortingItems = (stats) => [
     },
 ];
 
-export default function StatsRow({ stats, message, items }) {
+export default function StatsRow({ stats, message, items, children }) {
     const shown = items || sortingItems(stats);
     return (
         <div className="space-y-3">
@@ -29,6 +29,7 @@ export default function StatsRow({ stats, message, items }) {
             >
                 {message}
             </div>
+            {children}
             <div className="grid grid-cols-3 gap-2">
                 {shown.map((it) => (
                     <div

@@ -15,6 +15,8 @@
 //
 // Role ∈ "compare" | "swap" | "min" | "key" | "shift" | "sorted".
 
+import { yesNo } from "../predict.js";
+
 // A small recorder that snapshots the array and keeps "locked" (sorted) positions
 // green across every subsequent step. `pointers` and `vars` are mutated in place as
 // the algorithm runs; each push captures a shallow copy.
@@ -31,7 +33,7 @@ function makeRecorder(a) {
         for (const k in pointers) delete pointers[k];
         for (const k in vars) delete vars[k];
     };
-    const push = (line, message, highlights = {}) => {
+    const push = (line, message, highlights = {}, ask) => {
         const merged = {};
         for (const i of sorted) merged[i] = "sorted";
         Object.assign(merged, highlights);
@@ -43,6 +45,7 @@ function makeRecorder(a) {
             line,
             message,
             stats: { ...stats },
+            ...(ask && { ask }),
         });
     };
     return { steps, stats, sorted, pointers, vars, lockAll, clearLive, push };
@@ -74,7 +77,8 @@ function bubble(values) {
                 out
                     ? `Compare ${x} and ${y} → ${x} > ${y}, so swap them.`
                     : `Compare ${x} and ${y} → already in order, leave them.`,
-                { [j]: "compare", [j + 1]: "compare" }
+                { [j]: "compare", [j + 1]: "compare" },
+                yesNo(`Compare ${x} and ${y}: will they swap?`, out)
             );
             if (out) {
                 a[j] = y;
@@ -133,7 +137,8 @@ function selection(values) {
                 better
                     ? `${a[j]} < ${a[min]} → new smallest at index ${j}.`
                     : `${a[j]} ≥ ${a[min]} → keep the current smallest.`,
-                { [min]: "min", [j]: "compare" }
+                { [min]: "min", [j]: "compare" },
+                yesNo(`Is ${a[j]} smaller than the current minimum, ${a[min]}?`, better)
             );
             if (better) {
                 min = j;
@@ -190,24 +195,23 @@ function insertion(values) {
         while (j >= 0) {
             r.stats.comparisons++;
             r.pointers.j = j;
-            if (a[j] > key) {
-                r.push(3, `${a[j]} > ${key} → slide ${a[j]} one slot right.`, {
-                    [j]: "compare",
-                    [j + 1]: "shift",
-                });
-                a[j + 1] = a[j];
-                r.stats.writes++;
-                r.push(4, `Moved ${a[j + 1]} into index ${j + 1}.`, {
-                    [j + 1]: "shift",
-                });
-                j--;
-                r.pointers.j = j;
-            } else {
-                r.push(3, `${a[j]} ≤ ${key} → found the spot, right after index ${j}.`, {
-                    [j]: "compare",
-                });
-                break;
-            }
+            const slides = a[j] > key;
+            r.push(
+                3,
+                slides
+                    ? `${a[j]} > ${key} → slide ${a[j]} one slot right.`
+                    : `${a[j]} ≤ ${key} → found the spot, right after index ${j}.`,
+                { [j]: "compare" },
+                yesNo(`Does ${a[j]} slide right to make room for the key ${key}?`, slides)
+            );
+            if (!slides) break;
+            a[j + 1] = a[j];
+            r.stats.writes++;
+            r.push(4, `Moved ${a[j + 1]} into index ${j + 1}.`, {
+                [j + 1]: "shift",
+            });
+            j--;
+            r.pointers.j = j;
         }
         a[j + 1] = key;
         r.stats.writes++;

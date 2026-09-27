@@ -40,10 +40,13 @@ Step = {
   line,         // the active pseudocode line, 0-based
   message,      // the narration text
   stats,        // cumulative { comparisons, swaps, writes }
+  ask,          // decision steps only: { prompt, choices: ["Yes", "No"], answer }
 }
 ```
 
 `makeRecorder(a)` in `src/lib/algorithms/sorting.js` does the bookkeeping. The algorithm mutates its copy of the array, updates `r.pointers`, `r.vars` and `r.stats`, and calls `r.push(line, message, highlights)` whenever something worth showing happens. `r.sorted.add(i)` keeps a bar green for the rest of the run.
+
+Steps where the algorithm makes a decision also carry the question predict mode asks. Pass `yesNo(prompt, outcome)` from `src/lib/predict.js` as the fourth argument of `r.push` on the step that decides, word the prompt as a question with the values in it ("Compare 5 and 2: will they swap?"), and keep everything else on that step (highlights, pointers, vars, stats) identical whichever way the decision goes: predict mode hides only the narration until the learner answers. `usePredict` and `usePredictRound` in `src/components/algorithms/usePredict.js` do the rest, and the `limit` option of `usePlayer` stops playback, stepping and scrubbing at the first unanswered question. `p=1` in a sorting or 1D link turns predict mode on (`readPredict` in `src/lib/share.js`), and such links always start at the first step.
 
 The `usePlayer` hook plays, pauses, steps and scrubs through that list, and shared components (`BarChart`, `Pseudocode`, `PlayerControls`, `StatsRow`, `VarChips`) draw it. Nothing in the UI knows which algorithm is running.
 
@@ -51,7 +54,7 @@ The `usePlayer` hook plays, pauses, steps and scrubs through that list, and shar
 
 This is the full checklist. `npm test` fails if you miss one of the first four.
 
-1. **`src/lib/algorithms/sorting.js`**: write the function and add an entry to `SORTERS` with `key`, `label`, `blurb`, `lead`, `roles`, `pseudocode`, `complexity` and `run`. Every `line` you push must be a valid index into `pseudocode`.
+1. **`src/lib/algorithms/sorting.js`**: write the function and add an entry to `SORTERS` with `key`, `label`, `blurb`, `lead`, `roles`, `pseudocode`, `complexity` and `run`. Every `line` you push must be a valid index into `pseudocode`, and every comparison push carries a `yesNo` question.
 2. **`src/lib/algorithms/snippets.js`**: add `SORT_CODE[key]` with C++, Python, JavaScript and TypeScript versions.
 3. **`src/lib/catalog.js`**: add a `SORT_PAGES` entry (slug, title of at most 60 characters with the site suffix, description of at most 155, `h1`, `intro`, `teaches`, `share`, `next`, `updatedAt`). Point the previous page's `next` at yours, and remove the topic from `PLANNED`.
 4. **`src/components/algorithms/explainers/`**: write `YourSortExplainer.jsx` (copy an existing one) and register it in the `EXPLAINERS` map in `src/app/algorithms/sorting/[algo]/page.jsx`.
@@ -59,6 +62,7 @@ This is the full checklist. `npm test` fails if you miss one of the first four.
 6. **`src/components/algorithms/SortingComparison.jsx`**: mention the new sort in the comparison copy and FAQ.
 7. **`tests/sorting.test.mjs`**: the shared tests pick up every sorter automatically. Add a test for anything special about yours, such as an exact comparison count.
 8. **`README.md`**: add the page to the table.
+9. **`src/lib/practice.js`**: two or three free practice problems for the new page's path.
 
 The route, share card, sitemap entry, footer link, comparison table and the Learn panel are generated from steps 1 to 3.
 
@@ -98,7 +102,7 @@ The switcher, sliders, variant toggle, counters, share link, Learn panel and sha
 
 ## Adding a 1D array operation
 
-1. **`src/lib/array/oneD.js`**: write the function with `makeTrace` (`t.push(line, message, highlights)` records a step; keep `t.stats` to `reads`, `writes` and `compares` and put operation words such as `shifts` in `t.vars`) and add an `OPERATIONS` entry with `key`, `label`, `blurb`, `lead`, `roles` (from `boxRoles.js`), `pseudocode`, `complexity`, `inputs` (`"index"`, `"value"`, `"target"`) and `run(values, options)`. Never mutate `values`.
+1. **`src/lib/array/oneD.js`**: write the function with `makeTrace` (`t.push(line, message, highlights)` records a step; keep `t.stats` to `reads`, `writes` and `compares` and put operation words such as `shifts` in `t.vars`) and add an `OPERATIONS` entry with `key`, `label`, `blurb`, `lead`, `roles` (from `boxRoles.js`), `pseudocode`, `complexity`, `inputs` (`"index"`, `"value"`, `"target"`) and `run(values, options)`. Never mutate `values`. A data-dependent decision, like the compare in linear search, gets a `yesNo` question as the fourth argument of `t.push`.
 2. **`src/lib/array/oneDCode.js`**: the four languages.
 3. **`tests/oneD.test.mjs`**: the expected result and counts on seeded random arrays, plus the boundary cases.
 4. **`src/components/array/ArrayOperationsExplainer.jsx`**: an H2 section for the operation.
@@ -134,8 +138,9 @@ Two layout habits save a lot of pain:
 - Every page's title, description and path live in `src/lib/catalog.js`. Build route metadata with `buildMetadata()` from `src/lib/seo.js`. Hand-written `openGraph` objects silently drop the share image.
 - If a route has child routes, export `metadata` from its `page.jsx`, not its `layout.js`. A layout with a plain string title removes the site-wide title suffix from its children.
 - Structured data comes from `src/lib/jsonld.js`. Use `LearningResource` for tools.
-- Use `TrackedLink` or `track()` from `src/lib/analytics.js` for analytics events. They do nothing unless `NEXT_PUBLIC_GA_ID` is set, so local development sends no data. Events in use: `tool_open`, `play`, `run_complete`, `algo_select`, `preset_select`, `custom_input`, `learn_tab`, `share_click`, `embed_click`, `embed_view`, `export_click`, `github_click` and `feedback_click`, with the params `tool`, `algo`, `from`, `tab`, `preset` and `variant`.
+- Use `TrackedLink` or `track()` from `src/lib/analytics.js` for analytics events. They do nothing unless `NEXT_PUBLIC_GA_ID` is set, so local development sends no data. Events in use: `tool_open`, `play`, `run_complete`, `algo_select`, `preset_select`, `custom_input`, `learn_tab`, `share_click`, `embed_click`, `embed_view`, `export_click`, `github_click`, `feedback_click`, `predict_start`, `predict_complete` and `practice_click`, with the params `tool`, `algo`, `from`, `tab`, `preset`, `variant`, `site` and `accuracy`.
 - `?embed=1` puts a page in embed mode. An inline script in `src/app/layout.js` sets `data-embed` on `<html>` before hydration, the rules at the bottom of `globals.css` hide everything with the `embed-hide` class and show `embed-only`, and `EmbedFrame` (rendered by `PageShell`) keeps in-page links inside the embed and shows the link back to the site. Give any new shell piece that should disappear inside an iframe the `embed-hide` class. Do not read `searchParams` in a page for this; it would make the page dynamic.
+- Every tool page lists two or three free practice problems from `src/lib/practice.js`, keyed by the page's path and rendered by `PracticeLinks` between the explainer and the next step. `tests/practice.test.mjs` fails if a tool page has none or a link does not match its judge's URL pattern. Open each problem before adding it: it must exist and must not be premium.
 - Export as PNG (`exportNodeAsPng` in `src/lib/exportPng.js`) draws whatever element the ref points at from computed styles: solid backgrounds, borders, rounded corners and text. Gradient backgrounds are not drawn, so only point it at solid-coloured grids and boxes.
 
 ## Project structure
@@ -173,6 +178,7 @@ src/
     ├── catalog.js                   # Every page: titles, descriptions, cards, roadmap
     ├── algorithms/                  # sorting.js (step model), presets, roles, snippets
     ├── array/                       # parser, presets, snippets
+    ├── predict.js, practice.js      # Predict-mode questions and scoring; practice problems
     └── seo.js, jsonld.js, og.jsx, site.js, analytics.js
 tests/                               # node:test, no dependencies
 ```

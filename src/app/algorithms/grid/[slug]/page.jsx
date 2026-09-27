@@ -3,6 +3,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import NextStep from "@/components/layout/NextStep";
+import PracticeLinks from "@/components/learn/PracticeLinks";
 import GridAlgorithmVisualizer from "@/components/array/GridAlgorithmVisualizer";
 import FloodFillExplainer from "@/components/array/grid/FloodFillExplainer";
 import IslandsExplainer from "@/components/array/grid/IslandsExplainer";
@@ -61,6 +62,8 @@ export default async function GridAlgorithmPage({ params }) {
             <GridAlgorithmVisualizer kind={page.key} basePath={TOOLS.grid.path} />
 
             <Explainer />
+
+            <PracticeLinks path={page.path} tool="grid" algo={page.key} />
 
             <NextStep
                 href={page.next.path}

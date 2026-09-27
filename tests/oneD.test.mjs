@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { OPERATIONS, OPERATION_LIST } from "../src/lib/array/oneD.js";
 import { OPERATION_CODE } from "../src/lib/array/oneDCode.js";
 import { LANGUAGES } from "../src/lib/array/snippets.js";
+import { questionIndexes } from "../src/lib/predict.js";
 
 function mulberry32(seed) {
     return () => {
@@ -107,6 +108,46 @@ test("linear search stops at the first match or checks everything", () => {
         checkSteps(OPERATIONS.search, steps);
     }
     assert.equal(OPERATIONS.search.run([3, 7, 7, 7], { target: 7 }).steps.at(-1).stats.compares, 2);
+});
+
+test("linear search asks before every compare and nothing else gives the answer away", () => {
+    const cases = [
+        [[4, 8, 15, 16, 23, 42], 16],
+        [[4, 8, 15, 16, 23, 42], 5],
+        [[3, 7, 7, 7], 7],
+        [[9], 9],
+        [[9], 1],
+    ];
+    for (const [values, target] of cases) {
+        const { steps } = OPERATIONS.search.run(values, { target });
+        const label = `${values} for ${target}`;
+        assert.equal(questionIndexes(steps).length, steps.at(-1).stats.compares, label);
+        assert.equal(steps.at(-1).ask, undefined, label);
+        for (const [index, step] of steps.entries()) {
+            assert.equal(Boolean(step.ask), step.line === 1, `${label} step ${index}`);
+            if (!step.ask) continue;
+            assert.deepEqual(step.ask.choices, ["Yes", "No"]);
+            assert.equal(step.ask.answer === 0, steps[index + 1].line === 2, `${label} step ${index}`);
+            assert.equal(step.vars.found, false, `${label} step ${index}: found shown early`);
+            assert.match(step.ask.prompt, /\?$/);
+        }
+    }
+    const { steps } = OPERATIONS.search.run([4, 8, 15, 16, 23, 42], { target: 16 });
+    assert.equal(steps.length, 6);
+    assert.deepEqual(questionIndexes(steps), [1, 2, 3, 4]);
+    assert.deepEqual(steps.filter((step) => step.ask).map((step) => step.ask.answer), [1, 1, 1, 0]);
+    assert.equal(steps[4].ask.prompt, "Does a[3] = 16 match the target 16?");
+    assert.equal(steps[5].vars.found, true);
+    assert.equal(OPERATIONS.search.run([4, 8, 15, 16, 23, 42], { target: 5 }).steps.length, 8);
+});
+
+test("only linear search asks questions", () => {
+    const values = [4, 8, 15, 16, 23, 42];
+    for (const op of OPERATION_LIST) {
+        if (op.key === "search") continue;
+        const { steps } = op.run(values, { index: 2, value: 7, target: 16 });
+        assert.deepEqual(questionIndexes(steps), [], op.key);
+    }
 });
 
 test("reverse swaps floor(n / 2) pairs in place", () => {

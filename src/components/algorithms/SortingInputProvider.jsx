@@ -3,7 +3,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useLocationHash } from "@/components/engagement/useLocationHash";
 import { ARRAY_PRESETS, DEFAULT_VALUES } from "@/lib/algorithms/presets";
-import { decodeSort } from "@/lib/share";
+import { decodeSort, readPredict } from "@/lib/share";
 import { track } from "@/lib/analytics";
 
 const SortingInputContext = createContext(null);
@@ -15,14 +15,18 @@ export function useSortingInput() {
 export default function SortingInputProvider({ children, tool = "sorting" }) {
     const hash = useLocationHash();
     const pathname = usePathname();
-    const shared = useMemo(() => decodeSort(hash), [hash]);
+    const shared = useMemo(() => {
+        const decoded = decodeSort(hash);
+        return decoded && { ...decoded, predict: readPredict(hash) };
+    }, [hash]);
     const [prevHash, setPrevHash] = useState(hash);
     const [size, setSize] = useState(shared ? shared.values.length : DEFAULT_VALUES.length);
     const [presetKey, setPresetKey] = useState(null);
     const [values, setValues] = useState(shared ? shared.values : DEFAULT_VALUES);
     const [sharedStep, setSharedStep] = useState(
-        shared ? { index: shared.step, path: pathname } : null
+        shared ? { index: shared.step, path: pathname, predict: shared.predict } : null
     );
+    const [predict, setPredict] = useState(shared ? shared.predict : false);
     const [learnTab, setLearnTab] = useState("concept");
     const [codeLang, setCodeLang] = useState(null);
 
@@ -32,7 +36,8 @@ export default function SortingInputProvider({ children, tool = "sorting" }) {
             setPresetKey(null);
             setSize(shared.values.length);
             setValues(shared.values);
-            setSharedStep({ index: shared.step, path: pathname });
+            setSharedStep({ index: shared.step, path: pathname, predict: shared.predict });
+            setPredict(shared.predict);
         } else {
             setSharedStep(null);
         }
@@ -73,6 +78,8 @@ export default function SortingInputProvider({ children, tool = "sorting" }) {
             clearSharedStep,
             learnTab,
             codeLang,
+            predict,
+            setPredict,
             setLearnTab,
             setCodeLang,
             applyPreset,
@@ -80,7 +87,7 @@ export default function SortingInputProvider({ children, tool = "sorting" }) {
             changeSize,
             applyCustom,
         };
-    }, [size, presetKey, values, sharedStep, learnTab, codeLang, tool]);
+    }, [size, presetKey, values, sharedStep, learnTab, codeLang, predict, tool]);
 
     return <SortingInputContext.Provider value={input}>{children}</SortingInputContext.Provider>;
 }

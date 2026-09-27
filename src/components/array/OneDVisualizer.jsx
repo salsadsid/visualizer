@@ -3,11 +3,15 @@ import { useMemo, useRef, useState } from "react";
 import ArrayControls from "@/components/algorithms/ArrayControls";
 import BoxRow from "@/components/algorithms/BoxRow";
 import PlayerControls from "@/components/algorithms/PlayerControls";
+import PredictBar from "@/components/algorithms/PredictBar";
+import PredictPanel from "@/components/algorithms/PredictPanel";
+import PredictSummary from "@/components/algorithms/PredictSummary";
 import Pseudocode from "@/components/algorithms/Pseudocode";
 import StatsRow from "@/components/algorithms/StatsRow";
 import VarChips from "@/components/algorithms/VarChips";
 import { usePlayer } from "@/components/algorithms/usePlayer";
 import { usePlayerAnalytics } from "@/components/algorithms/usePlayerAnalytics";
+import { usePredict, usePredictRound } from "@/components/algorithms/usePredict";
 import { useStepShortcuts } from "@/components/algorithms/useStepShortcuts";
 import { useSortingInput } from "@/components/algorithms/SortingInputProvider";
 import OneDLearn from "@/components/array/OneDLearn";
@@ -47,8 +51,18 @@ const clampValue = (v) => Math.max(MIN_VALUE, Math.min(MAX_VALUE, Number.isFinit
 const INDEX_LABELS = { access: "Read index", insert: "Insert at index", delete: "Delete index" };
 
 export default function OneDVisualizer({ path }) {
-    const { size, values, sharedStep, clearSharedStep, applyPreset, shuffle, changeSize, applyCustom } =
-        useSortingInput();
+    const {
+        size,
+        values,
+        sharedStep,
+        clearSharedStep,
+        predict,
+        setPredict,
+        applyPreset,
+        shuffle,
+        changeSize,
+        applyCustom,
+    } = useSortingInput();
     const hash = useLocationHash();
     const fromLink = useMemo(() => fromHash(hash), [hash]);
     const [prevHash, setPrevHash] = useState(hash);
@@ -74,12 +88,16 @@ export default function OneDVisualizer({ path }) {
         () => operation.run(values, { index, value, target }).steps,
         [operation, values, index, value, target]
     );
-    const startIndex = sharedStep?.path === path ? sharedStep.index : 0;
-    const basePlayer = usePlayer(steps, startIndex);
+    const shared = sharedStep?.path === path ? sharedStep : null;
+    const quiz = usePredict(steps, predict);
+    const startIndex = !quiz.active && shared ? shared.index : 0;
+    const basePlayer = usePlayer(steps, startIndex, { limit: quiz.limit, onRestart: quiz.restart });
     const player = usePlayerAnalytics(basePlayer, "arrays1d", op);
-    const stageRef = useStepShortcuts(player);
+    const round = usePredictRound(quiz, player, { tool: "arrays1d", algo: op, setOn: setPredict, shared });
+    const stageRef = useStepShortcuts(player, round.keys);
     const [copied, copy] = useCopyLink();
     const [embedCopied, copyEmbed] = useCopyLink();
+    const [challengeCopied, copyChallenge] = useCopyLink();
     const exportRef = useRef(null);
     const step = player.step;
     const pageUrl = `${siteConfig.url}${path}`;
@@ -89,6 +107,7 @@ export default function OneDVisualizer({ path }) {
         index: operation.inputs.includes("index") ? index : undefined,
         value: operation.inputs.includes("value") ? value : undefined,
         target: operation.inputs.includes("target") ? target : undefined,
+        predict: quiz.active,
     });
 
     const selectOp = (key) => {
@@ -109,8 +128,12 @@ export default function OneDVisualizer({ path }) {
         setRawTarget(clampValue(next));
     };
     const shareStep = () => {
-        track("share_click", { tool: "arrays1d", algo: op, from: "player" });
+        track("share_click", { tool: "arrays1d", algo: op, from: quiz.active ? "predict" : "player" });
         copy(`${pageUrl}${encodeOneD({ values, step: player.index, ...options() })}`);
+    };
+    const shareChallenge = () => {
+        track("share_click", { tool: "arrays1d", algo: op, from: "predict_summary" });
+        copyChallenge(`${pageUrl}${encodeOneD({ values, ...options() })}`);
     };
     const embedCode = () => {
         track("embed_click", { tool: "arrays1d", algo: op, from: "player" });
@@ -159,6 +182,9 @@ export default function OneDVisualizer({ path }) {
                 <div className="surface rounded-2xl p-5 md:p-6 shadow-sm relative overflow-hidden min-w-0">
                     <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
                     <div className="relative space-y-5">
+                        {quiz.available && (
+                            <PredictBar active={quiz.active} score={quiz.score} onChange={round.chooseMode} />
+                        )}
                         <BoxRow
                             ref={exportRef}
                             values={step.array}
@@ -170,21 +196,44 @@ export default function OneDVisualizer({ path }) {
                             label="The array"
                         />
                         <VarChips vars={step.vars} />
-                        <StatsRow stats={step.stats} message={step.message} items={counters} />
+                        <StatsRow stats={step.stats} message={round.message} items={counters}>
+                            {quiz.active && (
+                                <PredictPanel
+                                    ask={round.ask}
+                                    result={round.result}
+                                    number={round.number}
+                                    total={quiz.score.total}
+                                    onAnswer={round.answer}
+                                />
+                            )}
+                        </StatsRow>
                         <PlayerControls
                             player={player}
                             onShare={shareStep}
-                            shareLabel={copied ? "Link copied" : "Copy link to this step"}
+                            shareLabel={
+                                copied ? "Link copied" : quiz.active ? "Copy challenge link" : "Copy link to this step"
+                            }
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                             onExport={exportPng}
                         />
-                        <RunCompleteNudge
-                            show={player.atEnd && player.total > 1}
-                            tool="arrays1d"
-                            algo={op}
-                            url={`${pageUrl}${encodeOneD({ values, ...options() })}`}
-                        />
+                        {quiz.active ? (
+                            <PredictSummary
+                                show={player.atEnd}
+                                score={quiz.score}
+                                onRetry={player.play}
+                                onShuffle={shuffle}
+                                onCopy={shareChallenge}
+                                copied={challengeCopied}
+                            />
+                        ) : (
+                            <RunCompleteNudge
+                                show={player.atEnd && player.total > 1}
+                                tool="arrays1d"
+                                algo={op}
+                                url={`${pageUrl}${encodeOneD({ values, ...options() })}`}
+                            />
+                        )}
                     </div>
                 </div>
 
@@ -283,6 +332,12 @@ export default function OneDVisualizer({ path }) {
 
             <p className="mt-3 text-center text-xs text-subtle">
                 Tip: <Kbd>Space</Kbd> play/pause · <Kbd>←</Kbd> <Kbd>→</Kbd> step
+                {quiz.active && (
+                    <>
+                        {" "}
+                        · <Kbd>Y</Kbd> <Kbd>N</Kbd> answer
+                    </>
+                )}
             </p>
 
             <div className="mt-5">

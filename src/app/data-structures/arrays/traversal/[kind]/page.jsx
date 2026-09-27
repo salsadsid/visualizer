@@ -3,6 +3,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import NextStep from "@/components/layout/NextStep";
+import PracticeLinks from "@/components/learn/PracticeLinks";
 import TraversalVisualizer from "@/components/array/TraversalVisualizer";
 import RowMajorExplainer from "@/components/array/traversals/RowMajorExplainer";
 import ColumnMajorExplainer from "@/components/array/traversals/ColumnMajorExplainer";
@@ -68,6 +69,8 @@ export default async function TraversalPage({ params }) {
             <TraversalVisualizer kind={page.key} />
 
             <Explainer />
+
+            <PracticeLinks path={page.path} tool="traversals" algo={page.key} />
 
             <NextStep
                 href={page.next.path}

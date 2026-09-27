@@ -2,16 +2,17 @@
 import { cn } from "@/lib/cn";
 import { SPEEDS } from "./usePlayer";
 
-function ControlButton({ onClick, label, disabled, primary, children }) {
+function ControlButton({ onClick, label, disabled, blocked, primary, children }) {
     return (
         <button
             type="button"
             onClick={onClick}
             disabled={disabled}
+            aria-disabled={blocked || undefined}
             aria-label={label}
             title={label}
             className={cn(
-                "grid place-items-center rounded-xl transition-all focus-ring disabled:opacity-40 disabled:cursor-not-allowed",
+                "grid place-items-center rounded-xl transition-all focus-ring disabled:opacity-40 disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:cursor-not-allowed",
                 primary
                     ? "h-11 w-11 bg-accent text-white hover:bg-accent-hover shadow-sm hover:scale-105"
                     : "h-10 w-10 surface-muted text-muted hover:text-text"
@@ -60,6 +61,7 @@ export default function PlayerControls({
         playing,
         atEnd,
         atStart,
+        atLimit,
         toggle,
         stepF,
         stepB,
@@ -98,7 +100,12 @@ export default function PlayerControls({
                         <ControlButton onClick={toggle} label={playing ? "Pause" : "Play"} primary>
                             <Icon d={playing ? PATHS.pause : PATHS.play} className="w-6 h-6" />
                         </ControlButton>
-                        <ControlButton onClick={stepF} label="Step forward" disabled={atEnd}>
+                        <ControlButton
+                            onClick={stepF}
+                            label={atLimit ? "Answer the question to go on" : "Step forward"}
+                            disabled={atEnd}
+                            blocked={atLimit}
+                        >
                             <Icon d={PATHS.stepF} />
                         </ControlButton>
                     </div>

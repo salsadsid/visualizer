@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { SORTERS, SORTER_LIST } from "../src/lib/algorithms/sorting.js";
+import { predictScore, questionIndexes } from "../src/lib/predict.js";
 
 const ascending = (n) => Array.from({ length: n }, (_, i) => i + 1);
 const descending = (n) => ascending(n).reverse();
@@ -77,6 +78,76 @@ for (const sorter of SORTER_LIST) {
         }
     });
 }
+
+const LIVE_ROLES_AT_A_QUESTION = {
+    bubble: ({ j }) => ({ [j]: "compare", [j + 1]: "compare" }),
+    selection: ({ j, min }) => ({ [min]: "min", [j]: "compare" }),
+    insertion: ({ j }) => ({ [j]: "compare" }),
+};
+
+for (const sorter of SORTER_LIST) {
+    test(`${sorter.key}: asks a yes/no question at every comparison and nowhere else`, () => {
+        for (const { label, input } of cases()) {
+            const { steps } = sorter.run(input);
+            assert.equal(steps.at(-1).ask, undefined, `${label}: question on the last step`);
+            assert.equal(
+                questionIndexes(steps).length,
+                steps.at(-1).stats.comparisons,
+                `${label}: one question per comparison`
+            );
+            for (const [index, step] of steps.entries()) {
+                const where = `${label} step ${index}`;
+                assert.equal(Boolean(step.ask), step.line === 3, `${where}: question off the compare line`);
+                if (!step.ask) continue;
+                assert.deepEqual(step.ask.choices, ["Yes", "No"], where);
+                assert.equal(step.ask.answer === 0, steps[index + 1].line === 4, `${where}: answer disagrees with the next step`);
+                assert.match(step.ask.prompt, /\?$/, where);
+                assert.notEqual(step.ask.prompt, step.message, where);
+            }
+        }
+    });
+
+    test(`${sorter.key}: a question step shows nothing that gives the answer away`, () => {
+        for (const { label, input } of cases()) {
+            for (const [index, step] of sorter.run(input).steps.entries()) {
+                if (!step.ask) continue;
+                const live = Object.fromEntries(
+                    Object.entries(step.highlights).filter(([, role]) => role !== "sorted")
+                );
+                assert.deepEqual(live, LIVE_ROLES_AT_A_QUESTION[sorter.key](step.pointers), `${label} step ${index}`);
+            }
+        }
+    });
+}
+
+test("bubble and insertion answer Yes once per inversion", () => {
+    for (const key of ["bubble", "insertion"]) {
+        for (const { label, input } of cases()) {
+            const yes = SORTERS[key].run(input).steps.filter((step) => step.ask?.answer === 0).length;
+            assert.equal(yes, inversions(input), `${key} ${label}`);
+        }
+    }
+});
+
+test("a small input gives a fixed round of questions", () => {
+    const input = [5, 2, 4, 1, 3];
+    const round = (key) => SORTERS[key].run(input).steps;
+    const answers = (steps) => steps.filter((step) => step.ask).map((step) => step.ask.choices[step.ask.answer][0]).join("");
+    assert.deepEqual(
+        ["bubble", "selection", "insertion"].map((key) => round(key).length),
+        [26, 31, 26]
+    );
+    assert.equal(answers(round("bubble")), "YYYYNYYYNN");
+    assert.equal(answers(round("insertion")), "YYNYYYYYN");
+    assert.equal(round("bubble")[2].ask.prompt, "Compare 5 and 2: will they swap?");
+
+    const steps = round("bubble");
+    const questions = questionIndexes(steps);
+    const right = Object.fromEntries(questions.map((index) => [index, steps[index].ask.answer]));
+    const alwaysYes = Object.fromEntries(questions.map((index) => [index, 0]));
+    assert.equal(predictScore(steps, questions, right).best, 10);
+    assert.equal(predictScore(steps, questions, alwaysYes).correct, 7);
+});
 
 test("bubble: swaps once per inversion and stops early on sorted input", () => {
     for (const { label, input } of cases()) {
