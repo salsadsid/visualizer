@@ -50,7 +50,9 @@ const LITERALS = new Map([
 function loosen(text) {
     let out = "";
     let quote = null;
-    const changed = { quotes: false, literals: false, commas: false };
+    const changed = { quotes: false, literals: false, commas: false, braces: false };
+    const bracePositions = [];
+    let hasObjectColon = false;
     for (let i = 0; i < text.length; i++) {
         const ch = text[i];
         if (quote) {
@@ -77,19 +79,34 @@ function loosen(text) {
             if (LITERALS.has(word)) changed.literals = true;
             out += LITERALS.get(word) ?? word;
             i = end - 1;
+        } else if (ch === "{" || ch === "}") {
+            bracePositions.push([out.length, ch]);
+            out += ch === "{" ? "[" : "]";
+            changed.braces = true;
+        } else if (ch === ":") {
+            hasObjectColon = true;
+            out += ch;
         } else if (ch === "," && /^\s*[\]}]/.test(text.slice(i + 1))) {
             changed.commas = true;
         } else {
             out += ch;
         }
     }
+    if (hasObjectColon) {
+        const characters = out.split("");
+        for (const [index, brace] of bracePositions) characters[index] = brace;
+        out = characters.join("");
+        changed.braces = false;
+    }
     return { text: out, changed };
 }
 
-function describeLoose({ quotes, literals, commas }) {
-    if (quotes || literals) return "Read Python-style input (single quotes, True/False/None).";
-    if (commas) return "Ignored a trailing comma.";
-    return null;
+function describeLoose({ quotes, literals, commas, braces }) {
+    const notes = [];
+    if (braces) notes.push("Read C++ style braces as brackets.");
+    if (quotes || literals) notes.push("Read Python-style input (single quotes, True/False/None).");
+    if (commas) notes.push("Ignored a trailing comma.");
+    return notes.join(" ") || null;
 }
 
 function describeRows({ rows, header, separator }, maxLen) {
@@ -119,7 +136,8 @@ export function parseInput(raw) {
             } catch (__) {
                 return fail(JSON_ERROR);
             }
-            if (loose.changed.quotes || loose.changed.literals) format = "python";
+            if (loose.changed.braces) format = "cpp";
+            else if (loose.changed.quotes || loose.changed.literals) format = "python";
             looseNote = describeLoose(loose.changed);
         } else {
             rows = parseRows(text);
