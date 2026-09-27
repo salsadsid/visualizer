@@ -3,6 +3,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import NextStep from "@/components/layout/NextStep";
+import PracticeLinks from "@/components/learn/PracticeLinks";
 import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
 import BubbleSortExplainer from "@/components/algorithms/explainers/BubbleSortExplainer";
 import SelectionSortExplainer from "@/components/algorithms/explainers/SelectionSortExplainer";
@@ -61,6 +62,8 @@ export default async function SortPage({ params }) {
             <SortingVisualizer algo={page.key} />
 
             <Explainer />
+
+            <PracticeLinks path={page.path} tool="sorting" algo={page.key} />
 
             <NextStep
                 href={page.next.path}

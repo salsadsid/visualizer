@@ -23,7 +23,7 @@ export const TOOLS = {
         description:
             "Watch an array insert, delete, search and reverse one step at a time: every read, write and shift counted, live indices, and code in C++, Python, JS & TS.",
         teaches: ["arrays in memory", "insert and delete with shifting", "linear search", "reversing with two pointers"],
-        updatedAt: "2026-09-25",
+        updatedAt: "2026-09-27",
         group: "Data Structures",
         pathOrder: 2,
         card: {
@@ -41,7 +41,7 @@ export const TOOLS = {
         description:
             "Paste any 2D array or matrix and see it as a grid. Color cells by value, show row and column indices, and learn with C++, Python, JS & TS code. Free.",
         teaches: ["2D arrays", "matrix indexing with rows and columns", "row-major order"],
-        updatedAt: "2026-09-19",
+        updatedAt: "2026-09-27",
         group: "Data Structures",
         pathOrder: 4,
         card: {
@@ -131,7 +131,7 @@ export const TOOLS = {
         description:
             "Learn Big-O by measuring it: count steps with the computer, then watch O(1), O(log n), O(n), O(n log n) and O(n²) growth curves fan out. Beginner friendly.",
         teaches: ["Big-O notation", "time complexity", "how algorithms scale"],
-        updatedAt: "2026-09-19",
+        updatedAt: "2026-09-27",
         group: "Sorting & techniques",
         pathOrder: 1,
         card: {
@@ -166,7 +166,7 @@ export const SORT_PAGES = {
             tool: "sorting",
             text: "Bubble sort makes lots of small swaps. Next, watch a sort that looks first and makes at most one swap per pass.",
         },
-        updatedAt: "2026-09-20",
+        updatedAt: "2026-09-27",
     },
     "selection-sort": {
         id: "selection-sort",
@@ -190,7 +190,7 @@ export const SORT_PAGES = {
             tool: "sorting",
             text: "Selection sort does the same work whatever you give it. Next, meet a sort that gets faster the closer your list already is to sorted.",
         },
-        updatedAt: "2026-09-20",
+        updatedAt: "2026-09-27",
     },
     "insertion-sort": {
         id: "insertion-sort",
@@ -214,7 +214,7 @@ export const SORT_PAGES = {
             tool: "arrays",
             text: "Sorting works on a single row of values. Next, see what changes when your data has rows and columns.",
         },
-        updatedAt: "2026-09-20",
+        updatedAt: "2026-09-27",
     },
 };
 
@@ -229,7 +229,7 @@ const traversalPage = (id, page) => ({
     key: id,
     path: `${TRAVERSAL_BASE}/${id}`,
     section: "data-structures",
-    updatedAt: "2026-09-25",
+    updatedAt: "2026-09-27",
     ...page,
 });
 
@@ -343,7 +343,7 @@ const matrixPage = (id, page) => ({
     key: id,
     path: `${MATRIX_BASE}/${id}`,
     section: "data-structures",
-    updatedAt: "2026-09-26",
+    updatedAt: "2026-09-27",
     ...page,
 });
 
@@ -425,7 +425,7 @@ const gridPage = (id, page) => ({
     key: id,
     path: `${GRID_BASE}/${id}`,
     section: "algorithms",
-    updatedAt: "2026-09-25",
+    updatedAt: "2026-09-27",
     ...page,
 });
 

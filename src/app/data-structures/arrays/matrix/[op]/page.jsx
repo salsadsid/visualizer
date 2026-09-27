@@ -3,6 +3,7 @@ import PageShell from "@/components/layout/PageShell";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import NextStep from "@/components/layout/NextStep";
+import PracticeLinks from "@/components/learn/PracticeLinks";
 import MatrixOpVisualizer from "@/components/array/MatrixOpVisualizer";
 import TransposeExplainer from "@/components/array/matrix/TransposeExplainer";
 import RotateExplainer from "@/components/array/matrix/RotateExplainer";
@@ -64,6 +65,8 @@ export default async function MatrixOperationPage({ params }) {
             <MatrixOpVisualizer kind={page.key} basePath={TOOLS.matrix.path} />
 
             <Explainer />
+
+            <PracticeLinks path={page.path} tool="matrix" algo={page.key} />
 
             <NextStep
                 href={page.next.path}
