@@ -1,3 +1,5 @@
+import { yesNo } from "../predict.js";
+
 function makeTrace(values, extraSlot = false) {
     const a = values.slice();
     if (extraSlot) a.push(null);
@@ -5,7 +7,7 @@ function makeTrace(values, extraSlot = false) {
     const stats = { reads: 0, writes: 0, compares: 0 };
     const pointers = {};
     const vars = {};
-    const push = (line, message, highlights = {}) => {
+    const push = (line, message, highlights = {}, ask) => {
         steps.push({
             array: a.slice(),
             highlights: { ...highlights },
@@ -14,6 +16,7 @@ function makeTrace(values, extraSlot = false) {
             line,
             message,
             stats: { ...stats },
+            ...(ask && { ask }),
         });
     };
     return { a, steps, stats, pointers, vars, push };
@@ -105,13 +108,15 @@ function search(values, { target } = {}) {
         t.pointers.i = i;
         t.stats.reads++;
         t.stats.compares++;
-        if (values[i] === q) {
+        const match = values[i] === q;
+        const ask = yesNo(`Does a[${i}] = ${values[i]} match the target ${q}?`, match);
+        if (match) {
+            t.push(1, `Compare a[${i}] = ${values[i]} with ${q}: equal.`, { [i]: "current" }, ask);
             t.vars.found = true;
-            t.push(1, `Compare a[${i}] = ${values[i]} with ${q}: equal.`, { [i]: "current" });
             t.push(2, `Found it at index ${i} after ${plural(i + 1, "compare")}. Stop here, even if ${q} appears again later.`, { [i]: "found" });
             return { steps: t.steps };
         }
-        t.push(1, `Compare a[${i}] = ${values[i]} with ${q}: not equal, move on.`, { [i]: "current" });
+        t.push(1, `Compare a[${i}] = ${values[i]} with ${q}: not equal, move on.`, { [i]: "current" }, ask);
     }
     delete t.pointers.i;
     t.push(3, `Checked all ${n} boxes and none held ${q}. Return -1, the usual way to say not found.`);
