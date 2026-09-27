@@ -97,8 +97,26 @@ test("trailing commas are ignored", () => {
     assert.deepEqual(parseInput("[[1, 2,], [3, 4,],]").matrix, [[1, 2], [3, 4]]);
 });
 
-test("braces and nested arrays still fail clearly", () => {
-    for (const raw of ["{{1,2},{3,4}}", "{1, 2, 3}", "[1, [2, 3]]", "[[1, 'a']", "[['a', 'b'], [1, 2]"]) {
+test("C++ braces parse as grids without treating quoted colons as object syntax", () => {
+    const grid = parseInput("{{1,2},{3,4}}");
+    assert.deepEqual(grid.matrix, [[1, 2], [3, 4]]);
+    assert.equal(grid.format, "cpp");
+    assert.match(grid.note, /C\+\+ style braces/);
+
+    const row = parseInput("{1, 2, 3}");
+    assert.deepEqual(row.matrix, [[1, 2, 3]]);
+    assert.equal(row.format, "cpp");
+    assert.match(row.note, /1D array/);
+
+    const quotedColon = parseInput('{"a:b", "c"}');
+    assert.deepEqual(quotedColon.matrix, [["a:b", "c"]]);
+    assert.equal(quotedColon.format, "cpp");
+    assert.match(parseInput('{"a": 1}').error, /needs square brackets/);
+    assert.match(parseInput("{'a': 1}").error, /needs square brackets/);
+});
+
+test("nested arrays and incomplete input still fail clearly", () => {
+    for (const raw of ["[1, [2, 3]]", "[[1, 'a']", "[['a', 'b'], [1, 2]"]) {
         const result = parseInput(raw);
         assert.deepEqual(result.matrix, [], raw);
         assert.equal(typeof result.error, "string", raw);
