@@ -114,6 +114,21 @@ test("every preset survives a format and parse round trip", () => {
     }
 });
 
+test("teaching presets have the requested shapes and round-trip through the parser", () => {
+    const board = PRESETS.ticTacToe.build();
+    assert.deepEqual(board, [
+        ["X", null, "O"],
+        [null, "X", null],
+        ["O", null, "X"],
+    ]);
+    assert.deepEqual(parseInput(formatMatrix(board)).matrix, board);
+
+    const pixels = PRESETS.imagePixels.build();
+    assert.equal(pixels.length, 8);
+    assert.ok(pixels.every((row) => row.length === 8 && row.every((cell) => cell === 0 || cell === 1)));
+    assert.deepEqual(parseInput(formatMatrix(pixels)).matrix, pixels);
+});
+
 test("cell helpers keep booleans, null and padding distinct", () => {
     assert.deepEqual(uniqueValues([[1, 1, "1"], [true, false, PAD_TOKEN]]), [1, "1", true, false]);
     assert.equal(displayValue(true), "T");

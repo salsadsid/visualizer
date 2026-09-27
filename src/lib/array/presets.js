@@ -61,6 +61,29 @@ export const PRESETS = {
             ["r", "n", "b", "q", "k", "b", "n", "r"],
         ],
     },
+    ticTacToe: {
+        label: "Tic-tac-toe",
+        accent: "purple",
+        build: () => [
+            ["X", null, "O"],
+            [null, "X", null],
+            ["O", null, "X"],
+        ],
+    },
+    imagePixels: {
+        label: "Image pixels",
+        accent: "emerald",
+        build: () => [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+        ],
+    },
 };
 
 export const ACCENT_CLASSES = {
