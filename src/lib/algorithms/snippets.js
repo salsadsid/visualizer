@@ -3,6 +3,7 @@ export const LANGUAGES = [
     { id: "python", label: "Python" },
     { id: "javascript", label: "JavaScript" },
     { id: "typescript", label: "TypeScript" },
+    { id: "java", label: "Java" },
 ];
 
 // Implementation snippets per algorithm, per language. Kept deliberately small and
@@ -80,6 +81,28 @@ export const SORT_CODE = {
 }`,
             },
         ],
+        java: [
+            {
+                title: "Bubble sort",
+                code: `class BubbleSort {
+    static void sort(int[] a) {
+        int n = a.length;
+        for (int i = 0; i < n - 1; i++) {
+            boolean swapped = false;
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (a[j] > a[j + 1]) {
+                    int temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) break;
+        }
+    }
+}`,
+            },
+        ],
     },
     selection: {
         cpp: [
@@ -139,6 +162,27 @@ export const SORT_CODE = {
     if (mn !== i) [a[i], a[mn]] = [a[mn], a[i]];
   }
   return a;
+}`,
+            },
+        ],
+        java: [
+            {
+                title: "Selection sort",
+                code: `class SelectionSort {
+    static void sort(int[] a) {
+        int n = a.length;
+        for (int i = 0; i < n; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[min]) min = j;
+            }
+            if (min != i) {
+                int temp = a[i];
+                a[i] = a[min];
+                a[min] = temp;
+            }
+        }
+    }
 }`,
             },
         ],
@@ -205,6 +249,24 @@ export const SORT_CODE = {
     a[j + 1] = key;
   }
   return a;
+}`,
+            },
+        ],
+        java: [
+            {
+                title: "Insertion sort",
+                code: `class InsertionSort {
+    static void sort(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int key = a[i];
+            int j = i - 1;
+            while (j >= 0 && a[j] > key) {
+                a[j + 1] = a[j];
+                j--;
+            }
+            a[j + 1] = key;
+        }
+    }
 }`,
             },
         ],
