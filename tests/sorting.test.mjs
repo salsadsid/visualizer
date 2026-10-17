@@ -218,3 +218,53 @@ test("every sorter ships with everything its page needs", async () => {
         );
     }
 });
+
+const originalOrderAfterSteps = (sorter, input) => {
+    const steps = SORTERS[sorter].run(input).steps;
+    const order = input.map((_, index) => index);
+    let keyIndex;
+    let previous = steps[0];
+
+    for (const step of steps.slice(1)) {
+        if (sorter === "insertion" && step.line === 1) {
+            keyIndex = order[step.pointers.i];
+        }
+        if (step.stats.swaps > previous.stats.swaps) {
+            const changed = previous.array.flatMap((value, index) =>
+                value === step.array[index] ? [] : [index]
+            );
+            assert.equal(changed.length, 2, "a swap changes two positions");
+            const [left, right] = changed;
+            [order[left], order[right]] = [order[right], order[left]];
+        } else if (sorter === "insertion" && step.stats.writes > previous.stats.writes) {
+            const destination = step.pointers.j + 1;
+            if (step.line === 4) {
+                order[destination] = order[step.pointers.j];
+            } else {
+                assert.equal(step.line, 6, "insertion writes either a shift or the key");
+                order[destination] = keyIndex;
+            }
+        }
+        assert.deepEqual(order.map((index) => input[index]), step.array);
+        previous = step;
+    }
+    return order;
+};
+
+test("bubble and insertion preserve the original order of equal values", () => {
+    const input = [4, 4, 1, 4, 2];
+    for (const sorter of ["bubble", "insertion"]) {
+        const order = originalOrderAfterSteps(sorter, input);
+        assert.deepEqual(
+            order.filter((index) => input[index] === 4),
+            [0, 1, 3],
+            sorter
+        );
+    }
+});
+
+test("selection can reverse equal values on [4, 4, 1]", () => {
+    const input = [4, 4, 1];
+    const order = originalOrderAfterSteps("selection", input);
+    assert.deepEqual(order.filter((index) => input[index] === 4), [1, 0]);
+});
