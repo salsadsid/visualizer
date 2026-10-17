@@ -3,7 +3,7 @@ import { PRESETS, ACCENT_CLASSES } from "@/lib/array/presets";
 import TrackedLink from "@/components/analytics/TrackedLink";
 import { cn } from "@/lib/cn";
 
-const FORMAT_LABELS = { json: "JSON", rows: "Rows", python: "Python" };
+const FORMAT_LABELS = { json: "JSON", rows: "Rows", python: "Python", cpp: "C++" };
 
 export default function InputPanel({
     value,
