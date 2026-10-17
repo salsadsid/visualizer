@@ -15,6 +15,9 @@ import {
 // The three speeds the learner already stepped through in LoopLab (step ②) — badged
 // so the names land on something they've already felt rather than arriving cold.
 const COUNTED = new Set(["log", "linear", "quadratic"]);
+const COMPLEXITY_LANGUAGES = LANGUAGES.filter(({ id }) =>
+    Object.values(COMPLEXITY_CODE).every((code) => code[id]?.length > 0)
+);
 
 function Classes() {
     return (
@@ -150,7 +153,7 @@ function CodePanel() {
                     </button>
                 ))}
             </div>
-            <CodeTabs languages={LANGUAGES} groups={COMPLEXITY_CODE[classId]} />
+            <CodeTabs languages={COMPLEXITY_LANGUAGES} groups={COMPLEXITY_CODE[classId]} />
             <p className="text-sm text-subtle">
                 The C++ mirrors the classic Module&nbsp;1 examples; the other languages are
                 faithful equivalents.
