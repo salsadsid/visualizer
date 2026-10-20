@@ -5,7 +5,7 @@ import { useSessionFlag } from "@/components/engagement/useSessionFlag";
 import { track } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site";
 
-export default function RunCompleteNudge({ show, tool, algo, url }) {
+export default function RunCompleteNudge({ show, tool, algo, url, onPredict }) {
     const [dismissed, dismiss] = useSessionFlag("run-nudge-dismissed");
     const [copied, copy] = useCopyLink();
 
@@ -18,7 +18,20 @@ export default function RunCompleteNudge({ show, tool, algo, url }) {
 
     return (
         <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-xl bg-accent-soft border border-accent/20 px-3 py-2 text-sm animate-fade-in-up">
-            <span className="text-muted">Enjoyed that?</span>
+            {onPredict ? (
+                <>
+                    <span className="text-muted">Got it?</span>
+                    <button
+                        type="button"
+                        onClick={onPredict}
+                        className="px-3 py-1 rounded-full border border-accent/40 bg-bg-elevated font-semibold text-accent hover:border-accent hover:text-accent-hover transition-colors focus-ring"
+                    >
+                        Predict the next run
+                    </button>
+                </>
+            ) : (
+                <span className="text-muted">Enjoyed that?</span>
+            )}
             <TrackedLink
                 external
                 event="github_click"

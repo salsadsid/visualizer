@@ -55,7 +55,7 @@ The `usePlayer` hook plays, pauses, steps and scrubs through that list, and shar
 This is the full checklist. `npm test` fails if you miss one of the first four.
 
 1. **`src/lib/algorithms/sorting.js`**: write the function and add an entry to `SORTERS` with `key`, `label`, `blurb`, `lead`, `roles`, `pseudocode`, `complexity` and `run`. Every `line` you push must be a valid index into `pseudocode`, and every comparison push carries a `yesNo` question.
-2. **`src/lib/algorithms/snippets.js`**: add `SORT_CODE[key]` with C++, Python, JavaScript and TypeScript versions.
+2. **`src/lib/algorithms/snippets.js`**: add `SORT_CODE[key]` with C++, Python, JavaScript, TypeScript and Java versions (the sorting test checks every language in `LANGUAGES`).
 3. **`src/lib/catalog.js`**: add a `SORT_PAGES` entry (slug, title of at most 60 characters with the site suffix, description of at most 155, `h1`, `intro`, `teaches`, `share`, `next`, `updatedAt`). Point the previous page's `next` at yours, and remove the topic from `PLANNED`.
 4. **`src/components/algorithms/explainers/`**: write `YourSortExplainer.jsx` (copy an existing one) and register it in the `EXPLAINERS` map in `src/app/algorithms/sorting/[algo]/page.jsx`.
 5. **`src/lib/algorithms/roles.js`**: only if you need a new highlight role.

@@ -68,8 +68,8 @@ const ICONS = {
 };
 
 const POPULAR = [
-    { tool: "arrays", href: "/data-structures/arrays", label: "2D Array Visualizer" },
     { tool: "arrays1d", href: "/data-structures/arrays/1d", label: "Array Visualizer" },
+    { tool: "traversals", href: "/data-structures/arrays/traversal/spiral", label: "Spiral Traversal" },
     { tool: "sorting", href: "/algorithms/sorting/bubble-sort", label: "Bubble Sort" },
     { tool: "complexity", href: "/algorithms/complexity", label: "Big-O Playground" },
 ];
@@ -121,29 +121,14 @@ export default function HomePage() {
                     step, and count the steps algorithms take. No setup, no sign-up.
                 </p>
 
-                <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm">
-                    <span className="text-subtle">Popular:</span>
-                    {POPULAR.map((item) => (
-                        <TrackedLink
-                            key={item.href}
-                            href={item.href}
-                            event="tool_open"
-                            params={{ tool: item.tool, from: "home_popular" }}
-                            className="px-3 py-2 rounded-full bg-accent-soft border border-accent/20 font-medium text-accent hover:bg-accent/15 transition-colors focus-ring"
-                        >
-                            {item.label}
-                        </TrackedLink>
-                    ))}
-                </div>
-
-                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <TrackedLink
-                        href="/algorithms/sorting"
+                        href="/data-structures/arrays"
                         event="tool_open"
-                        params={{ tool: "sorting", from: "home_hero" }}
+                        params={{ tool: "arrays", from: "home_hero" }}
                         className="group px-6 py-3 rounded-xl bg-accent text-white font-medium shadow-sm hover:bg-accent-hover hover:scale-[1.03] active:scale-95 transition-all inline-flex items-center gap-2"
                     >
-                        Open Sorting Visualizer
+                        Open 2D Array Visualizer
                         <svg
                             className="w-4 h-4 group-hover:translate-x-1 transition-transform"
                             fill="none"
@@ -159,13 +144,28 @@ export default function HomePage() {
                         </svg>
                     </TrackedLink>
                     <TrackedLink
-                        href="/algorithms/complexity"
+                        href="/algorithms/sorting"
                         event="tool_open"
-                        params={{ tool: "complexity", from: "home_hero" }}
+                        params={{ tool: "sorting", from: "home_hero" }}
                         className="px-6 py-3 rounded-xl surface font-medium text-muted hover:text-text hover:scale-[1.03] active:scale-95 transition-all"
                     >
-                        New to Big-O? Start here →
+                        Watch sorting step by step →
                     </TrackedLink>
+                </div>
+
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm">
+                    <span className="text-subtle">Popular:</span>
+                    {POPULAR.map((item) => (
+                        <TrackedLink
+                            key={item.href}
+                            href={item.href}
+                            event="tool_open"
+                            params={{ tool: item.tool, from: "home_popular" }}
+                            className="px-3 py-2 rounded-full bg-accent-soft border border-accent/20 font-medium text-accent hover:bg-accent/15 transition-colors focus-ring"
+                        >
+                            {item.label}
+                        </TrackedLink>
+                    ))}
                 </div>
 
                 <div className="mt-12 max-w-md mx-auto animate-fade-in-up">

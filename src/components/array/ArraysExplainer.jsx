@@ -28,7 +28,7 @@ const FAQS = [
     },
     {
         question: "How do I visualize a 2D array from my C++ or Python program?",
-        answer: "From Python, print the list and paste it as it is: single quotes and True, False and None are understood. From C++ or Java, either swap the curly braces for square brackets, or print the values with spaces between them, one row per line, which the input box reads directly. Judge-style input with a size line on top works too.",
+        answer: "From Python, print the list and paste it as it is: single quotes and True, False and None are understood. From C++ or Java, paste the initializer with its curly braces, such as {{1, 2}, {3, 4}}, or print the values with spaces between them, one row per line, which the input box reads directly. Judge-style input with a size line on top works too.",
     },
     {
         question: "Is the 2D array visualizer free?",

@@ -135,6 +135,10 @@ export default function OneDVisualizer({ path }) {
         track("share_click", { tool: "arrays1d", algo: op, from: "predict_summary" });
         copyChallenge(`${pageUrl}${encodeOneD({ values, ...options() })}`);
     };
+    const startPredict = () => {
+        round.chooseMode("predict", "nudge");
+        stageRef.current?.querySelector('button[aria-label="Play"]')?.focus();
+    };
     const embedCode = () => {
         track("embed_click", { tool: "arrays1d", algo: op, from: "player" });
         copyEmbed(embedSnippet({ url: pageUrl, hash: encodeOneD({ values, step: player.index, ...options() }), title: `${TOOLS.arrays1d.name} · ${siteConfig.shortName}` }));
@@ -232,6 +236,7 @@ export default function OneDVisualizer({ path }) {
                                 tool="arrays1d"
                                 algo={op}
                                 url={`${pageUrl}${encodeOneD({ values, ...options() })}`}
+                                onPredict={quiz.available ? startPredict : undefined}
                             />
                         )}
                     </div>
