@@ -41,7 +41,7 @@ export const TOOLS = {
         description:
             "Paste any 2D array or matrix and see it as a grid. Color cells by value, show row and column indices, and learn with C++, Python, JS & TS code. Free.",
         teaches: ["2D arrays", "matrix indexing with rows and columns", "row-major order"],
-        updatedAt: "2026-09-27",
+        updatedAt: "2026-10-20",
         group: "Data Structures",
         pathOrder: 4,
         card: {
