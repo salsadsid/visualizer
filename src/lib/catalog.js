@@ -513,7 +513,7 @@ export const PLANNED = [
 export const plannedIn = (section) => PLANNED.filter((topic) => topic.section === section);
 
 const STATIC_PAGES = [
-    { path: "/", updatedAt: "2026-09-19", changeFrequency: "weekly", priority: 1.0 },
+    { path: "/", updatedAt: "2026-10-20", changeFrequency: "weekly", priority: 1.0 },
     { path: "/roadmap", updatedAt: "2026-09-19", changeFrequency: "monthly", priority: 0.5 },
 ];
 
