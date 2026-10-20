@@ -57,11 +57,11 @@ export function usePredictRound(quiz, player, { tool, algo, setOn, shared }) {
         if (choice !== ask.answer) player.pause();
     };
 
-    const chooseMode = (mode) => {
+    const chooseMode = (mode, from = "toggle") => {
         const next = mode === "predict";
         if (next === quiz.active) return;
         if (next) {
-            track("predict_start", { tool, algo, from: "toggle" });
+            track("predict_start", { tool, algo, from });
             player.reset();
         }
         setOn(next);

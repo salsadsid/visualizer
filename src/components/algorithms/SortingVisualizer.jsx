@@ -68,6 +68,11 @@ export default function SortingVisualizer({ algo: algoKey }) {
 
     const stageRef = useStepShortcuts(player, round.keys);
 
+    const startPredict = () => {
+        round.chooseMode("predict", "nudge");
+        stageRef.current?.querySelector('button[aria-label="Play"]')?.focus();
+    };
+
     return (
         <>
             <nav
@@ -153,6 +158,7 @@ export default function SortingVisualizer({ algo: algoKey }) {
                                 tool="sorting"
                                 algo={algoKey}
                                 url={`${pageUrl}${encodeSort({ values })}`}
+                                onPredict={quiz.available ? startPredict : undefined}
                             />
                         )}
                     </div>
