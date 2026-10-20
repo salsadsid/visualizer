@@ -33,7 +33,7 @@ If this helps you learn or teach, a ⭐ helps other students find it.
 | **Big-O Playground** | Start from zero: a short story, count steps together with the computer, then watch O(1) … O(2ⁿ) curves pull apart on a live chart | [Open](https://visualizer-gold.vercel.app/algorithms/complexity) |
 | **Sorting Visualizer** | Compare Bubble, Selection and Insertion sort, then step through each on its own page. Your list travels with you when you switch | [Overview](https://visualizer-gold.vercel.app/algorithms/sorting) · [Bubble](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) · [Selection](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) · [Insertion](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) |
 | **1D Array Visualizer** | Insert, delete, linear search and reverse with two pointers, animated one read and write at a time, with live indices, counters and code in four languages | [Open](https://visualizer-gold.vercel.app/data-structures/arrays/1d) |
-| **2D Array Visualizer** | Paste any 2D array or matrix (JSON, a Python list, or plain rows of numbers) and see it as a grid. Colour cells by value, show row and column indices, and share the result as a link | [Open](https://visualizer-gold.vercel.app/data-structures/arrays) |
+| **2D Array Visualizer** | Paste any 2D array or matrix (JSON, a Python list, C++ or Java braces, or plain rows of numbers) and see it as a grid. Colour cells by value, show row and column indices, and share the result as a link | [Open](https://visualizer-gold.vercel.app/data-structures/arrays) |
 | **Grid Traversals** | Six ways to walk a 2D array, row-major, column-major, snake, diagonal, boundary and spiral, each with live indices, a visit number on every cell, the output sequence and code | [Overview](https://visualizer-gold.vercel.app/data-structures/arrays/traversal) · [Spiral](https://visualizer-gold.vercel.app/data-structures/arrays/traversal/spiral) |
 | **Matrix Operations** | Transpose, rotate 90°, flip and multiply a matrix one cell at a time, with the source and the result side by side, live indices, counters and code in four languages | [Overview](https://visualizer-gold.vercel.app/data-structures/arrays/matrix) · [Multiply](https://visualizer-gold.vercel.app/data-structures/arrays/matrix/multiply) |
 | **Grid Algorithms** | Flood fill (BFS and DFS), number of islands and BFS shortest path in a maze, with the queue or call stack drawn live, distances on every cell and clickable grids | [Overview](https://visualizer-gold.vercel.app/algorithms/grid) · [Shortest path](https://visualizer-gold.vercel.app/algorithms/grid/shortest-path) |
@@ -49,7 +49,7 @@ Every sorting page has:
 - **Predict mode**: switch from Watch to Predict and the player stops at every comparison to ask what happens next (answer with the buttons or `Y` / `N`), keeps score and a streak, and ends with your accuracy and a challenge link that opens the same array in predict mode. The 1D linear search has it too
 - **Practice problems**: two or three free LeetCode, Codeforces or CSES problems that use the same idea, on every tool page
 - A written explainer with a worked example, common beginner mistakes and an FAQ
-- Code in **C++, Python, JavaScript and TypeScript**
+- Code in **C++, Python, JavaScript and TypeScript**, plus Java on the sorting pages
 
 Light and dark themes, works on a 320 px phone, and honours `prefers-reduced-motion`.
 
