@@ -21,6 +21,7 @@ export const siteConfig = {
     },
     repo: "https://github.com/salsadsid/visualizer",
     feedbackUrl: `https://github.com/salsadsid/visualizer/issues/new?${feedbackParams}`,
+    indexNowKey: "f45f7e891bc3827c5178c9ff112a900c",
     keywords: [
         "DSA visualizer",
         "array visualizer",
