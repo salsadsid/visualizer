@@ -271,4 +271,76 @@ export const SORT_CODE = {
             },
         ],
     },
+    counting: {
+        cpp: [
+            {
+                title: "Counting sort",
+                code: `void countingSort(vector<int>& a) {
+    vector<int> count(100, 0);          // values are 1..99
+    for (int v : a) count[v]++;
+    int i = 0;
+    for (int v = 1; v < 100; v++)
+        while (count[v]-- > 0) a[i++] = v;
+}`,
+            },
+        ],
+        python: [
+            {
+                title: "Counting sort",
+                code: `def counting_sort(a):
+    count = [0] * 100                   # values are 1..99
+    for v in a:
+        count[v] += 1
+    i = 0
+    for v in range(1, 100):
+        for _ in range(count[v]):
+            a[i] = v
+            i += 1
+    return a`,
+            },
+        ],
+        javascript: [
+            {
+                title: "Counting sort",
+                code: `function countingSort(a) {
+  const count = new Array(100).fill(0);   // values are 1..99
+  for (const v of a) count[v]++;
+  let i = 0;
+  for (let v = 1; v < 100; v++) {
+    while (count[v]-- > 0) a[i++] = v;
+  }
+  return a;
+}`,
+            },
+        ],
+        typescript: [
+            {
+                title: "Counting sort",
+                code: `function countingSort(a: number[]): number[] {
+  const count: number[] = new Array(100).fill(0);   // values are 1..99
+  for (const v of a) count[v]++;
+  let i = 0;
+  for (let v = 1; v < 100; v++) {
+    while (count[v]-- > 0) a[i++] = v;
+  }
+  return a;
+}`,
+            },
+        ],
+        java: [
+            {
+                title: "Counting sort",
+                code: `class CountingSort {
+    static void sort(int[] a) {
+        int[] count = new int[100];     // values are 1..99
+        for (int v : a) count[v]++;
+        int i = 0;
+        for (int v = 1; v < 100; v++) {
+            while (count[v]-- > 0) a[i++] = v;
+        }
+    }
+}`,
+            },
+        ],
+    },
 };

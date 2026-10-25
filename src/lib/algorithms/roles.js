@@ -7,6 +7,7 @@ export const ROLE_STYLES = {
     min: { bar: "bg-gradient-to-t from-violet-600 to-violet-400", label: "Current min" },
     key: { bar: "bg-gradient-to-t from-fuchsia-600 to-fuchsia-400", label: "Key" },
     shift: { bar: "bg-gradient-to-t from-sky-500 to-sky-300", label: "Shifting" },
+    write: { bar: "bg-gradient-to-t from-teal-500 to-teal-300", label: "Writing" },
     sorted: { bar: "bg-gradient-to-t from-emerald-600 to-emerald-400", label: "Sorted" },
 };
 

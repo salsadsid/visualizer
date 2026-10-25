@@ -26,24 +26,28 @@ const FAQS = [
     },
     {
         question: "How many comparisons does each sort make?",
-        answer: "For a list of n values, selection sort always makes n × (n − 1) ÷ 2 comparisons, even if the list is already sorted. Bubble sort makes up to the same number, but only n − 1 on a sorted list, because a pass with no swaps lets it stop early. Insertion sort also needs only n − 1 on a sorted list and the full amount on a reversed one.",
+        answer: "For a list of n values, selection sort always makes n × (n − 1) ÷ 2 comparisons, even if the list is already sorted. Bubble sort makes up to the same number, but only n − 1 on a sorted list, because a pass with no swaps lets it stop early. Insertion sort also needs only n − 1 on a sorted list and the full amount on a reversed one. Counting sort makes none, because it never compares two values.",
+    },
+    {
+        question: "When is counting sort a bad idea?",
+        answer: "When the values can be far bigger than the list is long. Counting sort keeps one counter for every possible value, so a handful of numbers that can reach a billion would need a billion counters. It shines when the values are small whole numbers, such as scores from 1 to 99, and the list is long.",
     },
 ];
 
 export default function SortingComparison() {
     return (
         <Explainer>
-            <ExplainerSection title="Bubble vs selection vs insertion sort">
+            <ExplainerSection title="Bubble vs selection vs insertion vs counting sort">
                 <p>
-                    All three do the same job, putting a list in order, and all three do it
-                    inside the list they were given. What differs is <em>how</em> they move
-                    values around, and that changes how much work each one does on the same
-                    input.
+                    All four do the same job, putting a list in order. What differs is{" "}
+                    <em>how</em> they do it, and that changes how much work each one does on
+                    the same input. The first three move values around by comparing them.
+                    Counting sort never compares: it counts.
                 </p>
                 <div className="surface-muted rounded-lg overflow-x-auto custom-scrollbar">
                     <table className="w-full text-sm">
                         <caption className="sr-only">
-                            Time and memory cost of bubble, selection and insertion sort
+                            Time and memory cost of bubble, selection, insertion and counting sort
                         </caption>
                         <thead>
                             <tr className="border-b border-token text-subtle text-xs uppercase tracking-wide">
@@ -120,6 +124,12 @@ export default function SortingComparison() {
                         left into a sorted part that grows from the front. No swaps at all,
                         and almost no work when the list is nearly sorted.
                     </li>
+                    <li>
+                        <strong className="text-text">Counting sort</strong> tallies how often
+                        each value appears, then writes the values back in order. No
+                        comparisons and no swaps, but it needs a counter for every possible
+                        value, so it only suits a small range of whole numbers.
+                    </li>
                 </ul>
             </ExplainerSection>
 
@@ -130,18 +140,20 @@ export default function SortingComparison() {
                     <strong className="text-text">selection sort</strong> to see a loop that
                     remembers something (<InlineCode>min</InlineCode>) between steps. Finish
                     with <strong className="text-text">insertion sort</strong>, the one you
-                    are most likely to meet in real code.
+                    are most likely to meet in real code. Then try{" "}
+                    <strong className="text-text">counting sort</strong> to see a sort that
+                    works in a completely different way.
                 </p>
                 <p>
                     A good experiment: open each sort, load the{" "}
                     <strong className="text-text">Nearly sorted</strong> preset and compare
                     the counters. Your list travels with you when you switch between the
-                    three, so it is the same input and the same goal, with very different
+                    sorts, so it is the same input and the same goal, with very different
                     step counts.
                 </p>
             </ExplainerSection>
 
-            <Faq title="Comparing the three sorts" items={FAQS} />
+            <Faq title="Comparing the sorts" items={FAQS} />
         </Explainer>
     );
 }

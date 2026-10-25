@@ -8,8 +8,36 @@ import { SORTERS, SORTER_LIST } from "@/lib/algorithms/sorting";
 import { sortPageFor } from "@/lib/catalog";
 import { useSortingInput } from "./SortingInputProvider";
 
+function CountingConcept() {
+    return (
+        <div className="space-y-3 text-sm leading-relaxed text-muted">
+            <p>
+                <strong className="text-text">{SORTERS.counting.label}</strong>{" "}
+                {SORTERS.counting.lead}
+            </p>
+            <p>
+                Unlike bubble, selection and insertion sort it is not a{" "}
+                <em>comparison sort</em>, so the comparison counter stays at 0 and the
+                usual <span className="font-mono">O(n log n)</span> speed limit does not
+                apply. The price is memory: the count array needs one slot for every
+                possible value, so it is a bad idea when the values can be huge.
+            </p>
+            <p className="text-sm text-subtle">
+                New to this <code className="font-mono">O(…)</code> notation?{" "}
+                <Link
+                    href="/algorithms/complexity"
+                    className="text-accent hover:text-accent-hover font-medium"
+                >
+                    Start with the Big-O Playground →
+                </Link>
+            </p>
+        </div>
+    );
+}
+
 function Concept({ algo }) {
-    const others = SORTER_LIST.filter((sorter) => sorter.key !== algo);
+    if (algo === "counting") return <CountingConcept />;
+    const others = SORTER_LIST.filter((sorter) => sorter.key !== algo && sorter.key !== "counting");
     return (
         <div className="space-y-3 text-sm leading-relaxed text-muted">
             <p>
@@ -59,7 +87,8 @@ function Concept({ algo }) {
                     <h3 className="text-sm font-semibold text-text mb-0.5">Stable</h3>
                     <p className="text-sm">
                         Keeps equal values in their original relative order. Bubble &amp;
-                        insertion are stable; selection is not.
+                        insertion are stable; selection is not. Counting sort rewrites plain
+                        numbers, so it does not matter there.
                     </p>
                 </div>
                 <div className="surface-muted rounded-lg p-3">
@@ -156,7 +185,7 @@ function Complexity({ algo }) {
                 n = number of elements. The highlighted row is the sort you&apos;re viewing.
             </p>
             <p className="text-sm text-muted pt-1">
-                Want to <em>see</em> these O(n²) curves next to O(n) and O(log n)?{" "}
+                Want to <em>see</em> curves like O(n²) next to O(n) and O(log n)?{" "}
                 <Link
                     href="/algorithms/complexity"
                     className="text-accent hover:text-accent-hover font-medium underline underline-offset-2"

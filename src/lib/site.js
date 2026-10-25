@@ -33,6 +33,7 @@ export const siteConfig = {
         "bubble sort visualizer",
         "selection sort visualizer",
         "insertion sort visualizer",
+        "counting sort visualizer",
         "2D array visualizer",
         "data structures visualizer",
         "matrix visualization",

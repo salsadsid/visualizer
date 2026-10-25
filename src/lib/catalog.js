@@ -111,15 +111,15 @@ export const TOOLS = {
         name: "Sorting Visualizer",
         title: "Sorting Algorithm Visualizer",
         description:
-            "Compare Bubble, Selection and Insertion sort side by side. Pick one and step through it with animated bars, live variables and synced pseudocode.",
-        teaches: ["bubble sort", "selection sort", "insertion sort", "comparing sorting algorithms"],
+            "Compare Bubble, Selection, Insertion and Counting sort side by side. Step through each with animated bars, live variables and synced pseudocode.",
+        teaches: ["bubble sort", "selection sort", "insertion sort", "counting sort", "comparing sorting algorithms"],
         updatedAt: "2026-09-20",
         group: "Sorting & techniques",
         pathOrder: 3,
         card: {
-            body: "Compare Bubble, Selection & Insertion sort, then watch each one run a step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
-            short: "Step through Bubble, Selection and Insertion sort.",
-            tags: ["Bubble", "Selection", "Insertion"],
+            body: "Compare Bubble, Selection, Insertion & Counting sort, then watch each one run a step at a time — animated bars, synced pseudocode, and live comparison/swap counters.",
+            short: "Step through Bubble, Selection, Insertion and Counting sort.",
+            tags: ["Bubble", "Selection", "Insertion", "Counting"],
         },
     },
     complexity: {
@@ -209,12 +209,36 @@ export const SORT_PAGES = {
             subtitle: "Animated bars, the key and its shifts, synced pseudocode and live counters.",
         },
         next: {
+            path: "/algorithms/sorting/counting-sort",
+            label: "Open the Counting Sort Visualizer",
+            tool: "sorting",
+            text: "Every sort so far works by comparing values. Next, watch one that never compares anything and just counts.",
+        },
+        updatedAt: "2026-09-27",
+    },
+    "counting-sort": {
+        id: "counting-sort",
+        key: "counting",
+        path: "/algorithms/sorting/counting-sort",
+        section: "algorithms",
+        name: "Counting Sort",
+        title: "Counting Sort Visualizer — Step by Step",
+        h1: "Counting Sort Visualizer",
+        description:
+            "Watch counting sort tally each value, then write them back in order: animated bars, live counts, highlighted pseudocode, and code in C++, Python, JS & TS.",
+        intro: "Watch a sort that never compares two values: it counts each one, then writes them back in order. Press play, or step through it.",
+        teaches: ["counting sort", "sorting without comparisons", "when a small value range makes sorting fast"],
+        share: {
+            accent: "No comparisons.",
+            subtitle: "Animated bars, live counts, synced pseudocode and a write counter.",
+        },
+        next: {
             path: "/data-structures/arrays",
             label: "Open the 2D Array Visualizer",
             tool: "arrays",
             text: "Sorting works on a single row of values. Next, see what changes when your data has rows and columns.",
         },
-        updatedAt: "2026-09-27",
+        updatedAt: "2026-10-25",
     },
 };
 
@@ -498,7 +522,6 @@ export const PLANNED = [
     { name: "Binary Tree / BST", section: "data-structures", group: "Data Structures", note: "Insert, traverse, search" },
     { name: "Heap", section: "data-structures", group: "Data Structures", note: "Min & max heap with sift up and sift down" },
     { name: "Graph", section: "data-structures", group: "Data Structures", note: "Adjacency list & matrix views" },
-    { name: "Counting sort", section: "algorithms", group: "Sorting & techniques", note: "Non-comparison sort built on a frequency array — O(n + k)" },
     { name: "Frequency array", section: "algorithms", group: "Sorting & techniques", note: "Count occurrences in O(n); the basis for counting sort & hashing" },
     { name: "Merge sort", section: "algorithms", group: "Sorting & techniques", note: "Divide & conquer, stable, O(n log n)" },
     { name: "Quick sort", section: "algorithms", group: "Sorting & techniques", note: "In-place partitioning, average O(n log n)" },

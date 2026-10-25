@@ -30,7 +30,7 @@ export default function SortingOverview() {
                 </button>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {SORTER_LIST.map((sorter, index) => {
                     const page = sortPageFor(sorter.key);
                     return (

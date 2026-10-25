@@ -30,7 +30,7 @@ export default function SortingPage() {
                     </h1>
                 </div>
                 <p className="mt-3 text-base text-muted max-w-lg mx-auto">
-                    Three classic sorts, each with its own step-by-step visualizer: animated
+                    Four sorts, each with its own step-by-step visualizer: animated
                     bars, highlighted pseudocode and a running tally of the work done.
                 </p>
             </header>

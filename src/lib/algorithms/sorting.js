@@ -13,9 +13,10 @@
 //     stats:      { comparisons, swaps, writes }   // cumulative counters
 //   }
 //
-// Role ∈ "compare" | "swap" | "min" | "key" | "shift" | "sorted".
+// Role ∈ "compare" | "swap" | "min" | "key" | "shift" | "write" | "sorted".
 
 import { yesNo } from "../predict.js";
+import { MAX_VALUE, MIN_VALUE } from "./presets.js";
 
 // A small recorder that snapshots the array and keeps "locked" (sorted) positions
 // green across every subsequent step. `pointers` and `vars` are mutated in place as
@@ -227,6 +228,66 @@ function insertion(values) {
     return { steps: r.steps };
 }
 
+function counting(values) {
+    const a = values.slice();
+    const n = a.length;
+    const r = makeRecorder(a);
+    const count = new Array(MAX_VALUE + 1).fill(0);
+
+    r.push(
+        0,
+        `Counting sort never compares two values. It tallies how often each value appears in a count array of ${MAX_VALUE + 1} slots, then writes the values back in order.`
+    );
+
+    for (let i = 0; i < n; i++) {
+        const v = a[i];
+        count[v]++;
+        r.pointers.i = i;
+        r.vars.v = v;
+        r.vars["count[v]"] = count[v];
+        r.push(
+            2,
+            count[v] === 1
+                ? `Read ${v} → first time we see it, count[${v}] = 1.`
+                : `Read ${v} → count[${v}] goes up to ${count[v]}.`,
+            { [i]: "key" }
+        );
+    }
+
+    r.clearLive();
+    r.pointers.i = 0;
+    r.push(3, "Counting is done. Now write the values back from index 0, smallest first.");
+
+    let i = 0;
+    for (let v = MIN_VALUE; v <= MAX_VALUE; v++) {
+        if (count[v] === 0) continue;
+        r.vars.v = v;
+        r.vars["count[v]"] = count[v];
+        r.push(
+            4,
+            count[v] === 1
+                ? `Next value with a count: ${v}, seen once.`
+                : `Next value with a count: ${v}, seen ${count[v]} times.`
+        );
+        while (count[v] > 0) {
+            a[i] = v;
+            count[v]--;
+            r.stats.writes++;
+            r.pointers.i = i;
+            r.vars["count[v]"] = count[v];
+            r.push(5, `Write ${v} at index ${i}. ${count[v]} left to write.`, { [i]: "write" });
+            r.sorted.add(i);
+            i++;
+            r.pointers.i = i;
+        }
+    }
+
+    r.clearLive();
+    r.lockAll();
+    r.push(5, "Every value is written back. Sorted! 🎉");
+    return { steps: r.steps };
+}
+
 export const SORTERS = {
     bubble: {
         key: "bubble",
@@ -286,6 +347,25 @@ export const SORTERS = {
         ],
         complexity: { best: "O(n)", average: "O(n²)", worst: "O(n²)", space: "O(1)", stable: "Yes" },
         run: insertion,
+    },
+    counting: {
+        key: "counting",
+        label: "Counting Sort",
+        blurb:
+            "Counts how often each value appears, then writes them back in order. No comparisons at all, but only sensible when the value range is small.",
+        lead:
+            `never compares two values. It tallies how many times each value from ${MIN_VALUE} to ${MAX_VALUE} appears, then walks the tallies in order and writes each value back that many times. It is fast when the range of values is small and wasteful when it is huge.`,
+        roles: ["key", "write", "sorted"],
+        pseudocode: [
+            "count = array of 100 zeros",
+            "for each v in a:",
+            "  count[v] = count[v] + 1",
+            "i = 0",
+            "for v in 1 .. 99:",
+            "  repeat count[v] times: a[i] = v; i = i + 1",
+        ],
+        complexity: { best: "O(n + k)", average: "O(n + k)", worst: "O(n + k)", space: "O(k)", stable: "N/A" },
+        run: counting,
     },
 };
 

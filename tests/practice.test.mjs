@@ -31,7 +31,7 @@ const ROUTES = [
 ];
 
 test("every tool page has two or three practice problems", () => {
-    assert.equal(PAGES.length, 19);
+    assert.equal(PAGES.length, 20);
     assert.deepEqual(Object.keys(PRACTICE).sort(), PAGES.slice().sort());
     for (const [path, items] of Object.entries(PRACTICE)) {
         assert.ok(items.length >= 2 && items.length <= 3, `${path}: ${items.length} problems`);

@@ -44,6 +44,11 @@ export const PRACTICE = {
         leetcode(88, "Merge Sorted Array", "merge-sorted-array", "Easy", "Fill from the back, sliding bigger values right to make room, just like the inner loop."),
         leetcode(35, "Search Insert Position", "search-insert-position", "Easy", "Find where a key belongs in a sorted array: the inner loop on its own. Then try binary search."),
     ],
+    "/algorithms/sorting/counting-sort": [
+        leetcode(1051, "Height Checker", "height-checker", "Easy", "Heights are at most 100, so count them and compare the sorted order with the original."),
+        leetcode(1122, "Relative Sort Array", "relative-sort-array", "Easy", "Values are at most 1000: count each one, then write them out in the order you are given."),
+        leetcode(75, "Sort Colors", "sort-colors", "Medium", "Only three values: count the 0s, 1s and 2s, then refill the array. The follow-up asks for one pass."),
+    ],
     "/data-structures/arrays/traversal/row-major": [
         leetcode(566, "Reshape the Matrix", "reshape-the-matrix", "Easy", "Read the grid row by row and refill it: cell k lands at row k / c, column k % c."),
         leetcode(2022, "Convert 1D Array Into 2D Array", "convert-1d-array-into-2d-array", "Easy", "Fill a grid row by row from a flat list: row-major order in reverse."),

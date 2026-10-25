@@ -8,6 +8,7 @@ import SortingVisualizer from "@/components/algorithms/SortingVisualizer";
 import BubbleSortExplainer from "@/components/algorithms/explainers/BubbleSortExplainer";
 import SelectionSortExplainer from "@/components/algorithms/explainers/SelectionSortExplainer";
 import InsertionSortExplainer from "@/components/algorithms/explainers/InsertionSortExplainer";
+import CountingSortExplainer from "@/components/algorithms/explainers/CountingSortExplainer";
 import JsonLd from "@/components/seo/JsonLd";
 import { learningResourceJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
@@ -17,6 +18,7 @@ const EXPLAINERS = {
     bubble: BubbleSortExplainer,
     selection: SelectionSortExplainer,
     insertion: InsertionSortExplainer,
+    counting: CountingSortExplainer,
 };
 
 export const dynamicParams = false;

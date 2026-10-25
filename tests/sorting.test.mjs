@@ -97,7 +97,8 @@ for (const sorter of SORTER_LIST) {
             );
             for (const [index, step] of steps.entries()) {
                 const where = `${label} step ${index}`;
-                assert.equal(Boolean(step.ask), step.line === 3, `${where}: question off the compare line`);
+                const compares = sorter.key !== "counting" && step.line === 3;
+                assert.equal(Boolean(step.ask), compares, `${where}: question off the compare line`);
                 if (!step.ask) continue;
                 assert.deepEqual(step.ask.choices, ["Yes", "No"], where);
                 assert.equal(step.ask.answer === 0, steps[index + 1].line === 4, `${where}: answer disagrees with the next step`);
@@ -267,4 +268,66 @@ test("selection can reverse equal values on [4, 4, 1]", () => {
     const input = [4, 4, 1];
     const order = originalOrderAfterSteps("selection", input);
     assert.deepEqual(order.filter((index) => input[index] === 4), [1, 0]);
+});
+
+const countingSteps = (input) => SORTERS.counting.run(input).steps;
+
+test("counting: sorts random arrays, duplicates and the edge cases", () => {
+    let seed = 12345;
+    const next = () => {
+        seed = (seed * 1103515245 + 12345) % 2147483648;
+        return seed;
+    };
+    const inputs = [
+        [7],
+        [5, 5, 5, 5],
+        [1, 99],
+        [99, 1],
+        [1, 2, 3, 4, 5],
+        [9, 3, 9, 1, 3, 9, 1],
+        ...Array.from({ length: 25 }, () =>
+            Array.from({ length: 1 + (next() % 24) }, () => 1 + (next() % 99))
+        ),
+    ];
+    for (const input of inputs) {
+        const before = input.slice();
+        const last = countingSteps(input).at(-1);
+        assert.deepEqual(input, before, `${before}: input was mutated`);
+        assert.deepEqual(last.array, before.slice().sort((a, b) => a - b), `${before}`);
+    }
+});
+
+test("counting: never compares or swaps, and writes each value back exactly once", () => {
+    for (const { label, input } of cases()) {
+        const { steps } = SORTERS.counting.run(input);
+        assert.deepEqual(steps.at(-1).stats, { comparisons: 0, swaps: 0, writes: input.length }, label);
+        assert.equal(questionIndexes(steps).length, 0, label);
+    }
+});
+
+test("counting: counts every value first, then writes the sorted run back", () => {
+    const input = [3, 1, 3, 2, 1];
+    const steps = countingSteps(input);
+    const counting = steps.filter((step) => step.line === 2);
+    const writing = steps.filter((step) => step.line === 5 && step.pointers.i !== undefined);
+
+    assert.equal(counting.length, input.length);
+    assert.deepEqual(counting.map((step) => step.vars.v), input);
+    assert.deepEqual(counting.map((step) => step.pointers.i), [0, 1, 2, 3, 4]);
+    assert.ok(counting.every((step) => step.stats.writes === 0));
+    assert.ok(counting.every((step) => step.array.join() === input.join()));
+
+    assert.equal(writing.length, input.length);
+    assert.deepEqual(writing.map((step) => step.vars.v), [1, 1, 2, 3, 3]);
+    assert.deepEqual(writing.map((step) => step.stats.writes), [1, 2, 3, 4, 5]);
+    assert.deepEqual(writing.map((step) => step.array[step.pointers.i]), [1, 1, 2, 3, 3]);
+    assert.ok(steps.indexOf(counting.at(-1)) < steps.indexOf(writing[0]));
+});
+
+test("counting: keeps every copy of a duplicated value and handles a single value", () => {
+    const tally = (values) => values.reduce((all, v) => ({ ...all, [v]: (all[v] ?? 0) + 1 }), {});
+    const input = [4, 4, 1, 4, 2, 1];
+    assert.deepEqual(tally(countingSteps(input).at(-1).array), tally(input));
+    assert.deepEqual(countingSteps([5]).at(-1).array, [5]);
+    assert.deepEqual(countingSteps([5, 5, 5]).at(-1).array, [5, 5, 5]);
 });

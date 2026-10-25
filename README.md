@@ -31,7 +31,7 @@ If this helps you learn or teach, a ⭐ helps other students find it.
 | Tool | What you can do | Try it |
 | --- | --- | --- |
 | **Big-O Playground** | Start from zero: a short story, count steps together with the computer, then watch O(1) … O(2ⁿ) curves pull apart on a live chart | [Open](https://visualizer-gold.vercel.app/algorithms/complexity) |
-| **Sorting Visualizer** | Compare Bubble, Selection and Insertion sort, then step through each on its own page. Your list travels with you when you switch | [Overview](https://visualizer-gold.vercel.app/algorithms/sorting) · [Bubble](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) · [Selection](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) · [Insertion](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) |
+| **Sorting Visualizer** | Compare Bubble, Selection, Insertion and Counting sort, then step through each on its own page. Your list travels with you when you switch | [Overview](https://visualizer-gold.vercel.app/algorithms/sorting) · [Bubble](https://visualizer-gold.vercel.app/algorithms/sorting/bubble-sort) · [Selection](https://visualizer-gold.vercel.app/algorithms/sorting/selection-sort) · [Insertion](https://visualizer-gold.vercel.app/algorithms/sorting/insertion-sort) · [Counting](https://visualizer-gold.vercel.app/algorithms/sorting/counting-sort) |
 | **1D Array Visualizer** | Insert, delete, linear search and reverse with two pointers, animated one read and write at a time, with live indices, counters and code in four languages | [Open](https://visualizer-gold.vercel.app/data-structures/arrays/1d) |
 | **2D Array Visualizer** | Paste any 2D array or matrix (JSON, a Python list, C++ or Java braces, or plain rows of numbers) and see it as a grid. Colour cells by value, show row and column indices, and share the result as a link | [Open](https://visualizer-gold.vercel.app/data-structures/arrays) |
 | **Grid Traversals** | Six ways to walk a 2D array, row-major, column-major, snake, diagonal, boundary and spiral, each with live indices, a visit number on every cell, the output sequence and code | [Overview](https://visualizer-gold.vercel.app/data-structures/arrays/traversal) · [Spiral](https://visualizer-gold.vercel.app/data-structures/arrays/traversal/spiral) |
@@ -130,7 +130,7 @@ The player, bars, pseudocode highlighting, counters and keyboard shortcuts come 
 
 ## Roadmap
 
-Next up: **counting sort and frequency arrays**, then merge sort, quick sort, binary search and the core array techniques (prefix sums, two pointers, sliding window). The full list lives on the [roadmap page](https://visualizer-gold.vercel.app/roadmap). Want something sooner? [Open an issue](https://github.com/salsadsid/visualizer/issues/new/choose).
+Next up: **frequency arrays**, then merge sort, quick sort, binary search and the core array techniques (prefix sums, two pointers, sliding window). The full list lives on the [roadmap page](https://visualizer-gold.vercel.app/roadmap). Want something sooner? [Open an issue](https://github.com/salsadsid/visualizer/issues/new/choose).
 
 ## The story so far
 
