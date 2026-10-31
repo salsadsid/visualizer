@@ -28,11 +28,11 @@ import { GRID_ROLES } from "@/lib/array/gridRoles";
 
 const DEFAULT_GRID = numberedGrid(3, 4);
 
-const Kbd = ({ children }) => (
-    <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
-        {children}
-    </kbd>
-);
+const SHORTCUTS = [
+    { keys: ["?"], label: "Show / hide shortcuts" },
+    { keys: ["Space"], label: "Play / pause" },
+    { keys: ["←", "→"], label: "Step backward / forward" },
+];
 
 export default function TraversalVisualizer({ kind }) {
     const hash = useLocationHash();
@@ -149,6 +149,7 @@ export default function TraversalVisualizer({ kind }) {
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                             onExport={exportPng}
+                            shortcuts={SHORTCUTS}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}
@@ -220,10 +221,6 @@ export default function TraversalVisualizer({ kind }) {
                     </div>
                 </div>
             </div>
-
-            <p className="mt-3 text-center text-xs text-subtle">
-                Tip: <Kbd>Space</Kbd> play/pause · <Kbd>←</Kbd> <Kbd>→</Kbd> step
-            </p>
 
             <div className="mt-5">
                 <TraversalLearn kind={kind} />

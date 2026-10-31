@@ -31,12 +31,6 @@ import { cn } from "@/lib/cn";
 
 const NUMBER = /^\d+$/;
 
-const Kbd = ({ children }) => (
-    <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
-        {children}
-    </kbd>
-);
-
 function fromHash(hash) {
     const op = readParam(hash, "op", /^[a-z]+$/);
     const number = (name) => {
@@ -101,6 +95,12 @@ export default function OneDVisualizer({ path }) {
     const exportRef = useRef(null);
     const step = player.step;
     const pageUrl = `${siteConfig.url}${path}`;
+    const shortcuts = [
+        { keys: ["?"], label: "Show / hide shortcuts" },
+        { keys: ["Space"], label: "Play / pause" },
+        { keys: ["←", "→"], label: "Step backward / forward" },
+        ...(quiz.active ? [{ keys: ["Y", "N"], label: "Answer yes / no" }] : []),
+    ];
 
     const options = () => ({
         op,
@@ -220,6 +220,7 @@ export default function OneDVisualizer({ path }) {
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                             onExport={exportPng}
+                            shortcuts={shortcuts}
                         />
                         {quiz.active ? (
                             <PredictSummary
@@ -334,16 +335,6 @@ export default function OneDVisualizer({ path }) {
                     onCustom={applyCustom}
                 />
             </div>
-
-            <p className="mt-3 text-center text-xs text-subtle">
-                Tip: <Kbd>Space</Kbd> play/pause · <Kbd>←</Kbd> <Kbd>→</Kbd> step
-                {quiz.active && (
-                    <>
-                        {" "}
-                        · <Kbd>Y</Kbd> <Kbd>N</Kbd> answer
-                    </>
-                )}
-            </p>
 
             <div className="mt-5">
                 <OneDLearn op={op} onSelect={selectOp} />
