@@ -47,11 +47,11 @@ const GROUP_LABELS = {
     "shortest-path": "Maze cells, click one to toggle a wall or move the start or target",
 };
 
-const Kbd = ({ children }) => (
-    <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
-        {children}
-    </kbd>
-);
+const SHORTCUTS = [
+    { keys: ["?"], label: "Show / hide shortcuts" },
+    { keys: ["Space"], label: "Play / pause" },
+    { keys: ["←", "→"], label: "Step backward / forward" },
+];
 
 const toKey = (point) => (point ? `${point[0]},${point[1]}` : null);
 
@@ -254,6 +254,7 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                             onExport={exportPng}
+                            shortcuts={SHORTCUTS}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}
@@ -373,10 +374,6 @@ export default function GridAlgorithmVisualizer({ kind, basePath }) {
                     </div>
                 </div>
             </div>
-
-            <p className="mt-3 text-center text-xs text-subtle">
-                Tip: <Kbd>Space</Kbd> play/pause · <Kbd>←</Kbd> <Kbd>→</Kbd> step
-            </p>
 
             <div className="mt-5">
                 <GridLearn kind={kind} basePath={basePath} />

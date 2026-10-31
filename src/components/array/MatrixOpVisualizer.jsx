@@ -39,16 +39,15 @@ import { cn } from "@/lib/cn";
 
 const TOOL = "matrix";
 const DEFAULT_GRID = numberedGrid(3, 4);
+const SHORTCUTS = [
+    { keys: ["?"], label: "Show / hide shortcuts" },
+    { keys: ["Space"], label: "Play / pause" },
+    { keys: ["←", "→"], label: "Step backward / forward" },
+];
 
 const fitsMultiply = (m) => isNumericMatrix(m) && m.length <= MAX_MULTIPLY && m[0].length <= MAX_MULTIPLY;
 
 const longestValue = (m) => Math.max(0, ...m.flat().map((v) => String(v).length));
-
-const Kbd = ({ children }) => (
-    <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
-        {children}
-    </kbd>
-);
 
 const Glyph = ({ children }) => (
     <span aria-hidden="true" className="self-center text-2xl font-semibold text-subtle">
@@ -253,6 +252,7 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
                             onExport={exportPng}
+                            shortcuts={SHORTCUTS}
                         />
                         <RunCompleteNudge
                             show={player.atEnd && player.total > 1}
@@ -333,10 +333,6 @@ export default function MatrixOpVisualizer({ kind, basePath }) {
                     </div>
                 </div>
             </div>
-
-            <p className="mt-3 text-center text-xs text-subtle">
-                Tip: <Kbd>Space</Kbd> play/pause · <Kbd>←</Kbd> <Kbd>→</Kbd> step
-            </p>
 
             <div className="mt-5">
                 <MatrixLearn kind={kind} basePath={basePath} />

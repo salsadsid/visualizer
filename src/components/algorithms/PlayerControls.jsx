@@ -1,11 +1,15 @@
 "use client";
+import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { SPEEDS } from "./usePlayer";
+
+const SHORTCUT_HELP_IGNORE_TARGETS = "input, textarea, select, [contenteditable]";
 
 function ControlButton({ onClick, label, disabled, blocked, primary, children }) {
     return (
         <button
             type="button"
+            autoComplete="off"
             onClick={onClick}
             disabled={disabled}
             aria-disabled={blocked || undefined}
@@ -34,6 +38,109 @@ const Icon = ({ d, className }) => (
     </svg>
 );
 
+const Kbd = ({ children }) => (
+    <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
+        {children}
+    </kbd>
+);
+
+function ShortcutHelp({ shortcuts }) {
+    const [open, setOpen] = useState(false);
+    const popoverId = useId();
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const toggleOnQuestionMark = (event) => {
+            if (
+                event.key !== "?" ||
+                event.repeat ||
+                event.isComposing ||
+                event.ctrlKey ||
+                event.metaKey ||
+                event.altKey ||
+                event.target?.closest?.(SHORTCUT_HELP_IGNORE_TARGETS)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+            setOpen((shown) => !shown);
+        };
+
+        document.addEventListener("keydown", toggleOnQuestionMark);
+        return () => document.removeEventListener("keydown", toggleOnQuestionMark);
+    }, []);
+
+    useEffect(() => {
+        if (!open) return;
+
+        const closeOnEscape = (event) => {
+            if (event.key === "Escape") {
+                setOpen(false);
+            }
+        };
+
+        const closeOutside = (event) => {
+            if (!containerRef.current?.contains(event.target)) setOpen(false);
+        };
+
+        document.addEventListener("keydown", closeOnEscape);
+        document.addEventListener("pointerdown", closeOutside);
+
+        return () => {
+            document.removeEventListener("keydown", closeOnEscape);
+            document.removeEventListener("pointerdown", closeOutside);
+        };
+    }, [open]);
+
+    return (
+        <div ref={containerRef} className="relative">
+            <button
+                type="button"
+                onClick={() => setOpen((shown) => !shown)}
+                aria-label="Keyboard shortcuts"
+                aria-haspopup="dialog"
+                aria-expanded={open}
+                aria-controls={open ? popoverId : undefined}
+                aria-keyshortcuts="Shift+/"
+                title="Keyboard shortcuts (Shift+/)"
+                className="grid h-9 w-9 place-items-center rounded-lg surface-muted text-sm font-semibold text-muted transition-colors hover:text-text focus-ring"
+            >
+                ?
+            </button>
+
+            {open && (
+                <div
+                    id={popoverId}
+                    role="dialog"
+                    aria-label="Keyboard shortcuts"
+                    className="absolute bottom-full right-0 z-30 mb-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl surface p-3 shadow-lg"
+                >
+                    <p className="mb-2 text-xs font-semibold text-text">
+                        Keyboard shortcuts
+                    </p>
+
+                    <ul className="space-y-2">
+                        {shortcuts.map(({ keys, label }) => (
+                            <li
+                                key={`${keys.join("-")}-${label}`}
+                                className="flex items-center justify-between gap-4 text-xs text-muted"
+                            >
+                                <span>{label}</span>
+                                <span className="flex shrink-0 items-center gap-1">
+                                    {keys.map((key) => (
+                                        <Kbd key={key}>{key}</Kbd>
+                                    ))}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+}
+
 const PATHS = {
     play: "M8 5v14l11-7z",
     pause: "M6 5h4v14H6zM14 5h4v14h-4z",
@@ -54,6 +161,7 @@ export default function PlayerControls({
     embedLabel = "Copy embed code",
     onExport,
     exportLabel = "Export as PNG",
+    shortcuts,
 }) {
     const {
         index,
@@ -129,28 +237,31 @@ export default function PlayerControls({
                         </div>
                     )}
                 </div>
+                <div className="ml-auto flex items-center gap-1.5">
+                    <div
+                        className="inline-flex gap-1 p-1 rounded-lg surface-muted"
+                        role="group"
+                        aria-label="Playback speed"
+                    >
+                        {SPEEDS.map((s) => (
+                            <button
+                                key={s}
+                                type="button"
+                                onClick={() => setSpeed(s)}
+                                aria-pressed={speed === s}
+                                className={cn(
+                                    "px-2 py-1 text-xs font-medium rounded-md transition-colors focus-ring",
+                                    speed === s
+                                        ? "bg-bg-elevated text-text shadow-sm border border-token"
+                                        : "text-muted hover:text-text"
+                                )}
+                            >
+                                {s}×
+                            </button>
+                        ))}
+                    </div>
 
-                <div
-                    className="inline-flex gap-1 p-1 rounded-lg surface-muted"
-                    role="group"
-                    aria-label="Playback speed"
-                >
-                    {SPEEDS.map((s) => (
-                        <button
-                            key={s}
-                            type="button"
-                            onClick={() => setSpeed(s)}
-                            aria-pressed={speed === s}
-                            className={cn(
-                                "px-2 py-1 text-xs font-medium rounded-md transition-colors focus-ring",
-                                speed === s
-                                    ? "bg-bg-elevated text-text shadow-sm border border-token"
-                                    : "text-muted hover:text-text"
-                            )}
-                        >
-                            {s}×
-                        </button>
-                    ))}
+                    {shortcuts?.length > 0 && <ShortcutHelp shortcuts={shortcuts} />}
                 </div>
             </div>
         </div>

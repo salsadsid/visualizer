@@ -27,12 +27,6 @@ import { encodeSort } from "@/lib/share";
 import { embedSnippet } from "@/lib/embed";
 import { track } from "@/lib/analytics";
 
-const Kbd = ({ children }) => (
-    <kbd className="px-1.5 py-0.5 rounded surface-muted border border-token font-mono text-[10px]">
-        {children}
-    </kbd>
-);
-
 export default function SortingVisualizer({ algo: algoKey }) {
     const { size, values, sharedStep, predict, setPredict, applyPreset, shuffle, changeSize, applyCustom } =
         useSortingInput();
@@ -53,6 +47,12 @@ export default function SortingVisualizer({ algo: algoKey }) {
     const pageUrl = `${siteConfig.url}${page.path}`;
     const hashAt = (index) => encodeSort({ values, step: index, predict: quiz.active });
 
+    const shortcuts = [
+        { keys: ["?"], label: "Show / hide shortcuts" },
+        { keys: ["Space"], label: "Play / pause" },
+        { keys: ["←", "→"], label: "Step backward / forward" },
+        ...(quiz.active ? [{ keys: ["Y", "N"], label: "Answer yes / no" }] : []),
+    ];
     const shareStep = () => {
         track("share_click", { tool: "sorting", algo: algoKey, from: quiz.active ? "predict" : "player" });
         copy(`${pageUrl}${hashAt(player.index)}`);
@@ -142,6 +142,7 @@ export default function SortingVisualizer({ algo: algoKey }) {
                             }
                             onEmbed={embedCode}
                             embedLabel={embedCopied ? "Embed code copied" : "Copy embed code"}
+                            shortcuts={shortcuts}
                         />
                         {quiz.active ? (
                             <PredictSummary
@@ -205,16 +206,6 @@ export default function SortingVisualizer({ algo: algoKey }) {
                     onCustom={applyCustom}
                 />
             </div>
-
-            <p className="mt-3 text-center text-xs text-subtle">
-                Tip: <Kbd>Space</Kbd> play/pause · <Kbd>←</Kbd> <Kbd>→</Kbd> step
-                {quiz.active && (
-                    <>
-                        {" "}
-                        · <Kbd>Y</Kbd> <Kbd>N</Kbd> answer
-                    </>
-                )}
-            </p>
 
             <div className="mt-5">
                 <SortingLearn algo={algoKey} />
